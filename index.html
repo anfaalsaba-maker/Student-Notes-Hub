@@ -3,145 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Notes Hub</title>
+    <title>Student Notes & Resource Hub</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f6;
             margin: 0;
             padding: 20px;
+            color: #333;
         }
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            background: #fff;
-            padding: 20px;
+            background: #ffffff;
+            padding: 25px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        input, textarea, button {
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input, textarea {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
         }
         button {
-            background-color: #2e7d32;
+            background-color: #27ae60;
             color: white;
             border: none;
-            cursor: pointer;
+            padding: 12px;
+            width: 100%;
+            border-radius: 4px;
             font-size: 16px;
+            cursor: pointer;
         }
         button:hover {
-            background-color: #1b5e20;
+            background-color: #219653;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        .feed-section {
+            margin-top: 30px;
         }
         .note-card {
-            background: #f9f9f9;
-            border-left: 4px solid #2e7d32;
+            background: #fdfdfd;
+            border-left: 4px solid #27ae60;
             padding: 15px;
-            margin-top: 15px;
+            margin-bottom: 15px;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .note-card h4 {
+        .note-card h3 {
             margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+        .note-card .author {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
         }
         .note-card p {
-            margin: 5px 0;
-        }
-        .delete-btn {
-            background-color: #d32f2f;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            font-size: 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            width: auto;
-        }
-        .delete-btn:hover {
-            background-color: #9a0007;
+            margin: 0;
+            white-space: pre-wrap;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Student Notes & Resource Hub</h2>
-        
-        <!-- Search Bar -->
-        <input type="text" id="searchInput" placeholder="Search notes by subject or name...">
+<div class="container">
+    <h1>Student Notes & Resource Hub</h1>
 
-        <!-- Notes Form -->
-        <form id="noteForm">
-            <input type="text" id="userName" placeholder="Your Name" required>
-            <input type="text" id="subjectName" placeholder="Subject Name (e.g., Stat 301, Data Science)" required>
-            <textarea id="noteDetails" placeholder="Write your notes or details here..." rows="4" required></textarea>
-            <button type="submit">Submit Notes</button>
-        </form>
-
-        <h3>Shared Notes Feed</h3>
-        <div id="notesFeed">
-            <!-- Dynamic notes cards will appear here -->
-        </div>
+    <!-- Search Bar -->
+    <div class="search-group search-box">
+        <input type="text" id="searchInput" placeholder="Search notes by subject or name..." onkeyup="filterNotes()">
     </div>
 
-    <script>
-        const noteForm = document.getElementById('noteForm');
-        const notesFeed = document.getElementById('notesFeed');
-        const searchInput = document.getElementById('searchInput');
+    <!-- Submit Form -->
+    <div class="form-group">
+        <input type="text" id="userName" placeholder="Your Name">
+    </div>
+    <div class="form-group">
+        <input type="text" id="subjectName" placeholder="Subject Name (e.g., Stat 301, Data Science)">
+    </div>
+    <div class="form-group">
+        <textarea id="noteDetails" placeholder="Write your notes or details here..."></textarea>
+    </div>
+    <div class="form-group">
+        <button onclick="submitNote()">Submit Notes</button>
+    </div>
 
-        // Handle Form Submission
-        noteForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    <!-- Feed Section -->
+    <div class="feed-section">
+        <h2>Shared Notes Feed</h2>
+        <div id="notesFeed">
+            <!-- Submitted notes will appear here -->
+        </div>
+    </div>
+</div>
 
-            const userName = document.getElementById('userName').value;
-            const subjectName = document.getElementById('subjectName').value;
-            const noteDetails = document.getElementById('noteDetails').value;
+<script>
+    // Load existing notes from localStorage when page opens
+    window.onload = function() {
+        displayNotes();
+    };
 
-            // Create Note Card
+    function submitNote() {
+        const name = document.getElementById('userName').value.trim();
+        const subject = document.getElementById('subjectName').value.trim();
+        const details = document.getElementById('noteDetails').value.trim();
+
+        if(!name || !subject || !details) {
+            alert("براہ کرم تمام خانے (Name, Subject, Notes) پر کریں۔");
+            return;
+        }
+
+        const newNote = {
+            name: name,
+            subject: subject,
+            details: details,
+            date: new Date().toLocaleDateString()
+        };
+
+        // Get existing notes or empty array
+        let notes = JSON.parse(localStorage.getItem('studentNotes')) || [];
+        notes.unshift(newNote); // Add new note at the beginning
+
+        // Save back to localStorage
+        localStorage.setItem('studentNotes', JSON.stringify(notes));
+
+        // Clear form inputs
+        document.getElementById('userName').value = '';
+        document.getElementById('subjectName').value = '';
+        document.getElementById('noteDetails').value = '';
+
+        // Refresh feed display
+        displayNotes();
+    }
+
+    function displayNotes(filter = '') {
+        const feedContainer = document.getElementById('notesFeed');
+        let notes = JSON.parse(localStorage.getItem('studentNotes')) || [];
+
+        feedContainer.innerHTML = '';
+
+        if(notes.length === 0) {
+            feedContainer.innerHTML = '<p style="color: #7f8c8d;">ابھی تک کوئی نوٹس شیئر نہیں کیے گئے۔ پہلا نوٹ آپ درج کریں!</p>';
+            return;
+        }
+
+        notes.forEach((note, index) => {
+            // Filter check
+            if(filter && !note.subject.toLowerCase().includes(filter.toLowerCase()) && !note.name.toLowerCase().includes(filter.toLowerCase())) {
+                return;
+            }
+
             const card = document.createElement('div');
-            card.classList.add('note-card');
-
+            card.className = 'note-card';
             card.innerHTML = `
-                <h4>👤 ${userName}</h4>
-                <p><strong>Subject:</strong> ${subjectName}</p>
-                <p>${noteDetails}</p>
-                <button class="delete-btn">Delete Note</button>
+                <h3>📚 ${note.subject}</h3>
+                <div class="author">By: ${note.name} | Date: ${note.date}</div>
+                <p>${note.details}</p>
             `;
-
-            // Delete functionality for the specific card
-            const deleteBtn = card.querySelector('.delete-btn');
-            deleteBtn.addEventListener('click', function() {
-                card.remove();
-            });
-
-            // Prepend card to feed
-            notesFeed.prepend(card);
-
-            // Clear form inputs
-            noteForm.reset();
+            feedContainer.appendChild(card);
         });
+    }
 
-        // Search Functionality
-        searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const noteCards = document.querySelectorAll('.note-card');
-
-            noteCards.forEach(card => {
-                const cardText = card.innerText.toLowerCase();
-                if (cardText.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    function filterNotes() {
+        const query = document.getElementById('searchInput').value;
+        displayNotes(query);
+    }
+</script>
 
 </body>
 </html>
