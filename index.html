@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Notes Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #1b5e20;
+        }
+        .note-card {
+            background: #f9f9f9;
+            border-left: 4px solid #2e7d32;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .note-card h4 {
+            margin: 0 0 5px 0;
+        }
+        .note-card p {
+            margin: 5px 0;
+        }
+        .delete-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: auto;
+        }
+        .delete-btn:hover {
+            background-color: #9a0007;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Student Notes & Resource Hub</h2>
+        
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" placeholder="Search notes by subject or name...">
+
+        <!-- Notes Form -->
+        <form id="noteForm">
+            <input type="text" id="userName" placeholder="Your Name" required>
+            <input type="text" id="subjectName" placeholder="Subject Name (e.g., Stat 301, Data Science)" required>
+            <textarea id="noteDetails" placeholder="Write your notes or details here..." rows="4" required></textarea>
+            <button type="submit">Submit Notes</button>
+        </form>
+
+        <h3>Shared Notes Feed</h3>
+        <div id="notesFeed">
+            <!-- Dynamic notes cards will appear here -->
+        </div>
+    </div>
+
+    <script>
+        const noteForm = document.getElementById('noteForm');
+        const notesFeed = document.getElementById('notesFeed');
+        const searchInput = document.getElementById('searchInput');
+
+        // Handle Form Submission
+        noteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const userName = document.getElementById('userName').value;
+            const subjectName = document.getElementById('subjectName').value;
+            const noteDetails = document.getElementById('noteDetails').value;
+
+            // Create Note Card
+            const card = document.createElement('div');
+            card.classList.add('note-card');
+
+            card.innerHTML = `
+                <h4>👤 ${userName}</h4>
+                <p><strong>Subject:</strong> ${subjectName}</p>
+                <p>${noteDetails}</p>
+                <button class="delete-btn">Delete Note</button>
+            `;
+
+            // Delete functionality for the specific card
+            const deleteBtn = card.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', function() {
+                card.remove();
+            });
+
+            // Prepend card to feed
+            notesFeed.prepend(card);
+
+            // Clear form inputs
+            noteForm.reset();
+        });
+
+        // Search Functionality
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const noteCards = document.querySelectorAll('.note-card');
+
+            noteCards.forEach(card => {
+                const cardText = card.innerText.toLowerCase();
+                if (cardText.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
