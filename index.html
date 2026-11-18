@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart AI Q&A & Challenge Hub - Final</title>
+    <title>Smart AI Q&A & Challenge Hub</title>
     <style>
         :root {
             --primary: #db2777;
@@ -624,7 +624,7 @@
             let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
 
             if(storyPosts.length === 0) {
-                feed.innerHTML = '<div class="post-card empty-msg">🌟 No stories shared yet. Share your experience!</div>';
+                feed.innerHTML = '<div class="post-card empty-sm">🌟 No stories shared yet. Share your experience!</div>';
                 return;
             }
 
