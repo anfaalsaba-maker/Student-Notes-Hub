@@ -8,11 +8,11 @@
         :root {
             --primary: #4f46e5;
             --primary-hover: #4338ca;
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --card-bg: #ffffff;
             --text-color: #1e293b;
             --text-light: #64748b;
-            --border-color: #e2e8f0;
+            --border-color: #cbd5e1;
         }
 
         body {
@@ -24,7 +24,7 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -36,12 +36,14 @@
         header h1 {
             color: var(--primary);
             margin-bottom: 10px;
-            font-size: 2.2rem;
+            font-size: 2.3rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         header p {
             color: var(--text-light);
             font-size: 1.1rem;
+            font-weight: 500;
         }
 
         /* Tabs Styling */
@@ -53,12 +55,12 @@
         }
 
         .tab-btn {
-            padding: 10px 25px;
+            padding: 12px 28px;
             background-color: #e2e8f0;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             color: var(--text-light);
@@ -67,7 +69,8 @@
         .tab-btn.active {
             background-color: var(--primary);
             color: white;
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 6px 12px -2px rgba(79, 70, 229, 0.4);
+            transform: translateY(-2px);
         }
 
         .tab-content {
@@ -82,16 +85,16 @@
         .card {
             background-color: var(--card-bg);
             padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
-            border: 1px solid var(--border-color);
+            border: 2px solid #e2e8f0;
         }
 
         .card h2 {
             margin-top: 0;
             color: var(--primary);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 20px;
         }
 
@@ -101,24 +104,27 @@
 
         label {
             display: block;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
             color: var(--text-color);
         }
 
         input[type="text"], textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             font-size: 1rem;
             box-sizing: border-box;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.3s;
+            background-color: #f8fafc;
         }
 
         input[type="text"]:focus, textarea:focus {
             border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
         }
 
         textarea {
@@ -127,152 +133,174 @@
         }
 
         .submit-btn {
-            background-color: #10b981;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 8px;
+            padding: 14px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 12px;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.2s;
+            transition: all 0.3s;
             margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .submit-btn:hover {
-            background-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
         }
 
         .ai-btn {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 8px;
+            padding: 14px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 12px;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.2s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
         .ai-btn:hover {
-            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
         }
 
         /* Feed & Post Cards */
         .feed-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
 
         .post-card {
             background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+            border: 2px solid #e2e8f0;
+            transition: transform 0.3s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-3px);
         }
 
         .post-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
         }
 
         .post-author {
-            font-weight: bold;
+            font-weight: 700;
             color: var(--primary);
+            font-size: 1.1rem;
         }
 
         .post-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin: 0 0 15px 0;
-            color: var(--text-color);
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            color: #0f172a;
         }
 
-        /* 3-Column Grid for the 3 Boxes */
-        .boxes-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        /* 3 Fun Vertical Cards Layout inside Feed */
+        .fun-boxes-container {
+            display: flex;
+            flex-direction: column;
             gap: 15px;
-            margin-top: 15px;
         }
 
-        @media (max-width: 768px) {
-            .boxes-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Stylish Colored Boxes */
+        /* Fully Colored Vibrant Boxes for Kids/Students */
         .box-summary {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border: 1px solid #bfdbfe;
-            border-top: 5px solid #3b82f6;
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.05);
+            background: linear-gradient(135deg, #e0f2fe 100%, #bae6fd 0%);
+            border: 2px solid #7dd3fc;
+            border-left: 8px solid #0284c7;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .box-summary:hover {
+            transform: scale(1.01);
         }
 
         .box-def {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border: 1px solid #bbf7d0;
-            border-top: 5px solid #22c55e;
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.05);
+            background: linear-gradient(135deg, #dcfce7 100%, #bbf7d0 0%);
+            border: 2px solid #86efac;
+            border-left: 8px solid #16a34a;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .box-def:hover {
+            transform: scale(1.01);
         }
 
         .box-detail {
-            background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
-            border: 1px solid #f5d0fe;
-            border-top: 5px solid #a855f7;
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(168, 85, 247, 0.05);
+            background: linear-gradient(135deg, #fae8ff 100%, #f5d0fe 0%);
+            border: 2px solid #e879f9;
+            border-left: 8px solid #c026d3;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(192, 38, 211, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .box-detail:hover {
+            transform: scale(1.01);
         }
 
         .box-heading {
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .box-summary .box-heading { color: #1d4ed8; }
+        .box-summary .box-heading { color: #0369a1; }
         .box-def .box-heading { color: #15803d; }
-        .box-detail .box-heading { color: #7e22ce; }
+        .box-detail .box-heading { color: #86198f; }
 
         .box-content {
             color: #334155;
-            line-height: 1.5;
-            font-size: 0.9rem;
+            line-height: 1.7;
+            font-size: 1rem;
+            font-weight: 500;
             white-space: pre-line;
         }
 
         .story-text {
-            background-color: #f8fafc;
-            padding: 18px;
-            border-radius: 12px;
-            border-left: 5px solid #f59e0b;
-            color: #334155;
-            line-height: 1.6;
+            background-color: #fef3c7;
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid #fde68a;
+            border-left: 8px solid #d97706;
+            color: #78350f;
+            line-height: 1.7;
+            font-weight: 500;
         }
 
         .empty-msg {
             text-align: center;
             color: var(--text-light);
             font-style: italic;
-            padding: 20px;
+            padding: 30px;
+            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -280,8 +308,8 @@
 
     <div class="container">
         <header>
-            <h1>🤖 Smart AI Q&A & Student Story Hub</h1>
-            <p>Ask any question and let AI generate side-by-side colorful answers instantly!</p>
+            <h1>🚀 Fun Smart AI Q&A & Student Hub</h1>
+            <p>Explore colorful, exciting AI-generated notes designed specially for students!</p>
         </header>
 
         <!-- Navigation Tabs -->
@@ -293,20 +321,20 @@
         <!-- TAB 1: AI Q&A PORTAL -->
         <div id="qa-tab" class="tab-content active">
             <div class="card">
-                <h2>Ask Question & Generate AI Answer</h2>
+                <h2>✨ Ask Question & Generate Fun AI Answer</h2>
                 <div class="form-group">
                     <label for="qa-name">Your Name:</label>
                     <input type="text" id="qa-name" placeholder="Enter your name">
                 </div>
                 <div class="form-group">
                     <label for="qa-title">Question / Topic:</label>
-                    <input type="text" id="qa-title" placeholder="e.g., Python Libraries, Limits in Calculus">
+                    <input type="text" id="qa-title" placeholder="e.g., Introduction to Data Science, Python Libraries">
                 </div>
-                <button class="ai-btn" onclick="generateAIAnswer()">✨ Generate Smart AI Answer</button>
+                <button class="ai-btn" onclick="generateAIAnswer()">✨ Generate Magical AI Answer</button>
 
                 <div id="ai-result-area" style="margin-top: 25px; display: none;">
-                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin-bottom: 20px;">
-                    <h3 style="color: #059669; margin-bottom: 15px;">Generated AI Structured Answer:</h3>
+                    <hr style="border: 0; border-top: 2px solid #e2e8f0; margin-bottom: 20px;">
+                    <h3 style="color: #059669; margin-bottom: 15px;">🎉 Generated AI Structured Answer:</h3>
                     
                     <div class="form-group">
                         <label>1. Quick Summary / Short Notes:</label>
@@ -332,7 +360,7 @@
         <!-- TAB 2: STORY CORNER -->
         <div id="story-tab" class="tab-content">
             <div class="card">
-                <h2>Share Your Student Story</h2>
+                <h2>✍️ Share Your Student Story</h2>
                 <div class="form-group">
                     <label for="story-name">Your Name:</label>
                     <input type="text" id="story-name" placeholder="Enter your name">
@@ -380,9 +408,9 @@
                 return;
             }
 
-            document.getElementById('qa-summary').value = `This is a crisp and clear summary of "${title}". Designed for quick student revision.`;
-            document.getElementById('qa-def').value = `Key Term: ${title}\nDefinition: A fundamental concept explaining core principles and essential elements.`;
-            document.getElementById('qa-detail').value = `Comprehensive explanation regarding "${title}":\n1. Introduction.\n2. Key characteristics.\n3. Practical applications.`;
+            document.getElementById('qa-summary').value = `⚡ Super Fast Summary for "${title}":\nThis topic gives you the foundational superpowers and core concepts designed for lightning-fast student revision!`;
+            document.getElementById('qa-def').value = `📖 Key Definition & Terms:\nCore Subject: ${title}\nDefinition: The fundamental building block that explains essential rules, principles, and terminologies in a fun way.`;
+            document.getElementById('qa-detail').value = `🔍 Detailed Step-by-Step Explanation:\n1. Introduction and core background context of ${title}.\n2. Important characteristics and real-world working principles.\n3. Amazing practical applications and future importance!`;
 
             document.getElementById('ai-result-area').style.display = 'block';
         }
@@ -416,7 +444,7 @@
             let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
 
             if(qaPosts.length === 0) {
-                feed.innerHTML = '<div class="post-card empty-msg">No AI Q&A posts published yet. Ask a question above!</div>';
+                feed.innerHTML = '<div class="post-card empty-msg">🌟 No AI Q&A posts published yet. Be the first to ask a question above!</div>';
                 return;
             }
 
@@ -424,26 +452,26 @@
                 <div class="post-card">
                     <div class="post-header">
                         <span class="post-author">👤 ${escapeHTML(p.name)}</span>
-                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                        <span style="color: #64748b; font-size: 0.9rem; font-weight: 600;">📅 ${p.date}</span>
                     </div>
                     <h3 class="post-title">💡 Q: ${escapeHTML(p.title)}</h3>
                     
-                    <div class="boxes-grid">
+                    <div class="fun-boxes-container">
                         ${p.summary ? `
                             <div class="box-summary">
-                                <div class="box-heading">⚡ 1. Summary</div>
+                                <div class="box-heading">⚡ 1. Quick Summary / Short Notes</div>
                                 <div class="box-content">${escapeHTML(p.summary)}</div>
                             </div>` : ''}
 
                         ${p.def ? `
                             <div class="box-def">
-                                <div class="box-heading">📖 2. Definitions</div>
+                                <div class="box-heading">📖 2. Definitions & Key Terms</div>
                                 <div class="box-content">${escapeHTML(p.def)}</div>
                             </div>` : ''}
 
                         ${p.detail ? `
                             <div class="box-detail">
-                                <div class="box-heading">🔍 3. Details</div>
+                                <div class="box-heading">🔍 3. Detailed Explanation</div>
                                 <div class="box-content">${escapeHTML(p.detail)}</div>
                             </div>` : ''}
                     </div>
@@ -478,7 +506,7 @@
             let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
 
             if(storyPosts.length === 0) {
-                feed.innerHTML = '<div class="post-empty-msg">No stories shared yet. Share your experience!</div>';
+                feed.innerHTML = '<div class="post-card empty-msg">🌟 No stories shared yet. Share your experience!</div>';
                 return;
             }
 
@@ -486,7 +514,7 @@
                 <div class="post-card">
                     <div class="post-header">
                         <span class="post-author">✍️ ${escapeHTML(p.name)}</span>
-                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                        <span style="color: #64748b; font-size: 0.9rem; font-weight: 600;">📅 ${p.date}</span>
                     </div>
                     <h3 class="post-title">${escapeHTML(p.title)}</h3>
                     <div class="story-text">${escapeHTML(p.content)}</div>
