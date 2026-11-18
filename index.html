@@ -3,187 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Notes & Resource Hub</title>
+    <title>Student Study & Story Hub</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
             margin: 0;
             padding: 20px;
             color: #333;
         }
         .container {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
             background: #ffffff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
         h1 {
             text-align: center;
             color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
         }
         .form-group {
             margin-bottom: 15px;
         }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #34495e;
+        }
         input, textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
             font-size: 14px;
+            box-sizing: border-box;
+            background-color: #f8fafc;
         }
-        textarea {
-            resize: vertical;
-            height: 100px;
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: #fff;
         }
         button {
-            background-color: #27ae60;
+            background-color: #10b981;
             color: white;
+            padding: 12px 20px;
             border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
         }
         button:hover {
-            background-color: #219653;
+            background-color: #059669;
+        }
+        .feed-header {
+            margin-top: 40px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .search-box {
+            margin-top: 20px;
             margin-bottom: 20px;
         }
-        .feed-section {
-            margin-top: 30px;
+        .post-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
-        .note-card {
-            background: #fdfdfd;
-            border-left: 4px solid #27ae60;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .note-card h3 {
-            margin: 0 0 5px 0;
-            color: #2c3e50;
-        }
-        .note-card .author {
-            font-size: 12px;
-            color: #7f8c8d;
+        .post-header {
+            font-size: 13px;
+            color: #64748b;
             margin-bottom: 10px;
         }
-        .note-card p {
-            margin: 0;
-            white-space: pre-wrap;
+        .post-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 8px;
         }
+        .post-story {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            font-style: italic;
+            color: #475569;
+            margin-bottom: 15px;
+            border-left: 3px solid #cbd5e1;
+        }
+        .section-box {
+            background: #fdf4ff;
+            border: 1px solid #f5d0fe;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .section-box.definitions {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+        .section-box.details {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            color: #6b21a8;
+        }
+        .definitions .section-title { color: #1e40af; }
+        .details .section-title { color: #166534; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Student Notes & Resource Hub</h1>
+    <h1>📚 Student Study & Story Hub</h1>
+    <p class="subtitle">Share your stories, notes, and get structured answers!</p>
 
-    <!-- Search Bar -->
-    <div class="search-group search-box">
-        <input type="text" id="searchInput" placeholder="Search notes by subject or name..." onkeyup="filterNotes()">
-    </div>
-
-    <!-- Submit Form -->
+    <!-- Post Creation Form -->
     <div class="form-group">
-        <input type="text" id="userName" placeholder="Your Name">
-    </div>
-    <div class="form-group">
-        <input type="text" id="subjectName" placeholder="Subject Name (e.g., Stat 301, Data Science)">
-    </div>
-    <div class="form-group">
-        <textarea id="noteDetails" placeholder="Write your notes or details here..."></textarea>
-    </div>
-    <div class="form-group">
-        <button onclick="submitNote()">Submit Notes</button>
+        <label for="authorName">Your Name:</label>
+        <input type="text" id="authorName" placeholder="Enter your name">
     </div>
 
-    <!-- Feed Section -->
-    <div class="feed-section">
-        <h2>Shared Notes Feed</h2>
-        <div id="notesFeed">
-            <!-- Submitted notes will appear here -->
-        </div>
+    <div class="form-group">
+        <label for="postTitle">Topic / Question Title:</label>
+        <input type="text" id="postTitle" placeholder="e.g., Data Science Basics or Calculus Problem">
     </div>
+
+    <div class="form-group">
+        <label for="postStory">Your Story or Question Details (Optional):</label>
+        <textarea id="postStory" rows="2" placeholder="Write any story, thought or background context here..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="shortNotes">1. Quick Summary / Short Notes:</label>
+        <textarea id="shortNotes" rows="2" placeholder="Write crisp short notes..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="definitions">2. Definitions & Key Terms:</label>
+        <textarea id="definitions" rows="2" placeholder="Write core definitions here..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="detailedAnswer">3. Detailed Explanation:</label>
+        <textarea id="detailedAnswer" rows="3" placeholder="Provide complete detailed explanation..."></textarea>
+    </div>
+
+    <button onclick="addPost()">Publish Post & Structured Notes</button>
+
+    <div class="feed-header">
+        <h2>Community Feed</h2>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search by topic or author name..." onkeyup="filterPosts()">
+    </div>
+
+    <div id="feedContainer"></div>
 </div>
 
 <script>
-    // Load existing notes from localStorage when page opens
-    window.onload = function() {
-        displayNotes();
-    };
+    document.addEventListener("DOMContentLoaded", displayPosts);
 
-    function submitNote() {
-        const name = document.getElementById('userName').value.trim();
-        const subject = document.getElementById('subjectName').value.trim();
-        const details = document.getElementById('noteDetails').value.trim();
+    function addPost() {
+        const name = document.getElementById('authorName').value.trim();
+        const title = document.getElementById('postTitle').value.trim();
+        const story = document.getElementById('postStory').value.trim();
+        const shortNotes = document.getElementById('shortNotes').value.trim();
+        const definitions = document.getElementById('definitions').value.trim();
+        const detailedAnswer = document.getElementById('detailedAnswer').value.trim();
 
-        if(!name || !subject || !details) {
-            alert("براہ کرم تمام خانے (Name, Subject, Notes) پر کریں۔");
+        if (!name || !title) {
+            alert("Please fill in at least your name and title!");
             return;
         }
 
-        const newNote = {
+        const newPost = {
+            id: Date.now(),
             name: name,
-            subject: subject,
-            details: details,
+            title: title,
+            story: story,
+            shortNotes: shortNotes,
+            definitions: definitions,
+            detailedAnswer: detailedAnswer,
             date: new Date().toLocaleDateString()
         };
 
-        // Get existing notes or empty array
-        let notes = JSON.parse(localStorage.getItem('studentNotes')) || [];
-        notes.unshift(newNote); // Add new note at the beginning
+        let posts = JSON.parse(localStorage.getItem('studyHubPosts')) || [];
+        posts.unshift(newPost);
+        localStorage.setItem('studyHubPosts', JSON.stringify(posts));
 
-        // Save back to localStorage
-        localStorage.setItem('studentNotes', JSON.stringify(notes));
+        // Clear inputs
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postStory').value = '';
+        document.getElementById('shortNotes').value = '';
+        document.getElementById('definitions').value = '';
+        document.getElementById('detailedAnswer').value = '';
 
-        // Clear form inputs
-        document.getElementById('userName').value = '';
-        document.getElementById('subjectName').value = '';
-        document.getElementById('noteDetails').value = '';
-
-        // Refresh feed display
-        displayNotes();
+        displayPosts();
     }
 
-    function displayNotes(filter = '') {
-        const feedContainer = document.getElementById('notesFeed');
-        let notes = JSON.parse(localStorage.getItem('studentNotes')) || [];
-
+    function displayPosts(filter = '') {
+        const feedContainer = document.getElementById('feedContainer');
         feedContainer.innerHTML = '';
 
-        if(notes.length === 0) {
-            feedContainer.innerHTML = '<p style="color: #7f8c8d;">ابھی تک کوئی نوٹس شیئر نہیں کیے گئے۔ پہلا نوٹ آپ درج کریں!</p>';
+        let posts = JSON.parse(localStorage.getItem('studyHubPosts')) || [];
+
+        if (posts.length === 0) {
+            feedContainer.innerHTML = '<p style="text-align:center; color:#94a3b8;">No posts yet. Be the first to share something!</p>';
             return;
         }
 
-        notes.forEach((note, index) => {
-            // Filter check
-            if(filter && !note.subject.toLowerCase().includes(filter.toLowerCase()) && !note.name.toLowerCase().includes(filter.toLowerCase())) {
+        posts.forEach(post => {
+            if (filter && !post.title.toLowerCase().includes(filter.toLowerCase()) && !post.name.toLowerCase().includes(filter.toLowerCase())) {
                 return;
             }
 
             const card = document.createElement('div');
-            card.className = 'note-card';
+            card.className = 'post-card';
+
+            let storyHtml = post.story ? `<div class="post-story">"${post.story}"</div>` : '';
+            let shortHtml = post.shortNotes ? `<div class="section-box"><div class="section-title">⚡ Quick Summary</div><p>${post.shortNotes}</p></div>` : '';
+            let defHtml = post.definitions ? `<div class="section-box definitions"><div class="section-title">📖 Definitions & Key Terms</div><p>${post.definitions}</p></div>` : '';
+            let detailHtml = post.detailedAnswer ? `<div class="section-box details"><div class="section-title">🔍 Detailed Explanation</div><p>${post.detailedAnswer}</p></div>` : '';
+
             card.innerHTML = `
-                <h3>📚 ${note.subject}</h3>
-                <div class="author">By: ${note.name} | Date: ${note.date}</div>
-                <p>${note.details}</p>
+                <div class="post-header">By: <strong>${post.name}</strong> | Date: ${post.date}</div>
+                <div class="post-title">${post.title}</div>
+                ${storyHtml}
+                ${shortHtml}
+                ${defHtml}
+                ${detailHtml}
             `;
             feedContainer.appendChild(card);
         });
     }
 
-    function filterNotes() {
+    function filterPosts() {
         const query = document.getElementById('searchInput').value;
-        displayNotes(query);
+        displayPosts(query);
     }
 </script>
 
