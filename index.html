@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart AI Q&A & Challenge Hub - Dual Theme</title>
+    <title>Smart AI Q&A & Challenge Hub - Class Level AI</title>
     <style>
         /* Default Pink Theme (Girls) */
         :root {
@@ -59,10 +59,10 @@
 
         .welcome-card {
             background: #ffffff;
-            padding: 40px;
+            padding: 35px;
             border-radius: 24px;
             text-align: center;
-            max-width: 420px;
+            max-width: 440px;
             width: 90%;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
@@ -76,54 +76,61 @@
 
         .welcome-card p {
             color: #64748b;
-            margin-bottom: 25px;
-            font-size: 1rem;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
         }
 
-        .welcome-card input {
+        .welcome-card input, .welcome-card select {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: 2px solid #cbd5e1;
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 1rem;
             box-sizing: border-box;
             outline: none;
             color: #1e293b;
+            background: #f8fafc;
         }
 
         .gender-btns {
             display: flex;
             gap: 15px;
             justify-content: center;
+            margin-top: 10px;
         }
 
         .gender-btn {
             flex: 1;
-            padding: 14px;
+            padding: 12px;
             border: none;
             border-radius: 12px;
             font-weight: 700;
             cursor: pointer;
             font-size: 1rem;
-            transition: transform 0.2s, opacity 0.2s;
+            transition: transform 0.2s;
+        }
+
+        .gender-btn.auto {
+            background: #4f46e5;
+            color: white;
+            width: 100%;
+            margin-top: 5px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
         .gender-btn.girl {
             background: #db2777;
             color: white;
-            box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
         }
 
         .gender-btn.boy {
             background: #dc2626;
             color: white;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         .gender-btn:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
+            transform: scale(1.02);
         }
 
         /* Main App Header */
@@ -210,7 +217,7 @@
             font-size: 0.95rem;
         }
 
-        input[type="text"], textarea {
+        input[type="text"], textarea, select {
             width: 100%;
             padding: 12px;
             border: 2px solid var(--border-color);
@@ -335,15 +342,28 @@
 </head>
 <body>
 
-    <!-- Welcome & Theme Selector Overlay -->
+    <!-- Welcome & Smart Validation Screen with Class Level -->
     <div id="welcome-screen">
         <div class="welcome-card">
-            <h2>✨ Welcome Student!</h2>
-            <p>Enter your name and choose your zone:</p>
-            <input type="text" id="user-name-input" placeholder="Enter your name...">
+            <h2>✨ Smart Student Portal</h2>
+            <p>Enter details & select your academic level:</p>
+            <input type="text" id="user-name-input" placeholder="Enter your full name...">
+            <input type="number" id="user-age-input" placeholder="Enter your age (e.g., 18)..." min="5" max="50">
+            
+            <select id="user-class-select">
+                <option value="">-- Select Your Class / Level --</option>
+                <option value="Primary (Class 1-5)">Primary (Class 1-5)</option>
+                <option value="Middle (Class 6-8)">Middle (Class 6-8)</option>
+                <option value="Matric (Class 9-10)">Matric (Class 9-10)</option>
+                <option value="Intermediate (FSc/ICS/FA)">Intermediate (FSc / ICS / FA)</option>
+                <option value="University / BS Level">University / BS Level (e.g., Data Science)</option>
+            </select>
+            
+            <button class="gender-btn auto" onclick="smartAutoDetectAndStart()">✨ Smart Auto-Detect & Enter</button>
+            <p style="margin: 12px 0 5px 0; font-size: 0.85rem; color: #94a3b8;">Or choose theme manually:</p>
             <div class="gender-btns">
-                <button class="gender-btn girl" onclick="startApp('girl')">👧 Girl (Pink)</button>
-                <button class="gender-btn boy" onclick="startApp('boy')">👦 Boy (Dark/Red)</button>
+                <button class="gender-btn girl" onclick="startAppWithManualGender('girl')">👧 Girl (Pink)</button>
+                <button class="gender-btn boy" onclick="startAppWithManualGender('boy')">👦 Boy (Dark/Red)</button>
             </div>
         </div>
     </div>
@@ -365,7 +385,7 @@
         <!-- TAB 1: AI Q&A PORTAL -->
         <div id="qa-tab" class="tab-content active">
             <div class="card">
-                <h2>✨ Ask Question & Generate Fun AI Answer</h2>
+                <h2>✨ Ask Question & Generate Level-Based AI Answer</h2>
                 <div class="form-group">
                     <label for="qa-title">Question / Topic:</label>
                     <input type="text" id="qa-title" placeholder="e.g., Introduction to Data Science, Python">
@@ -374,7 +394,7 @@
 
                 <div id="ai-result-area" style="margin-top: 25px; display: none;">
                     <hr style="border: 0; border-top: 2px solid var(--border-color); margin-bottom: 20px;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px;">🎉 Generated AI Structured Answer:</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🎉 Generated Custom AI Structured Answer:</h3>
                     
                     <div class="form-group">
                         <label>1. Quick Summary / Short Notes:</label>
@@ -431,28 +451,60 @@
     </div>
 
     <script>
-        let currentUser = { name: '', gender: '' };
+        let currentUser = { name: '', gender: '', age: '', studentClass: '' };
 
         window.onload = function() {
-            // Force show welcome screen to let user pick profile
             localStorage.removeItem('hubUser');
             document.getElementById('welcome-screen').style.display = 'flex';
             document.getElementById('main-app').style.display = 'none';
         }
 
-        function startApp(gender) {
+        function smartAutoDetectAndStart() {
             const nameInput = document.getElementById('user-name-input').value.trim();
-            if(!nameInput) {
-                alert("Please enter your name first!");
+            const ageInput = document.getElementById('user-age-input').value.trim();
+            const classSelect = document.getElementById('user-class-select').value;
+
+            if(!nameInput || !ageInput || !classSelect) {
+                alert("⚠️ Please enter your name, age, and select your class level!");
                 return;
             }
-            currentUser = { name: nameInput, gender: gender };
+
+            if(ageInput < 5 || ageInput > 100) {
+                alert("⚠️ Please enter a valid student age between 5 and 100!");
+                return;
+            }
+
+            let lowerName = nameInput.toLowerCase();
+            let detectedGender = 'boy';
+
+            if(lowerName.endsWith('a') || lowerName.endsWith('i') || lowerName.includes('saba') || lowerName.includes('muskan') || lowerName.includes('fatima') || lowerName.includes('aisha')) {
+                detectedGender = 'girl';
+            }
+
+            completeLogin(detectedGender, nameInput, ageInput, classSelect);
+        }
+
+        function startAppWithManualGender(gender) {
+            const nameInput = document.getElementById('user-name-input').value.trim();
+            const ageInput = document.getElementById('user-age-input').value.trim();
+            const classSelect = document.getElementById('user-class-select').value;
+
+            if(!nameInput || !ageInput || !classSelect) {
+                alert("⚠️ Please fill in all fields (Name, Age, and Class Level)!");
+                return;
+            }
+
+            completeLogin(gender, nameInput, ageInput, classSelect);
+        }
+
+        function completeLogin(gender, name, age, studentClass) {
+            currentUser = { name, gender, age, studentClass };
             localStorage.setItem('hubUser', JSON.stringify(currentUser));
 
             applyTheme(gender);
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-            document.getElementById('welcome-user-msg').innerText = `Welcome, ${currentUser.name}! Explore your zone.`;
+            document.getElementById('welcome-user-msg').innerText = `Welcome, ${currentUser.name} (${currentUser.studentClass})! Explore your customized zone.`;
             
             loadQAPosts();
             loadStoryPosts();
@@ -495,9 +547,14 @@
                 alert("Please enter a question or topic first!");
                 return;
             }
-            document.getElementById('qa-summary').value = `⚡ Super Fast Summary for "${title}":\nCore foundational concepts designed for lightning-fast student revision!`;
-            document.getElementById('qa-def').value = `📖 Key Definition & Terms:\nSubject: ${title}\nDefinition: The fundamental building block that explains essential rules and principles.`;
-            document.getElementById('qa-detail').value = `🔍 Detailed Step-by-Step Explanation:\n1. Introduction and background context.\n2. Important characteristics and working principles.\n3. Amazing practical applications!`;
+
+            let lvl = currentUser.studentClass;
+
+            // Customizing output text based on student's academic level/class
+            document.getElementById('qa-summary').value = `⚡ Customized Summary for "${title}" (${lvl}):\nTailored specifically for ${lvl} level students to ensure easy and accurate understanding!`;
+            document.getElementById('qa-def').value = `📖 Key Definitions (${lvl}):\nCore Concept: ${title}\nExplanation adjusted for ${lvl} syllabus requirements and limitations.`;
+            document.getElementById('qa-detail').value = `🔍 Detailed Step-by-Step Explanation (${lvl}):\n1. Fundamental concepts matched with ${lvl} standards.\n2. Core working principles and examples.\n3. Relevant practical applications for your grade level!`;
+            
             document.getElementById('ai-result-area').style.display = 'block';
         }
 
@@ -512,7 +569,13 @@
                 return;
             }
 
-            const post = { name: currentUser.name, gender: currentUser.gender, title, summary, def, detail, date: new Date().toLocaleDateString() };
+            const post = { 
+                name: currentUser.name, 
+                gender: currentUser.gender, 
+                studentClass: currentUser.studentClass, 
+                title, summary, def, detail, 
+                date: new Date().toLocaleDateString() 
+            };
             let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
             qaPosts.unshift(post);
             localStorage.setItem('qaPosts', JSON.stringify(qaPosts));
@@ -534,13 +597,13 @@
             feed.innerHTML = qaPosts.map(p => `
                 <div class="post-card">
                     <div class="post-header">
-                        <span class="post-author">👤 ${escapeHTML(p.name)} (${p.gender === 'boy' ? '👦 Boy Zone' : '👧 Girl Zone'})</span>
+                        <span class="post-author">👤 ${escapeHTML(p.name)} (${p.studentClass} | ${p.gender === 'boy' ? '👦 Boy Zone' : '👧 Girl Zone'})</span>
                         <span style="font-size: 0.9rem; font-weight: 600;">📅 ${p.date}</span>
                     </div>
                     <h3 class="post-title">💡 Q: ${escapeHTML(p.title)}</h3>
                     
                     <div class="fun-boxes-container">
-                        ${p.summary ? `<div class="box-summary"><div class="box-heading">⚡ 1. Quick Summary</div><div class="box-content">${escapeHTML(p.summary)}</div></div>` : ''}
+                        ${p.summary ? `<div class="box-summary"><div class="box-heading">⚡ 1. Quick Summary (${escapeHTML(p.studentClass)})</div><div class="box-content">${escapeHTML(p.summary)}</div></div>` : ''}
                         ${p.def ? `<div class="box-def"><div class="box-heading">📖 2. Definitions</div><div class="box-content">${escapeHTML(p.def)}</div></div>` : ''}
                         ${p.detail ? `<div class="box-detail"><div class="box-heading">🔍 3. Details</div><div class="box-content">${escapeHTML(p.detail)}</div></div>` : ''}
                     </div>
@@ -557,7 +620,13 @@
                 return;
             }
 
-            const post = { name: currentUser.name, gender: currentUser.gender, title, content, date: new Date().toLocaleDateString() };
+            const post = { 
+                name: currentUser.name, 
+                gender: currentUser.gender, 
+                studentClass: currentUser.studentClass, 
+                title, content, 
+                date: new Date().toLocaleDateString() 
+            };
             let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
             storyPosts.unshift(post);
             localStorage.setItem('storyPosts', JSON.stringify(storyPosts));
@@ -577,9 +646,10 @@
             }
 
             feed.innerHTML = storyPosts.map(p => `
+                <div class="post-feed-card" style="margin-bottom: 15px;"></div>
                 <div class="post-card">
                     <div class="post-header">
-                        <span class="post-author">✍️ ${escapeHTML(p.name)} (${p.gender === 'boy' ? '👦 Boy Zone' : '👧 Girl Zone'})</span>
+                        <span class="post-author">✍️ ${escapeHTML(p.name)} (${escapeHTML(p.studentClass)})</span>
                         <span style="font-size: 0.9rem; font-weight: 600;">📅 ${p.date}</span>
                     </div>
                     <h3 class="post-title">${escapeHTML(p.title)}</h3>
