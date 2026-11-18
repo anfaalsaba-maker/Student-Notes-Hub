@@ -3,270 +3,1695 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Study & Story Hub</title>
+    <title>Smart Q&A & Student Story Hub</title>
     <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --accent-summary: #eff6ff;
+            --accent-def: #f0fdf4;
+            --accent-detail: #fdf4ff;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
+            background-color: var(--bg-color);
             margin: 0;
             padding: 20px;
-            color: #333;
+            color: var(--text-color);
         }
+
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
-        h1 {
+
+        header {
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 30px;
         }
-        p.subtitle {
-            text-align: center;
-            color: #7f8c8d;
+
+        header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
             margin-bottom: 25px;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #34495e;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background-color: #f8fafc;
-        }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background-color: #fff;
-        }
-        button {
-            background-color: #10b981;
-            color: white;
-            padding: 12px 20px;
+
+        .tab-btn {
+            padding: 10px 25px;
+            background-color: #e2e8f0;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Card */
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            transition: background 0.2s;
+            transition: background-color 0.2s;
         }
-        button:hover {
-            background-color: #059669;
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
         }
-        .feed-header {
-            margin-top: 40px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
+
+        /* Feed Styling */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .post-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .search-box {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .post-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-left: 5px solid #3b82f6;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .post-header {
-            font-size: 13px;
-            color: #64748b;
-            margin-bottom: 10px;
-        }
-        .post-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1e293b;
-            margin-bottom: 8px;
-        }
-        .post-story {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 8px;
-            font-style: italic;
-            color: #475569;
             margin-bottom: 15px;
-            border-left: 3px solid #cbd5e1;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
         }
-        .section-box {
-            background: #fdf4ff;
-            border: 1px solid #f5d0fe;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 10px;
-        }
-        .section-box.definitions {
-            background: #eff6ff;
-            border-color: #bfdbfe;
-        }
-        .section-box.details {
-            background: #f0fdf4;
-            border-color: #bbf7d0;
-        }
-        .section-title {
+
+        .post-author {
             font-weight: bold;
-            font-size: 13px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            color: #6b21a8;
+            color: var(--primary);
         }
-        .definitions .section-title { color: #1e40af; }
-        .details .section-title { color: #166534; }
+
+        .post-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+
+        /* Three Tier Answer Boxes inside Post */
+        .tier-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tier-summary {
+            background-color: var(--accent-summary);
+            border-left: 4px solid #3b82f6;
+        }
+
+        .tier-def {
+            background-color: var(--accent-def);
+            border-left: 4px solid #22c55e;
+        }
+
+        .tier-detail {
+            background-color: var(--accent-detail);
+            border-left: 4px solid #a855f7;
+        }
+
+        .tier-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+
+        .story-text {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>📚 Student Study & Story Hub</h1>
-    <p class="subtitle">Share your stories, notes, and get structured answers!</p>
+    <div class="container">
+        <header>
+            <h1>📚 Smart Q&A & Student Story Hub</h1>
+            <p>Ask questions and get structured answers, or share your personal stories!</p>
+        </header>
 
-    <!-- Post Creation Form -->
-    <div class="form-group">
-        <label for="authorName">Your Name:</label>
-        <input type="text" id="authorName" placeholder="Enter your name">
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('qa')">💡 Ask Question & Get Answers</button>
+            <button class="tab-btn" onclick="switchTab('story')">✍️ Share Story</button>
+        </div>
+
+        <!-- TAB 1: Q&A PORTAL -->
+        <div id="qa-tab" class="tab-content active">
+            <div class="card">
+                <h2>Ask a Question / Submit Topic</h2>
+                <div class="form-group">
+                    <label for="qa-name">Your Name:</label>
+                    <input type="text" id="qa-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="qa-title">Question / Topic Title:</label>
+                    <input type="text" id="qa-title" placeholder="e.g., What is Data Science? or Calculus Limit">
+                </div>
+                <div class="form-group">
+                    <label for="qa-summary">1. Quick Summary / Short Notes:</label>
+                    <textarea id="qa-summary" placeholder="Write crisp short notes..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-def">2. Definitions & Key Terms:</label>
+                    <textarea id="qa-def" placeholder="Write core definitions here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-detail">3. Detailed Explanation:</label>
+                    <textarea id="qa-detail" placeholder="Write complete detailed explanation..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishQA()">Publish Structured Answer</button>
+            </div>
+
+            <div class="feed-container" id="qa-feed">
+                <!-- Q&A Posts will appear here -->
+            </div>
+        </div>
+
+        <!-- TAB 2: STORY CORNER -->
+        <div id="story-tab" class="tab-content">
+            <div class="card">
+                <h2>Share Your Student Story</h2>
+                <div class="form-group">
+                    <label for="story-name">Your Name:</label>
+                    <input type="text" id="story-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="story-title">Story Title:</label>
+                    <input type="text" id="story-title" placeholder="e.g., My First Day at University">
+                </div>
+                <div class="form-group">
+                    <label for="story-content">Your Story / Experience:</label>
+                    <textarea id="story-content" placeholder="Share your thoughts, experiences or student stories here..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishStory()">Publish Story</button>
+            </div>
+
+            <div class="feed-container" id="story-feed">
+                <!-- Story Posts will appear here -->
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="postTitle">Topic / Question Title:</label>
-        <input type="text" id="postTitle" placeholder="e.g., Data Science Basics or Calculus Problem">
-    </div>
-
-    <div class="form-group">
-        <label for="postStory">Your Story or Question Details (Optional):</label>
-        <textarea id="postStory" rows="2" placeholder="Write any story, thought or background context here..."></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="shortNotes">1. Quick Summary / Short Notes:</label>
-        <textarea id="shortNotes" rows="2" placeholder="Write crisp short notes..."></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="definitions">2. Definitions & Key Terms:</label>
-        <textarea id="definitions" rows="2" placeholder="Write core definitions here..."></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="detailedAnswer">3. Detailed Explanation:</label>
-        <textarea id="detailedAnswer" rows="3" placeholder="Provide complete detailed explanation..."></textarea>
-    </div>
-
-    <button onclick="addPost()">Publish Post & Structured Notes</button>
-
-    <div class="feed-header">
-        <h2>Community Feed</h2>
-    </div>
-
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search by topic or author name..." onkeyup="filterPosts()">
-    </div>
-
-    <div id="feedContainer"></div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", displayPosts);
-
-    function addPost() {
-        const name = document.getElementById('authorName').value.trim();
-        const title = document.getElementById('postTitle').value.trim();
-        const story = document.getElementById('postStory').value.trim();
-        const shortNotes = document.getElementById('shortNotes').value.trim();
-        const definitions = document.getElementById('definitions').value.trim();
-        const detailedAnswer = document.getElementById('detailedAnswer').value.trim();
-
-        if (!name || !title) {
-            alert("Please fill in at least your name and title!");
-            return;
+    <script>
+        // Load stored posts on startup
+        window.onload = function() {
+            loadQAPosts();
+            loadStoryPosts();
         }
 
-        const newPost = {
-            id: Date.now(),
-            name: name,
-            title: title,
-            story: story,
-            shortNotes: shortNotes,
-            definitions: definitions,
-            detailedAnswer: detailedAnswer,
-            date: new Date().toLocaleDateString()
-        };
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-        let posts = JSON.parse(localStorage.getItem('studyHubPosts')) || [];
-        posts.unshift(newPost);
-        localStorage.setItem('studyHubPosts', JSON.stringify(posts));
-
-        // Clear inputs
-        document.getElementById('postTitle').value = '';
-        document.getElementById('postStory').value = '';
-        document.getElementById('shortNotes').value = '';
-        document.getElementById('definitions').value = '';
-        document.getElementById('detailedAnswer').value = '';
-
-        displayPosts();
-    }
-
-    function displayPosts(filter = '') {
-        const feedContainer = document.getElementById('feedContainer');
-        feedContainer.innerHTML = '';
-
-        let posts = JSON.parse(localStorage.getItem('studyHubPosts')) || [];
-
-        if (posts.length === 0) {
-            feedContainer.innerHTML = '<p style="text-align:center; color:#94a3b8;">No posts yet. Be the first to share something!</p>';
-            return;
+            if(tabName === 'qa') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('qa-tab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('story-tab').classList.add('active');
+            }
         }
 
-        posts.forEach(post => {
-            if (filter && !post.title.toLowerCase().includes(filter.toLowerCase()) && !post.name.toLowerCase().includes(filter.toLowerCase())) {
+        // Q&A Functions
+        function publishQA() {
+            const name = document.getElementById('qa-name').value.trim();
+            const title = document.getElementById('qa-title').value.trim();
+            const summary = document.getElementById('qa-summary').value.trim();
+            const def = document.getElementById('qa-def').value.trim();
+            const detail = document.getElementById('qa-detail').value.trim();
+
+            if(!name || !title || !summary) {
+                alert("Please fill in at least your name, title, and summary!");
                 return;
             }
 
-            const card = document.createElement('div');
-            card.className = 'post-card';
+            const post = { name, title, summary, def, detail, date: new Date().toLocaleDateString() };
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+            qaPosts.unshift(post);
+            localStorage.setItem('qaPosts', JSON.stringify(qaPosts));
 
-            let storyHtml = post.story ? `<div class="post-story">"${post.story}"</div>` : '';
-            let shortHtml = post.shortNotes ? `<div class="section-box"><div class="section-title">⚡ Quick Summary</div><p>${post.shortNotes}</p></div>` : '';
-            let defHtml = post.definitions ? `<div class="section-box definitions"><div class="section-title">📖 Definitions & Key Terms</div><p>${post.definitions}</p></div>` : '';
-            let detailHtml = post.detailedAnswer ? `<div class="section-box details"><div class="section-title">🔍 Detailed Explanation</div><p>${post.detailedAnswer}</p></div>` : '';
+            // Clear inputs
+            document.getElementById('qa-name').value = '';
+            document.getElementById('qa-title').value = '';
+            document.getElementById('qa-summary').value = '';
+            document.getElementById('qa-def').value = '';
+            document.getElementById('qa-detail').value = '';
 
-            card.innerHTML = `
-                <div class="post-header">By: <strong>${post.name}</strong> | Date: ${post.date}</div>
-                <div class="post-title">${post.title}</div>
-                ${storyHtml}
-                ${shortHtml}
-                ${defHtml}
-                ${detailHtml}
-            `;
-            feedContainer.appendChild(card);
-        });
-    }
+            loadQAPosts();
+        }
 
-    function filterPosts() {
-        const query = document.getElementById('searchInput').value;
-        displayPosts(query);
-    }
-</script>
+        function loadQAPosts() {
+            const feed = document.getElementById('qa-feed');
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
 
+            if(qaPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No questions or structured answers published yet. Be the first to ask!</div>';
+                return;
+            }
+
+            feed.innerHTML = qaPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">👤 ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">💡 Q: ${escapeHTML(p.title)}</h3>
+                    
+                    ${p.summary ? `<div class="tier-box tier-summary"><div class="tier-title">1. Quick Summary / Short Notes:</div><div>${escapeHTML(p.summary)}</div></div>` : ''}
+                    ${p.def ? `<div class="tier-box tier-def"><div class="tier-title">2. Definitions & Key Terms:</div><div>${escapeHTML(p.def)}</div></div>` : ''}
+                    ${p.detail ? `<div class="tier-box tier-detail"><div class="tier-title">3. Detailed Explanation:</div><div>${escapeHTML(p.detail)}</div></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Story Functions
+        function publishStory() {
+            const name = document.getElementById('story-name').value.trim();
+            const title = document.getElementById('story-title').value.trim();
+            const content = document.getElementById('story-content').value.trim();
+
+            if(!name || !title || !content) {
+                alert("Please fill in all story fields!");
+                return;
+            }
+
+            const post = { name, title, content, date: new Date().toLocaleDateString() };
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+            storyPosts.unshift(post);
+            localStorage.setItem('storyPosts', JSON.stringify(storyPosts));
+
+            document.getElementById('story-name').value = '';
+            document.getElementById('story-title').value = '';
+            document.getElementById('story-content').value = '';
+
+            loadStoryPosts();
+        }
+
+        function loadStoryPosts() {
+            const feed = document.getElementById('story-feed');
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+
+            if(storyPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No stories shared yet. Share your experience!</div>';
+                return;
+            }
+
+            feed.innerHTML = storyPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">✍️ ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">${escapeHTML(p.title)}</h3>
+                    <div class="story-text">${escapeHTML(p.content)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Q&A & Student Story Hub</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --accent-summary: #eff6ff;
+            --accent-def: #f0fdf4;
+            --accent-detail: #fdf4ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            background-color: #e2e8f0;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Card */
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Feed Styling */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .post-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .post-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+
+        /* Three Tier Answer Boxes inside Post */
+        .tier-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tier-summary {
+            background-color: var(--accent-summary);
+            border-left: 4px solid #3b82f6;
+        }
+
+        .tier-def {
+            background-color: var(--accent-def);
+            border-left: 4px solid #22c55e;
+        }
+
+        .tier-detail {
+            background-color: var(--accent-detail);
+            border-left: 4px solid #a855f7;
+        }
+
+        .tier-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+
+        .story-text {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📚 Smart Q&A & Student Story Hub</h1>
+            <p>Ask questions and get structured answers, or share your personal stories!</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('qa')">💡 Ask Question & Get Answers</button>
+            <button class="tab-btn" onclick="switchTab('story')">✍️ Share Story</button>
+        </div>
+
+        <!-- TAB 1: Q&A PORTAL -->
+        <div id="qa-tab" class="tab-content active">
+            <div class="card">
+                <h2>Ask a Question / Submit Topic</h2>
+                <div class="form-group">
+                    <label for="qa-name">Your Name:</label>
+                    <input type="text" id="qa-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="qa-title">Question / Topic Title:</label>
+                    <input type="text" id="qa-title" placeholder="e.g., What is Data Science? or Calculus Limit">
+                </div>
+                <div class="form-group">
+                    <label for="qa-summary">1. Quick Summary / Short Notes:</label>
+                    <textarea id="qa-summary" placeholder="Write crisp short notes..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-def">2. Definitions & Key Terms:</label>
+                    <textarea id="qa-def" placeholder="Write core definitions here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-detail">3. Detailed Explanation:</label>
+                    <textarea id="qa-detail" placeholder="Write complete detailed explanation..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishQA()">Publish Structured Answer</button>
+            </div>
+
+            <div class="feed-container" id="qa-feed">
+                <!-- Q&A Posts will appear here -->
+            </div>
+        </div>
+
+        <!-- TAB 2: STORY CORNER -->
+        <div id="story-tab" class="tab-content">
+            <div class="card">
+                <h2>Share Your Student Story</h2>
+                <div class="form-group">
+                    <label for="story-name">Your Name:</label>
+                    <input type="text" id="story-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="story-title">Story Title:</label>
+                    <input type="text" id="story-title" placeholder="e.g., My First Day at University">
+                </div>
+                <div class="form-group">
+                    <label for="story-content">Your Story / Experience:</label>
+                    <textarea id="story-content" placeholder="Share your thoughts, experiences or student stories here..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishStory()">Publish Story</button>
+            </div>
+
+            <div class="feed-container" id="story-feed">
+                <!-- Story Posts will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load stored posts on startup
+        window.onload = function() {
+            loadQAPosts();
+            loadStoryPosts();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if(tabName === 'qa') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('qa-tab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('story-tab').classList.add('active');
+            }
+        }
+
+        // Q&A Functions
+        function publishQA() {
+            const name = document.getElementById('qa-name').value.trim();
+            const title = document.getElementById('qa-title').value.trim();
+            const summary = document.getElementById('qa-summary').value.trim();
+            const def = document.getElementById('qa-def').value.trim();
+            const detail = document.getElementById('qa-detail').value.trim();
+
+            if(!name || !title || !summary) {
+                alert("Please fill in at least your name, title, and summary!");
+                return;
+            }
+
+            const post = { name, title, summary, def, detail, date: new Date().toLocaleDateString() };
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+            qaPosts.unshift(post);
+            localStorage.setItem('qaPosts', JSON.stringify(qaPosts));
+
+            // Clear inputs
+            document.getElementById('qa-name').value = '';
+            document.getElementById('qa-title').value = '';
+            document.getElementById('qa-summary').value = '';
+            document.getElementById('qa-def').value = '';
+            document.getElementById('qa-detail').value = '';
+
+            loadQAPosts();
+        }
+
+        function loadQAPosts() {
+            const feed = document.getElementById('qa-feed');
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+
+            if(qaPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No questions or structured answers published yet. Be the first to ask!</div>';
+                return;
+            }
+
+            feed.innerHTML = qaPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">👤 ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">💡 Q: ${escapeHTML(p.title)}</h3>
+                    
+                    ${p.summary ? `<div class="tier-box tier-summary"><div class="tier-title">1. Quick Summary / Short Notes:</div><div>${escapeHTML(p.summary)}</div></div>` : ''}
+                    ${p.def ? `<div class="tier-box tier-def"><div class="tier-title">2. Definitions & Key Terms:</div><div>${escapeHTML(p.def)}</div></div>` : ''}
+                    ${p.detail ? `<div class="tier-box tier-detail"><div class="tier-title">3. Detailed Explanation:</div><div>${escapeHTML(p.detail)}</div></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Story Functions
+        function publishStory() {
+            const name = document.getElementById('story-name').value.trim();
+            const title = document.getElementById('story-title').value.trim();
+            const content = document.getElementById('story-content').value.trim();
+
+            if(!name || !title || !content) {
+                alert("Please fill in all story fields!");
+                return;
+            }
+
+            const post = { name, title, content, date: new Date().toLocaleDateString() };
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+            storyPosts.unshift(post);
+            localStorage.setItem('storyPosts', JSON.stringify(storyPosts));
+
+            document.getElementById('story-name').value = '';
+            document.getElementById('story-title').value = '';
+            document.getElementById('story-content').value = '';
+
+            loadStoryPosts();
+        }
+
+        function loadStoryPosts() {
+            const feed = document.getElementById('story-feed');
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+
+            if(storyPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No stories shared yet. Share your experience!</div>';
+                return;
+            }
+
+            feed.innerHTML = storyPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">✍️ ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">${escapeHTML(p.title)}</h3>
+                    <div class="story-text">${escapeHTML(p.content)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Q&A & Student Story Hub</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --accent-summary: #eff6ff;
+            --accent-def: #f0fdf4;
+            --accent-detail: #fdf4ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            background-color: #e2e8f0;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Card */
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Feed Styling */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .post-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .post-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+
+        /* Three Tier Answer Boxes inside Post */
+        .tier-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tier-summary {
+            background-color: var(--accent-summary);
+            border-left: 4px solid #3b82f6;
+        }
+
+        .tier-def {
+            background-color: var(--accent-def);
+            border-left: 4px solid #22c55e;
+        }
+
+        .tier-detail {
+            background-color: var(--accent-detail);
+            border-left: 4px solid #a855f7;
+        }
+
+        .tier-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+
+        .story-text {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📚 Smart Q&A & Student Story Hub</h1>
+            <p>Ask questions and get structured answers, or share your personal stories!</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('qa')">💡 Ask Question & Get Answers</button>
+            <button class="tab-btn" onclick="switchTab('story')">✍️ Share Story</button>
+        </div>
+
+        <!-- TAB 1: Q&A PORTAL -->
+        <div id="qa-tab" class="tab-content active">
+            <div class="card">
+                <h2>Ask a Question / Submit Topic</h2>
+                <div class="form-group">
+                    <label for="qa-name">Your Name:</label>
+                    <input type="text" id="qa-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="qa-title">Question / Topic Title:</label>
+                    <input type="text" id="qa-title" placeholder="e.g., What is Data Science? or Calculus Limit">
+                </div>
+                <div class="form-group">
+                    <label for="qa-summary">1. Quick Summary / Short Notes:</label>
+                    <textarea id="qa-summary" placeholder="Write crisp short notes..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-def">2. Definitions & Key Terms:</label>
+                    <textarea id="qa-def" placeholder="Write core definitions here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-detail">3. Detailed Explanation:</label>
+                    <textarea id="qa-detail" placeholder="Write complete detailed explanation..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishQA()">Publish Structured Answer</button>
+            </div>
+
+            <div class="feed-container" id="qa-feed">
+                <!-- Q&A Posts will appear here -->
+            </div>
+        </div>
+
+        <!-- TAB 2: STORY CORNER -->
+        <div id="story-tab" class="tab-content">
+            <div class="card">
+                <h2>Share Your Student Story</h2>
+                <div class="form-group">
+                    <label for="story-name">Your Name:</label>
+                    <input type="text" id="story-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="story-title">Story Title:</label>
+                    <input type="text" id="story-title" placeholder="e.g., My First Day at University">
+                </div>
+                <div class="form-group">
+                    <label for="story-content">Your Story / Experience:</label>
+                    <textarea id="story-content" placeholder="Share your thoughts, experiences or student stories here..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishStory()">Publish Story</button>
+            </div>
+
+            <div class="feed-container" id="story-feed">
+                <!-- Story Posts will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load stored posts on startup
+        window.onload = function() {
+            loadQAPosts();
+            loadStoryPosts();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if(tabName === 'qa') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('qa-tab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('story-tab').classList.add('active');
+            }
+        }
+
+        // Q&A Functions
+        function publishQA() {
+            const name = document.getElementById('qa-name').value.trim();
+            const title = document.getElementById('qa-title').value.trim();
+            const summary = document.getElementById('qa-summary').value.trim();
+            const def = document.getElementById('qa-def').value.trim();
+            const detail = document.getElementById('qa-detail').value.trim();
+
+            if(!name || !title || !summary) {
+                alert("Please fill in at least your name, title, and summary!");
+                return;
+            }
+
+            const post = { name, title, summary, def, detail, date: new Date().toLocaleDateString() };
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+            qaPosts.unshift(post);
+            localStorage.setItem('qaPosts', JSON.stringify(qaPosts));
+
+            // Clear inputs
+            document.getElementById('qa-name').value = '';
+            document.getElementById('qa-title').value = '';
+            document.getElementById('qa-summary').value = '';
+            document.getElementById('qa-def').value = '';
+            document.getElementById('qa-detail').value = '';
+
+            loadQAPosts();
+        }
+
+        function loadQAPosts() {
+            const feed = document.getElementById('qa-feed');
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+
+            if(qaPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No questions or structured answers published yet. Be the first to ask!</div>';
+                return;
+            }
+
+            feed.innerHTML = qaPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">👤 ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">💡 Q: ${escapeHTML(p.title)}</h3>
+                    
+                    ${p.summary ? `<div class="tier-box tier-summary"><div class="tier-title">1. Quick Summary / Short Notes:</div><div>${escapeHTML(p.summary)}</div></div>` : ''}
+                    ${p.def ? `<div class="tier-box tier-def"><div class="tier-title">2. Definitions & Key Terms:</div><div>${escapeHTML(p.def)}</div></div>` : ''}
+                    ${p.detail ? `<div class="tier-box tier-detail"><div class="tier-title">3. Detailed Explanation:</div><div>${escapeHTML(p.detail)}</div></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Story Functions
+        function publishStory() {
+            const name = document.getElementById('story-name').value.trim();
+            const title = document.getElementById('story-title').value.trim();
+            const content = document.getElementById('story-content').value.trim();
+
+            if(!name || !title || !content) {
+                alert("Please fill in all story fields!");
+                return;
+            }
+
+            const post = { name, title, content, date: new Date().toLocaleDateString() };
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+            storyPosts.unshift(post);
+            localStorage.setItem('storyPosts', JSON.stringify(storyPosts));
+
+            document.getElementById('story-name').value = '';
+            document.getElementById('story-title').value = '';
+            document.getElementById('story-content').value = '';
+
+            loadStoryPosts();
+        }
+
+        function loadStoryPosts() {
+            const feed = document.getElementById('story-feed');
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+
+            if(storyPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No stories shared yet. Share your experience!</div>';
+                return;
+            }
+
+            feed.innerHTML = storyPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">✍️ ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">${escapeHTML(p.title)}</h3>
+                    <div class="story-text">${escapeHTML(p.content)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Q&A & Student Story Hub</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --accent-summary: #eff6ff;
+            --accent-def: #f0fdf4;
+            --accent-detail: #fdf4ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            background-color: #e2e8f0;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Card */
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Feed Styling */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .post-author {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .post-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+
+        /* Three Tier Answer Boxes inside Post */
+        .tier-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tier-summary {
+            background-color: var(--accent-summary);
+            border-left: 4px solid #3b82f6;
+        }
+
+        .tier-def {
+            background-color: var(--accent-def);
+            border-left: 4px solid #22c55e;
+        }
+
+        .tier-detail {
+            background-color: var(--accent-detail);
+            border-left: 4px solid #a855f7;
+        }
+
+        .tier-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+
+        .story-text {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📚 Smart Q&A & Student Story Hub</h1>
+            <p>Ask questions and get structured answers, or share your personal stories!</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('qa')">💡 Ask Question & Get Answers</button>
+            <button class="tab-btn" onclick="switchTab('story')">✍️ Share Story</button>
+        </div>
+
+        <!-- TAB 1: Q&A PORTAL -->
+        <div id="qa-tab" class="tab-content active">
+            <div class="card">
+                <h2>Ask a Question / Submit Topic</h2>
+                <div class="form-group">
+                    <label for="qa-name">Your Name:</label>
+                    <input type="text" id="qa-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="qa-title">Question / Topic Title:</label>
+                    <input type="text" id="qa-title" placeholder="e.g., What is Data Science? or Calculus Limit">
+                </div>
+                <div class="form-group">
+                    <label for="qa-summary">1. Quick Summary / Short Notes:</label>
+                    <textarea id="qa-summary" placeholder="Write crisp short notes..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-def">2. Definitions & Key Terms:</label>
+                    <textarea id="qa-def" placeholder="Write core definitions here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qa-detail">3. Detailed Explanation:</label>
+                    <textarea id="qa-detail" placeholder="Write complete detailed explanation..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishQA()">Publish Structured Answer</button>
+            </div>
+
+            <div class="feed-container" id="qa-feed">
+                <!-- Q&A Posts will appear here -->
+            </div>
+        </div>
+
+        <!-- TAB 2: STORY CORNER -->
+        <div id="story-tab" class="tab-content">
+            <div class="card">
+                <h2>Share Your Student Story</h2>
+                <div class="form-group">
+                    <label for="story-name">Your Name:</label>
+                    <input type="text" id="story-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="story-title">Story Title:</label>
+                    <input type="text" id="story-title" placeholder="e.g., My First Day at University">
+                </div>
+                <div class="form-group">
+                    <label for="story-content">Your Story / Experience:</label>
+                    <textarea id="story-content" placeholder="Share your thoughts, experiences or student stories here..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishStory()">Publish Story</button>
+            </div>
+
+            <div class="feed-container" id="story-feed">
+                <!-- Story Posts will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load stored posts on startup
+        window.onload = function() {
+            loadQAPosts();
+            loadStoryPosts();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if(tabName === 'qa') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('qa-tab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('story-tab').classList.add('active');
+            }
+        }
+
+        // Q&A Functions
+        function publishQA() {
+            const name = document.getElementById('qa-name').value.trim();
+            const title = document.getElementById('qa-title').value.trim();
+            const summary = document.getElementById('qa-summary').value.trim();
+            const def = document.getElementById('qa-def').value.trim();
+            const detail = document.getElementById('qa-detail').value.trim();
+
+            if(!name || !title || !summary) {
+                alert("Please fill in at least your name, title, and summary!");
+                return;
+            }
+
+            const post = { name, title, summary, def, detail, date: new Date().toLocaleDateString() };
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+            qaPosts.unshift(post);
+            localStorage.setItem('qaPosts', JSON.stringify(qaPosts));
+
+            // Clear inputs
+            document.getElementById('qa-name').value = '';
+            document.getElementById('qa-title').value = '';
+            document.getElementById('qa-summary').value = '';
+            document.getElementById('qa-def').value = '';
+            document.getElementById('qa-detail').value = '';
+
+            loadQAPosts();
+        }
+
+        function loadQAPosts() {
+            const feed = document.getElementById('qa-feed');
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+
+            if(qaPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No questions or structured answers published yet. Be the first to ask!</div>';
+                return;
+            }
+
+            feed.innerHTML = qaPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">👤 ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">💡 Q: ${escapeHTML(p.title)}</h3>
+                    
+                    ${p.summary ? `<div class="tier-box tier-summary"><div class="tier-title">1. Quick Summary / Short Notes:</div><div>${escapeHTML(p.summary)}</div></div>` : ''}
+                    ${p.def ? `<div class="tier-box tier-def"><div class="tier-title">2. Definitions & Key Terms:</div><div>${escapeHTML(p.def)}</div></div>` : ''}
+                    ${p.detail ? `<div class="tier-box tier-detail"><div class="tier-title">3. Detailed Explanation:</div><div>${escapeHTML(p.detail)}</div></div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Story Functions
+        function publishStory() {
+            const name = document.getElementById('story-name').value.trim();
+            const title = document.getElementById('story-title').value.trim();
+            const content = document.getElementById('story-content').value.trim();
+
+            if(!name || !title || !content) {
+                alert("Please fill in all story fields!");
+                return;
+            }
+
+            const post = { name, title, content, date: new Date().toLocaleDateString() };
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+            storyPosts.unshift(post);
+            localStorage.setItem('storyPosts', JSON.stringify(storyPosts));
+
+            document.getElementById('story-name').value = '';
+            document.getElementById('story-title').value = '';
+            document.getElementById('story-content').value = '';
+
+            loadStoryPosts();
+        }
+
+        function loadStoryPosts() {
+            const feed = document.getElementById('story-feed');
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+
+            if(storyPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">No stories shared yet. Share your experience!</div>';
+                return;
+            }
+
+            feed.innerHTML = storyPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">✍️ ${escapeHTML(p.name)}</span>
+                        <span style="color: #64748b; font-size: 0.85rem;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">${escapeHTML(p.title)}</h3>
+                    <div class="story-text">${escapeHTML(p.content)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
 </body>
 </html>
