@@ -1,1 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart AI Q&A & Challenge Hub - Ultimate Pro</title>
+    <style>
+        :root {
+            --primary: #db2777;
+            --primary-hover: #be185d;
+            --bg-color: #fdf2f8;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-color: #831843;
+            --text-light: #9d174d;
+            --border-color: #f472b6;
+            --btn-gradient: linear-gradient(135deg, #db2777 0%, #be185d 100%);
+            --shadow: 0 10px 30px -5px rgba(219, 39, 119, 0.15);
+        }
 
+        [data-theme="boy"] {
+            --primary: #06b6d4;
+            --primary-hover: #0891b2;
+            --bg-color: #030712;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --text-color: #f8fafc;
+            --text-light: #94a3b8;
+            --border-color: #3b82f6;
+            --btn-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            --shadow: 0 10px 30px -5px rgba(6, 182, 212, 0.25);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            transition: background-color 0.4s, color 0.4s;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.92);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .welcome-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 30px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        .welcome-card h2 {
+            color: #06b6d4;
+            margin-top: 0;
+            font-size: 1.7rem;
+            margin-bottom: 8px;
+        }
+
+        .welcome-card p {
+            color: #94a3b8;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .welcome-card input, .welcome-card select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            outline: none;
+            color: #ffffff;
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        #auto-detect-badge {
+            display: block;
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: rgba(30, 41, 59, 0.8);
+            color: #94a3b8;
+            transition: all 0.3s;
+        }
+
+        .enter-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.02);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 2rem;
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .live-visitor-bar {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            padding: 22px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border: 2px solid var(--border-color);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .submit-btn, .ai-btn {
+            background: var(--btn-gradient);
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: var(--shadow);
+        }
+
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .post-author {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 0 0 12px 0;
+            color: var(--text-color);
+        }
+
+        .box-summary, .box-def, .box-detail, .story-text {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--border-color);
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 10px;
+        }
+
+        .box-heading {
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            color: var(--primary);
+        }
+
+        .box-content, .story-text {
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: 0.9rem;
+            white-space: pre-line;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 25px;
+        }
+
+        .visitor-item {
+            background: rgba(255,255,255,0.05);
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin: 4px 0;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Fun Grid Buttons for Chill Mode */
+        .chill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chill-option-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid var(--border-color);
+            padding: 12px;
+            border-radius: 14px;
+            color: var(--text-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .chill-option-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        #fun-output-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed var(--border-color);
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-color);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <div class="welcome-card">
+            <h2>✨ AI Smart Student Portal</h2>
+            <p>Enter details & pick your study vibe to unlock:</p>
+            
+            <input type="text" id="user-name-input" placeholder="Enter your full name..." oninput="realTimeAutoDetect(this.value)">
+            <input type="number" id="user-age-input" placeholder="Enter your age..." min="5" max="50">
+            
+            <select id="user-class-select">
+                <option value="">-- Select Your Class / Level --</option>
+                <option value="Primary (Class 1-5)">Primary (Class 1-5)</option>
+                <option value="Middle (Class 6-8)">Middle (Class 6-8)</option>
+                <option value="Matric (Class 9-10)">Matric (Class 9-10)</option>
+                <option value="Intermediate (FSc/ICS/FA)">Intermediate (FSc / ICS / FA)</option>
+                <option value="University / BS Level">University / BS Level (e.g., Data Science)</option>
+            </select>
+
+            <select id="study-mood-select">
+                <option value="Super Focused 🚀">🚀 Super Focused Study Vibe</option>
+                <option value="Exam Tension 🤯">🤯 Exam Stress & Quick Revision</option>
+                <option value="Chill & Coffee Mode ☕">☕ Chill & Coffee Mode (Relaxation & Fun)</option>
+            </select>
+
+            <div id="auto-detect-badge">🤖 AI Status: Type your name above...</div>
+            
+            <button class="enter-btn" onclick="startAppWithValidation()">🚀 Launch Student Portal</button>
+        </div>
+    </div>
+
+    <div class="container" id="main-app" style="display: none;">
+        <header>
+            <h1 id="hub-title">⚡ Cyber AI Q&A & Challenge Hub</h1>
+            <p id="welcome-user-msg">Explore magical notes & play exciting challenges!</p>
+        </header>
+
+        <div class="live-visitor-bar">
+            <span>📊 Total Visits: <span id="visitor-count-display" style="color: #10b981;">1</span></span>
+            <span>✨ Your Vibe: <span id="active-vibe-display" style="color: var(--primary);">Focused</span></span>
+            <button onclick="toggleVisitorModal()" style="background: var(--primary); color: white; border: none; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;">👥 View Visitors Log</button>
+        </div>
+
+        <!-- Visitor Log Modal -->
+        <div id="visitor-modal" class="card" style="display: none; margin-bottom: 20px; border-color: #10b981;">
+            <h3 style="color: #10b981; margin-top: 0; font-size: 1.1rem;">👥 Real-Time Student Visitors Log</h3>
+            <div id="visitor-list-container" style="max-height: 150px; overflow-y: auto;"></div>
+            <button onclick="toggleVisitorModal()" style="background: #64748b; color: white; border: none; padding: 6px 12px; border-radius: 8px; margin-top: 10px; cursor: pointer;">Close Log</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('qa')">💡 AI Q&A Portal</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">🎮 Challenge Quiz</button>
+            <button class="tab-btn" onclick="switchTab('story')">☕ Chill & Coffee Corner</button>
+            <button class="tab-btn" onclick="resetUser()" style="background: #64748b; color: white; border-color: #64748b;">🔄 Switch Profile</button>
+        </div>
+
+        <div id="qa-tab" class="tab-content active">
+            <div class="card">
+                <h2>✨ Ask Question & Generate Level-Based AI Answer</h2>
+                <div class="form-group">
+                    <label for="qa-title">Question / Topic:</label>
+                    <input type="text" id="qa-title" placeholder="e.g., Introduction to Data Science, Python">
+                </div>
+                <button class="ai-btn" onclick="generateAIAnswer()">✨ Generate Magical AI Answer</button>
+
+                <div id="ai-result-area" style="margin-top: 20px; display: none;">
+                    <hr style="border: 0; border-top: 2px solid var(--border-color); margin-bottom: 15px;">
+                    <h3 style="color: var(--primary); margin-bottom: 12px; font-size: 1.1rem;">🎉 Generated Custom AI Structured Answer:</h3>
+                    
+                    <div class="form-group">
+                        <label>1. Quick Summary / Short Notes:</label>
+                        <textarea id="qa-summary"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>2. Definitions & Key Terms:</label>
+                        <textarea id="qa-def"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>3. Detailed Explanation:</label>
+                        <textarea id="qa-detail"></textarea>
+                    </div>
+                    <button class="submit-btn" onclick="publishQA()">🚀 Publish to Community Feed</button>
+                </div>
+            </div>
+
+            <div class="feed-container" id="qa-feed"></div>
+        </div>
+
+        <div id="quiz-tab" class="tab-content">
+            <div class="card" style="text-align: center;">
+                <h2>🏆 Student Challenge Quiz Arena</h2>
+                <p>Test your knowledge with fun interactive mini-quizzes!</p>
+                <div style="background: rgba(255,255,255,0.03); border: 2px solid var(--border-color); padding: 20px; border-radius: 16px; margin-top: 15px;">
+                    <h3 style="color: var(--primary); margin-top: 0; font-size: 1.2rem;">🎮 Question of the Day: What is Data Science?</h3>
+                    <p style="font-weight: 600; font-size: 0.95rem;">A blend of mathematics, algorithms, and technology to extract insights.</p>
+                    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                        <button onclick="alert('Correct! 🎉 Excellent job!')" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">True / Yes</button>
+                        <button onclick="alert('Oops! Try again! ❌')" style="background: #64748b; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">False / No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="story-tab" class="tab-content">
+            <div class="card">
+                <h2>☕ Chill & Coffee Corner (12 Fun & Relaxation Zones)</h2>
+                <p style="font-size: 0.95rem; color: var(--text-light);">Not in the mood to study? Click any fun button below to instantly relax, laugh, or take a refreshing coffee break!</p>
+                
+                <!-- 12 Interactive Fun / Relaxation Points -->
+                <div class="chill-grid">
+                    <button class="chill-option-btn" onclick="showFunContent(1)">☕ 1. Coffee Break Vibe</button>
+                    <button class="chill-option-btn" onclick="showFunContent(2)">😂 2. Student Life Joke</button>
+                    <button class="chill-option-btn" onclick="showFunContent(3)">🌟 3. Motivational Quote</button>
+                    <button class="chill-option-btn" onclick="showFunContent(4)">🧠 4. Brain Teaser Riddle</button>
+                    <button class="chill-option-btn" onclick="showFunContent(5)">🎶 5. Lo-Fi Study Vibe Tip</button>
+                    <button class="chill-option-btn" onclick="showFunContent(6)">💤 6. Quick Power Nap Hack</button>
+                    <button class="chill-option-btn" onclick="showFunContent(7)">🍫 7. Chocolate Therapy</button>
+                    <button class="chill-option-btn" onclick="showFunContent(8)">📝 8. Random Fun Fact</button>
+                    <button class="chill-option-btn" onclick="showFunContent(9)">🌙 9. Midnight Study Reality</button>
+                    <button class="chill-option-btn" onclick="showFunContent(10)">🎨 10. Creative Mind Spark</button>
+                    <button class="chill-option-btn" onclick="showFunContent(11)">💻 11. Programmer's Humor</button>
+                    <button class="chill-option-btn" onclick="showFunContent(12)">🚀 12. Instant Mood Booster</button>
+                </div>
+
+                <div id="fun-output-box">
+                    👆 Click any of the 12 fun boxes above to get instant entertainment and relaxation!
+                </div>
+
+                <hr style="border: 0; border-top: 2px solid var(--border-color); margin: 25px 0;">
+
+                <h3 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 10px;">✍️ Share Your Own Chill Thought / Poetry</h3>
+                <div class="form-group">
+                    <label for="story-title">Title:</label>
+                    <input type="text" id="story-title" placeholder="e.g., Coffee break thoughts...">
+                </div>
+                <div class="form-group">
+                    <label for="story-content">Your Message / Joke:</label>
+                    <textarea id="story-content" placeholder="Write something relaxed and fun..."></textarea>
+                </div>
+                <button class="submit-btn" onclick="publishStory()">☕ Publish to Community Chill Feed</button>
+            </div>
+
+            <div class="feed-container" id="story-feed"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = { name: '', gender: 'girl', age: '', studentClass: '', mood: '' };
+
+        window.onload = function() {
+            localStorage.removeItem('hubUser');
+            document.getElementById('welcome-screen').style.display = 'flex';
+            document.getElementById('main-app').style.display = 'none';
+        }
+
+        function realTimeAutoDetect(name) {
+            let lowerName = name.toLowerCase().trim();
+            let badge = document.getElementById('auto-detect-badge');
+
+            if(lowerName.length === 0) {
+                badge.innerText = "🤖 AI Status: Type your name above...";
+                badge.style.background = "rgba(255,255,255,0.05)";
+                badge.style.color = "#94a3b8";
+                return;
+            }
+
+            const boyNames = ['hamza', 'ali', 'ahmad', 'ahmed', 'muhammad', 'usman', 'bilal', 'umer', 'omair', 'zain', 'faizan', 'talha', 'saad', 'abdullah', 'mustafa'];
+            let isBoy = boyNames.some(b => lowerName.includes(b));
+
+            if(isBoy) {
+                currentUser.gender = 'boy';
+                badge.innerText = "⚡ AI Detected: Cyber Boy Zone (Blue/Cyan Neon Theme)";
+                badge.style.background = "rgba(6, 182, 212, 0.15)";
+                badge.style.color = "#06b6d4";
+                document.documentElement.setAttribute('data-theme', 'boy');
+            } else {
+                currentUser.gender = 'girl';
+                badge.innerText = "🌸 AI Detected: Girl Zone (Pink Theme)";
+                badge.style.background = "#fce7f3";
+                badge.style.color = "#db2777";
+                document.documentElement.removeAttribute('data-theme');
+            }
+        }
+
+        function startAppWithValidation() {
+            const nameInput = document.getElementById('user-name-input').value.trim();
+            const ageInput = document.getElementById('user-age-input').value.trim();
+            const classSelect = document.getElementById('user-class-select').value;
+            const moodSelect = document.getElementById('study-mood-select').value;
+
+            if(!nameInput) {
+                alert("⚠️ Please enter your name!");
+                return;
+            }
+            if(!ageInput || ageInput < 5 || ageInput > 100) {
+                alert("⚠️ Please enter a valid student age!");
+                return;
+            }
+            if(!classSelect) {
+                alert("⚠️ Please select your class/academic level!");
+                return;
+            }
+
+            currentUser.name = nameInput;
+            currentUser.age = ageInput;
+            currentUser.studentClass = classSelect;
+            currentUser.mood = moodSelect;
+
+            localStorage.setItem('hubUser', JSON.stringify(currentUser));
+
+            let visitors = JSON.parse(localStorage.getItem('siteVisitorList') || '[]');
+            visitors.unshift({ name: nameInput, studentClass: classSelect, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+            if(visitors.length > 20) visitors.pop();
+            localStorage.setItem('siteVisitorList', JSON.stringify(visitors));
+
+            let visits = parseInt(localStorage.getItem('totalSiteVisits') || '120');
+            visits += 1;
+            localStorage.setItem('totalSiteVisits', visits);
+
+            applyTheme(currentUser.gender);
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            document.getElementById('welcome-user-msg').innerText = `Welcome, ${currentUser.name} (${currentUser.studentClass})! Vibe: ${currentUser.mood}`;
+            document.getElementById('visitor-count-display').innerText = visits;
+            document.getElementById('active-vibe-display').innerText = currentUser.mood;
+            
+            renderVisitorList();
+            loadQAPosts();
+            loadStoryPosts();
+        }
+
+        function applyTheme(gender) {
+            if(gender === 'boy') {
+                document.documentElement.setAttribute('data-theme', 'boy');
+                document.getElementById('hub-title').innerText = '⚡ Cyber Blue AI & Challenge Hub';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                document.getElementById('hub-title').innerText = '🌸 Pink Smart AI Q&A & Challenge Hub';
+            }
+        }
+
+        function toggleVisitorModal() {
+            const modal = document.getElementById('visitor-modal');
+            modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function renderVisitorList() {
+            const container = document.getElementById('visitor-list-container');
+            let visitors = JSON.parse(localStorage.getItem('siteVisitorList') || '[]');
+            if(visitors.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-light); font-size: 0.85rem;">No visitors recorded yet.</div>';
+                return;
+            }
+            container.innerHTML = visitors.map(v => `
+                <div class="visitor-item">
+                    <span>👤 <strong>${escapeHTML(v.name)}</strong> (${escapeHTML(v.studentClass)})</span>
+                    <span style="color: var(--text-light); font-size: 0.8rem;">🕒 ${v.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // 12 Interactive Entertainment Responses
+        function showFunContent(id) {
+            const contents = {
+                1: "☕ **Coffee Break Vibe:** Close your eyes, take 3 deep breaths, sip your hot coffee, and let go of all academic stress for 5 minutes!",
+                2: "😂 **Student Joke:** Teacher: 'Why are you sleeping in class?' Student: 'Because your voice is extremely soothing, ma'am!'",
+                3: "🌟 **Motivational Quote:** 'Success is not final, failure is not fatal: it is the courage to continue that counts.' – Keep going!",
+                4: "🧠 **Brain Teaser Riddle:** What has keys, but no locks; space, but no room; and you can enter, but can't go outside? Answer: **A Keyboard!**",
+                5: "🎶 **Lo-Fi Vibe Tip:** Play some soft instrumental or rain sounds in the background. It boosts focus by 40% without boring you!",
+                6: "💤 **Power Nap Hack:** A strict 10-minute nap recharges your brain cells faster than 2 hours of groggy half-sleeping study!",
+                7: "🍫 **Chocolate Therapy:** Dark chocolate increases dopamine. Go grab a piece right now—your brain deserves a reward!",
+                8: "📝 **Fun Fact:** Did you know? Human brain uses about 20% of the body's total energy, mostly just thinking about data and problems!",
+                9: "🌙 **Midnight Study Reality:** 90% of brilliant assignment ideas happen at 2:00 AM when you're supposed to be sleeping!",
+                10: "🎨 **Creative Spark:** Doodle something random on a paper. Creative art breaks clear mental blocks instantly.",
+                11: "💻 **Programmer Humor:** There are 10 types of people in the world: those who understand binary, and those who don't.",
+                12: "🚀 **Instant Mood Booster:** Smile right now for 10 seconds! Science proves it tricks your brain into feeling happy."
+            };
+            document.getElementById('fun-output-box').innerHTML = contents[id] || "Enjoy your break!";
+        }
+
+        function resetUser() {
+            localStorage.removeItem('hubUser');
+            location.reload();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if(tabName === 'qa') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('qa-tab').classList.add('active');
+            } else if(tabName === 'quiz') {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('quiz-tab').classList.add('active');
+            } else if(tabName === 'story') {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('story-tab').classList.add('active');
+            }
+        }
+
+        function generateAIAnswer() {
+            const title = document.getElementById('qa-title').value.trim();
+            if(!title) {
+                alert("Please enter a question or topic first!");
+                return;
+            }
+
+            let lvl = currentUser.studentClass;
+            let mood = currentUser.mood;
+
+            document.getElementById('qa-summary').value = `⚡ Customized Summary for "${title}" (${lvl}) [Vibe: ${mood}]:\nTailored specifically with smart structured insights for your academic grade!`;
+            document.getElementById('qa-def').value = `📖 Key Definitions (${lvl}):\nCore Concept: ${title}\nDefinition formatted according to modern syllabus standards.`;
+            document.getElementById('qa-detail').value = `🔍 Detailed Explanation & Breakdown (${lvl}):\n1. Fundamental core theories.\n2. Step-by-step mechanism and logic.\n3. Practical applications for your studies!`;
+            
+            document.getElementById('ai-result-area').style.display = 'block';
+        }
+
+        function publishQA() {
+            const title = document.getElementById('qa-title').value.trim();
+            const summary = document.getElementById('qa-summary').value.trim();
+            const def = document.getElementById('qa-def').value.trim();
+            const detail = document.getElementById('qa-detail').value.trim();
+
+            if(!title) {
+                alert("Please enter a topic!");
+                return;
+            }
+
+            const post = { 
+                name: currentUser.name, 
+                gender: currentUser.gender, 
+                studentClass: currentUser.studentClass, 
+                mood: currentUser.mood,
+                title, summary, def, detail, 
+                date: new Date().toLocaleDateString() 
+            };
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+            qaPosts.unshift(post);
+            localStorage.setItem('qaPosts', JSON.stringify(qaPosts));
+
+            document.getElementById('qa-title').value = '';
+            document.getElementById('ai-result-area').style.display = 'none';
+            loadQAPosts();
+        }
+
+        function loadQAPosts() {
+            const feed = document.getElementById('qa-feed');
+            let qaPosts = JSON.parse(localStorage.getItem('qaPosts') || '[]');
+
+            if(qaPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">🌟 No AI Q&A posts published yet. Be the first to ask a question!</div>';
+                return;
+            }
+
+            feed.innerHTML = qaPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">👤 ${escapeHTML(p.name)} (${escapeHTML(p.studentClass)} | Vibe: ${escapeHTML(p.mood || 'Focused')})</span>
+                        <span style="font-size: 0.85rem; font-weight: 600;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">💡 Q: ${escapeHTML(p.title)}</h3>
+                    
+                    <div class="fun-boxes-container">
+                        ${p.summary ? `<div class="box-summary"><div class="box-heading">⚡ 1. Quick Summary</div><div class="box-content">${escapeHTML(p.summary)}</div></div>` : ''}
+                        ${p.def ? `<div class="box-def"><div class="box-heading">📖 2. Definitions</div><div class="box-content">${escapeHTML(p.def)}</div></div>` : ''}
+                        ${p.detail ? `<div class="box-detail"><div class="box-heading">🔍 3. Details</div><div class="box-content">${escapeHTML(p.detail)}</div></div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function publishStory() {
+            const title = document.getElementById('story-title').value.trim();
+            const content = document.getElementById('story-content').value.trim();
+
+            if(!title || !content) {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            const post = { 
+                name: currentUser.name, 
+                gender: currentUser.gender, 
+                studentClass: currentUser.studentClass, 
+                title, content, 
+                date: new Date().toLocaleDateString() 
+            };
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+            storyPosts.unshift(post);
+            localStorage.setItem('storyPosts', JSON.stringify(storyPosts));
+
+            document.getElementById('story-title').value = '';
+            document.getElementById('story-content').value = '';
+            loadStoryPosts();
+        }
+
+        function loadStoryPosts() {
+            const feed = document.getElementById('story-feed');
+            let storyPosts = JSON.parse(localStorage.getItem('storyPosts') || '[]');
+
+            if(storyPosts.length === 0) {
+                feed.innerHTML = '<div class="post-card empty-msg">☕ No chill thoughts shared yet. Grab a coffee and share one!</div>';
+                return;
+            }
+
+            feed.innerHTML = storyPosts.map(p => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author">☕ ${escapeHTML(p.name)} (${escapeHTML(p.studentClass)})</span>
+                        <span style="font-size: 0.85rem; font-weight: 600;">📅 ${p.date}</span>
+                    </div>
+                    <h3 class="post-title">${escapeHTML(p.title)}</h3>
+                    <div class="story-text">${escapeHTML(p.content)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
