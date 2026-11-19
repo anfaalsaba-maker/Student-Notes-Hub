@@ -8,7 +8,7 @@
         :root {
             --primary: #db2777;
             --bg-color: #fdf2f8;
-            --card-bg: rgba(255, 255, 255, 0.94);
+            --card-bg: rgba(255, 255, 255, 0.95);
             --text-color: #831843;
             --text-light: #9d174d;
             --border-color: #f472b6;
@@ -19,7 +19,7 @@
         [data-theme="boy"] {
             --primary: #06b6d4;
             --bg-color: #030712;
-            --card-bg: rgba(15, 23, 42, 0.9);
+            --card-bg: rgba(15, 23, 42, 0.92);
             --text-color: #f8fafc;
             --text-light: #94a3b8;
             --border-color: #3b82f6;
@@ -40,6 +40,7 @@
 
         .container { max-width: 1020px; margin: 0 auto; }
 
+        /* Welcome Screen */
         #welcome-screen {
             position: fixed; inset: 0;
             background: rgba(3, 7, 18, 0.92);
@@ -175,94 +176,221 @@
         .opt-btn.correct { background: #10b981 !important; color: #fff !important; border-color: #10b981 !important; }
         .opt-btn.wrong { background: #ef4444 !important; color: #fff !important; border-color: #ef4444 !important; }
 
-        /* Gift / Surprise Cards Grid */
+        /* Gift Cards Grid */
         .fun-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 10px; margin: 14px 0 18px;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 10px; margin: 14px 0 8px;
         }
 
         .fun-card-btn {
-            padding: 12px 10px; border-radius: 14px;
+            padding: 13px 10px; border-radius: 14px;
             border: 2px solid var(--border-color);
             background: rgba(255,255,255,0.07); color: var(--text-color);
-            font-weight: 700; font-size: 0.86rem; cursor: pointer;
+            font-weight: 700; font-size: 0.88rem; cursor: pointer;
             transition: transform 0.2s, background 0.2s;
         }
 
-        .fun-card-btn:hover, .fun-card-btn.selected {
+        .fun-card-btn:hover {
             background: var(--primary); color: #fff; transform: translateY(-2px);
         }
 
-        .surprise-stage {
-            border: 2px solid var(--border-color);
-            border-radius: 22px; padding: 22px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
-            display: grid; grid-template-columns: 230px 1fr;
-            gap: 20px; align-items: center;
-            box-shadow: var(--shadow);
+        /* FULL-SCREEN CENTERED SURPRISE OVERLAY */
+        #full-gift-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9990;
+            background: radial-gradient(circle at top, #1e1b4b, #090d16 70%);
+            color: #ffffff;
+            overflow-y: auto;
+            padding: 20px;
         }
 
-        @media (max-width: 660px) {
-            .surprise-stage { grid-template-columns: 1fr; text-align: center; }
+        .overlay-topbar {
+            max-width: 760px;
+            margin: 0 auto 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
         }
 
-        .video-stage {
+        .back-hub-btn {
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+        }
+
+        .back-hub-btn:hover { background: rgba(255,255,255,0.22); }
+
+        .center-gift-wrap {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        .center-canvas-box {
             position: relative;
-            width: 230px; height: 175px; margin: 0 auto;
-            border-radius: 18px; overflow: hidden;
-            border: 2px solid var(--border-color);
-            background: #0f172a;
+            width: 280px;
+            height: 205px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.28);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.55);
+            margin-bottom: 16px;
         }
 
-        .video-stage canvas { width: 100%; height: 100%; display: block; }
+        .center-canvas-box canvas { width: 100%; height: 100%; display: block; }
 
-        .gift-unbox-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 11px 18px; border-radius: 999px; border: none;
+        .activity-panel {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 14px;
+            backdrop-filter: blur(8px);
+        }
+
+        .activity-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fde047;
+            margin: 0 0 8px;
+        }
+
+        .activity-hint {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            margin: 0 0 12px;
+        }
+
+        /* Ring / Diamond Alignment Track */
+        .ring-arena {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            height: 82px;
+            margin: 8px auto 12px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 2px solid rgba(56, 189, 248, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .target-ring-slot {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: 3px dashed #fde047;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 0 18px rgba(253, 224, 71, 0.35);
+        }
+
+        .ring-slider {
+            width: 100%;
+            max-width: 340px;
+            accent-color: #38bdf8;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .action-pill-btn {
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: none;
             background: linear-gradient(135deg, #f59e0b, #ec4899);
-            color: #fff; font-weight: 800; font-size: 0.92rem;
-            cursor: pointer; margin-bottom: 10px;
-            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.35);
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
             transition: transform 0.2s;
         }
 
-        .gift-unbox-btn:hover { transform: scale(1.04); }
+        .action-pill-btn:hover:not(:disabled) { transform: scale(1.04); }
+        .action-pill-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-        .prize-reveal-card {
-            margin-top: 10px; padding: 14px 16px; border-radius: 16px;
-            border: 2px dashed var(--border-color);
-            background: rgba(255,255,255,0.08);
-            animation: popIn 0.35s ease;
+        .unbox-main-btn {
+            padding: 13px 26px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0.92); opacity: 0.3; }
+        .unbox-main-btn:disabled {
+            background: #475569;
+            box-shadow: none;
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        /* Personalized Wish Card Reveal */
+        .wish-card-box {
+            display: none;
+            width: 100%;
+            margin-top: 14px;
+            padding: 22px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.24), rgba(59, 130, 246, 0.22));
+            border: 2px solid #f472b6;
+            box-shadow: 0 16px 40px rgba(236, 72, 153, 0.28);
+            animation: wishPop 0.4s ease;
+        }
+
+        @keyframes wishPop {
+            0% { transform: scale(0.88); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .prize-tag {
-            font-size: 0.78rem; font-weight: 800; letter-spacing: 0.5px;
-            text-transform: uppercase; color: var(--primary); margin-bottom: 4px;
+        .wish-recipient {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #fde047;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
         }
 
-        .prize-headline {
-            font-size: 1.25rem; font-weight: 900; margin: 0 0 6px;
+        .wish-title {
+            font-size: 1.45rem;
+            font-weight: 900;
+            margin: 0 0 8px;
+            color: #ffffff;
         }
 
-        .prize-sub {
-            font-size: 0.95rem; margin: 0 0 10px; line-height: 1.45;
+        .wish-message {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #f8fafc;
+            margin: 0 0 14px;
         }
-
-        .mini-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-        @media (max-width: 660px) { .mini-actions { justify-content: center; } }
 
         .mini-btn {
-            padding: 8px 13px; border-radius: 10px; border: none;
+            padding: 8px 14px; border-radius: 10px; border: none;
             background: var(--primary); color: #fff; font-weight: 700;
-            font-size: 0.82rem; cursor: pointer;
+            font-size: 0.84rem; cursor: pointer;
         }
-
         .mini-btn.secondary { background: #475569; }
         .mini-btn.sound-on { background: #10b981; }
 
@@ -393,642 +521,18 @@
             </div>
         </div>
 
-        <!-- TAB 4: GIFT BOX + CELEBRATION SURPRISE ZONE -->
+        <!-- TAB 4: GIFT BOXES LIST -->
         <div id="fun-tab" class="tab-content">
             <div class="card">
-                <h2>🎁 Gift Boxes, Celebration Cards & Fun Prises</h2>
-                <p style="font-size:0.9rem; color:var(--text-light); margin-top:0;">Koi bhi Gift/Card chuno aur <strong>Unbox Gift</strong> dabao — andar se naya prize, wish card ya fun surprise niklega!</p>
+                <h2>🎁 Interactive Gift Boxes (Activity + Wish Card)</h2>
+                <p style="font-size:0.9rem; color:var(--text-light); margin-top:0;">Kisi bhi Gift Box par click karein — screen clean hogi, center mein gift ayega, pehle card ki activity hogi aur phir aapke naam ki wish card khulegi!</p>
 
                 <div class="fun-grid" id="fun-buttons-grid"></div>
-
-                <div class="surprise-stage">
-                    <div class="video-stage">
-                        <canvas id="motion-canvas" width="230" height="175"></canvas>
-                    </div>
-
-                    <div>
-                        <button type="button" class="gift-unbox-btn" onclick="unboxCurrentGift()">🎀 Unbox Gift / Open Surprise</button>
-
-                        <div class="prize-reveal-card" id="prize-card">
-                            <div class="prize-tag" id="prize-tag">MYSTERY GIFT #1</div>
-                            <h3 class="prize-headline" id="prize-headline">Tap a gift & click Unbox!</h3>
-                            <p class="prize-sub" id="prize-sub">Celebration wishes, mystery prizes, coffee treats & fun surprises inside.</p>
-                            <div class="mini-actions">
-                                <button type="button" class="mini-btn" onclick="playCardSound(surpriseCards[activeCardIndex].sound)">🎵 Play Sound</button>
-                                <button type="button" class="mini-btn secondary" onclick="pickRandomGift()">🎲 Random Gift</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="card">
                 <h2>✍️ Drop a Fun Wish / Surprise Note</h2>
-                <input type="text" id="post-title" placeholder="Title (e.g. Happy Birthday / Bestie Note)...">
+                <input type="text" id="post-title" placeholder="Title (e.g. Celebration Wish / Note)...">
                 <textarea id="post-body" placeholder="Write a fun wish or surprise message..."></textarea>
                 <button type="button" class="main-btn" onclick="addPost()">Post Surprise Note</button>
                 <div id="user-posts"></div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let user = { name: '', gender: 'girl', age: '', level: '', mood: '' };
-        let timerId = null;
-        let secLeft = 300;
-        let activeCardIndex = 0;
-        let isUnboxed = false;
-        let animFrameId = null;
-        let animTick = 0;
-        let confettiBursts = [];
-
-        let audioCtx = null;
-        let ambientPlaying = false;
-        let ambientNode = null;
-
-        function getAudioCtx() {
-            try {
-                if (!audioCtx) {
-                    const AudioContext = window.AudioContext || window.webkitAudioContext;
-                    if (AudioContext) audioCtx = new AudioContext();
-                }
-                if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-            } catch (e) {}
-            return audioCtx;
-        }
-
-        function playTone(freq, type, startTime, duration, vol = 0.14) {
-            try {
-                const ctx = getAudioCtx();
-                if (!ctx) return;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, startTime);
-                gain.gain.setValueAtTime(0.001, startTime);
-                gain.gain.exponentialRampToValueAtTime(vol, startTime + 0.03);
-                gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(startTime);
-                osc.stop(startTime + duration + 0.02);
-            } catch (e) {}
-        }
-
-        function playCardSound(soundType) {
-            try {
-                const ctx = getAudioCtx();
-                if (!ctx) return;
-                const now = ctx.currentTime;
-
-                if (soundType === 'gift') {
-                    // Gift pop + sparkle chime
-                    playTone(440, 'sine', now, 0.12, 0.16);
-                    playTone(587.33, 'sine', now + 0.1, 0.14, 0.16);
-                    playTone(783.99, 'triangle', now + 0.2, 0.2, 0.18);
-                    playTone(1046.5, 'sine', now + 0.32, 0.35, 0.18);
-                } else if (soundType === 'celebration') {
-                    // Festive wish fanfare
-                    [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5].forEach((f, i) => {
-                        playTone(f, 'triangle', now + i * 0.11, 0.24, 0.15);
-                    });
-                } else if (soundType === 'chill') {
-                    playTone(261.6, 'sine', now, 0.8, 0.11);
-                    playTone(329.6, 'sine', now + 0.08, 0.8, 0.1);
-                    playTone(392.0, 'sine', now + 0.16, 0.9, 0.1);
-                } else if (soundType === 'win') {
-                    playTone(523, 'triangle', now, 0.14, 0.15);
-                    playTone(659, 'triangle', now + 0.13, 0.14, 0.15);
-                    playTone(784, 'triangle', now + 0.26, 0.14, 0.15);
-                    playTone(1046, 'triangle', now + 0.39, 0.4, 0.16);
-                } else {
-                    playTone(300, 'sawtooth', now, 0.18, 0.09);
-                    playTone(220, 'sawtooth', now + 0.15, 0.22, 0.09);
-                }
-            } catch (e) {}
-        }
-
-        function toggleAmbientChill() {
-            const btn = document.getElementById('ambient-btn');
-            if (ambientPlaying) {
-                if (ambientNode) { try { ambientNode.stop(); } catch(e){} ambientNode = null; }
-                ambientPlaying = false;
-                btn.innerText = "🌧️ Chill Sound: OFF";
-                btn.classList.remove('sound-on');
-                return;
-            }
-            try {
-                const ctx = getAudioCtx();
-                if (!ctx) return;
-                const bufferSize = 2 * ctx.sampleRate;
-                const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                const output = noiseBuffer.getChannelData(0);
-                let lastOut = 0.0;
-                for (let i = 0; i < bufferSize; i++) {
-                    const white = Math.random() * 2 - 1;
-                    output[i] = (lastOut + (0.02 * white)) / 1.02;
-                    lastOut = output[i];
-                    output[i] *= 1.8;
-                }
-                ambientNode = ctx.createBufferSource();
-                ambientNode.buffer = noiseBuffer;
-                ambientNode.loop = true;
-
-                const filter = ctx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = 420;
-
-                const gain = ctx.createGain();
-                gain.gain.value = 0.11;
-
-                ambientNode.connect(filter);
-                filter.connect(gain);
-                gain.connect(ctx.destination);
-                ambientNode.start(0);
-
-                ambientPlaying = true;
-                btn.innerText = "🌧️ Chill Sound: ON";
-                btn.classList.add('sound-on');
-            } catch (e) {}
-        }
-
-        // 15 Gift / Surprise / Celebration Cards
-        const surpriseCards = [
-            { btn: "🎁 1. Mystery Gift", tag: "GOLD PRIZE UNBOXED", headline: "Golden Focus Pass ✨", sub: "You unlocked a 100% stress-free 10-minute break pass!", c1: "#ec4899", c2: "#8b5cf6", icon: "🎁", prizeIcon: "👑", sound: "gift", mode: "confetti" },
-            { btn: "🎂 2. Celebration Wish", tag: "SPECIAL WISH CARD", headline: "Sparkle & Celebration Wish! 🎈", sub: "May your days ahead be full of laughter, bright moments & big wins!", c1: "#f59e0b", c2: "#ec4899", icon: "🎂", prizeIcon: "🎉", sound: "celebration", mode: "confetti" },
-            { btn: "☕ 3. Coffee Treat", tag: "COZY TREAT PRIZE", headline: "Warm Coffee / Chai Voucher ☕", sub: "Claim 1 hot cup of coffee or doodh patti + zero screen time for 5 mins!", c1: "#d97706", c2: "#78350f", icon: "☕", prizeIcon: "🥐", sound: "chill", mode: "sparkles" },
-            { btn: "🍫 4. Sweet Surprise", tag: "SWEET REWARD", headline: "Chocolate & Mithai Box 🍫", sub: "Treat unlocked! Grab a sweet piece—you earned a happy pause.", c1: "#f43f5e", c2: "#9333ea", icon: "🍫", prizeIcon: "🍬", sound: "gift", mode: "confetti" },
-            { btn: "🌟 5. Lucky Star", tag: "LUCKY CHARM", headline: "Shooting Star Fortune 🌟", sub: "A surprise good-vibe boost just landed for you!", c1: "#06b6d4", c2: "#3b82f6", icon: "🌟", prizeIcon: "🌠", sound: "celebration", mode: "sparkles" },
-            { btn: "🏆 6. Winner Trophy", tag: "CHAMPION PRIZE", headline: "Super achiever Badge 🏆", sub: "Awarded for juggling classes, work, and creativity like a star!", c1: "#eab308", c2: "#ea580c", icon: "🏆", prizeIcon: "🥇", sound: "gift", mode: "confetti" },
-            { btn: "🎭 7. Prank / Fun Card", tag: "FUNNY SURPRISE", headline: "Exam Paper Plot Twist 😂", sub: "Prize: Permission to laugh for 15 seconds straight!", c1: "#10b981", c2: "#059669", icon: "🎭", prizeIcon: "🤣", sound: "gift", mode: "confetti" },
-            { btn: "💎 8. Diamond Vibe", tag: "RARE UNBOX", headline: "Diamond Calm Energy 💎", sub: "Rare drop: Instant peace of mind & sharp focus!", c1: "#38bdf8", c2: "#6366f1", icon: "💎", prizeIcon: "✨", sound: "celebration", mode: "sparkles" },
-            { btn: "🧸 9. Cozy Hug Card", tag: "WARM SURPRISE", headline: "Good Vibes & Warm Cheer 🧸", sub: "Sending positive energy and smiles straight to your screen!", c1: "#fb7185", c2: "#f472b6", icon: "🧸", prizeIcon: "💖", sound: "chill", mode: "sparkles" },
-            { btn: "🚀 10. Turbo Boost", tag: "SPEED PRIZE", headline: "Rocket Motivation Boost 🚀", sub: "Ready to crush your next task in record time!", c1: "#6366f1", c2: "#06b6d4", icon: "🚀", prizeIcon: "⚡", sound: "gift", mode: "confetti" },
-            { btn: "🎪 11. Carnival Spin", tag: "CARNIVAL PRIZE", headline: "Festival Confetti Blast 🎪", sub: "Spin & win: One random smile + one fresh start!", c1: "#a855f7", c2: "#ec4899", icon: "🎪", prizeIcon: "🎊", sound: "celebration", mode: "confetti" },
-            { btn: "🌙 12. Moonlight Rest", tag: "CHILL PRIZE", headline: "Starlight Relaxation Ticket 🌙", sub: "Time to slow down, breathe deep, and rest your eyes.", c1: "#1e1b4b", c2: "#4f46e5", icon: "🌙", prizeIcon: "☁️", sound: "chill", mode: "sparkles" },
-            { btn: "🦋 13. Aesthetic Card", tag: "GLOW PRIZE", headline: "Butterfly Glow Card 🦋", sub: "Fresh aesthetic energy & creative inspiration unlocked!", c1: "#f472b6", c2: "#a855f7", icon: "🦋", prizeIcon: "🌸", sound: "celebration", mode: "sparkles" },
-            { btn: "🎯 14. Bullseye Dare", tag: "MINI CHALLENGE", headline: "10-Second Stretch Prize 🎯", sub: "Stand up, stretch wide, and shake off stiffness!", c1: "#ef4444", c2: "#f97316", icon: "🎯", prizeIcon: "🔥", sound: "gift", mode: "confetti" },
-            { btn: "💌 15. Secret Note", tag: "FINAL SURPRISE", headline: "Secret VIP Message 💌", sub: "Keep shining your own way—something awesome is coming up!", c1: "#ec4899", c2: "#eab308", icon: "💌", prizeIcon: "🌈", sound: "celebration", mode: "confetti" }
-        ];
-
-        function spawnConfetti(canvas) {
-            const colors = ['#fde047', '#fb7185', '#38bdf8', '#4ade80', '#c084fc', '#ffffff'];
-            for (let i = 0; i < 36; i++) {
-                confettiBursts.push({
-                    x: canvas.width / 2 + (Math.random() - 0.5) * 30,
-                    y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 6.5,
-                    vy: -Math.random() * 5.5 - 1.5,
-                    size: 4 + Math.random() * 5,
-                    color: colors[i % colors.length],
-                    life: 1
-                });
-            }
-        }
-
-        function startMotionScene() {
-            try {
-                if (animFrameId) cancelAnimationFrame(animFrameId);
-                const canvas = document.getElementById('motion-canvas');
-                if (!canvas || !canvas.getContext) return;
-                const ctx = canvas.getContext('2d');
-
-                function render() {
-                    animTick += 0.045;
-                    const c = surpriseCards[activeCardIndex];
-                    const w = canvas.width;
-                    const h = canvas.height;
-
-                    const grad = ctx.createLinearGradient(0, 0, w, h);
-                    grad.addColorStop(0, c.c1);
-                    grad.addColorStop(1, c.c2);
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0, 0, w, h);
-
-                    // Ambient floating sparkles
-                    for (let i = 0; i < 12; i++) {
-                        const sx = ((i * 39 + Math.sin(animTick + i) * 18) % w + w) % w;
-                        const sy = ((i * 27 + Math.cos(animTick * 0.8 + i) * 16) % h + h) % h;
-                        ctx.beginPath();
-                        ctx.arc(sx, sy, 2.5 + (i % 2), 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(255,255,255,0.45)';
-                        ctx.fill();
-                    }
-
-                    // Gift / Prize center icon with bounce
-                    const bounce = Math.sin(animTick * 2.2) * 7;
-                    ctx.font = '56px Segoe UI Emoji, Apple Color Emoji, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(isUnboxed ? c.prizeIcon : c.icon, w / 2, h / 2 + bounce);
-
-                    // Confetti particles when unboxed
-                    for (let p = confettiBursts.length - 1; p >= 0; p--) {
-                        const pt = confettiBursts[p];
-                        pt.x += pt.vx;
-                        pt.y += pt.vy;
-                        pt.vy += 0.16;
-                        pt.life -= 0.022;
-                        if (pt.life <= 0) {
-                            confettiBursts.splice(p, 1);
-                            continue;
-                        }
-                        ctx.save();
-                        ctx.globalAlpha = Math.max(0, pt.life);
-                        ctx.fillStyle = pt.color;
-                        ctx.fillRect(pt.x, pt.y, pt.size, pt.size);
-                        ctx.restore();
-                    }
-
-                    animFrameId = requestAnimationFrame(render);
-                }
-                render();
-            } catch (e) {}
-        }
-
-        function buildFunGrid() {
-            const grid = document.getElementById('fun-buttons-grid');
-            grid.innerHTML = surpriseCards.map((c, i) =>
-                `<button type="button" class="fun-card-btn" id="fbtn-${i}" onclick="selectGiftCard(${i}, false)">${c.btn}</button>`
-            ).join('');
-            selectGiftCard(0, false);
-            startMotionScene();
-        }
-
-        function selectGiftCard(index, autoOpen) {
-            activeCardIndex = index;
-            isUnboxed = false;
-            document.querySelectorAll('.fun-card-btn').forEach(b => b.classList.remove('selected'));
-            const activeBtn = document.getElementById(`fbtn-${index}`);
-            if (activeBtn) activeBtn.classList.add('selected');
-
-            const c = surpriseCards[index];
-            document.getElementById('prize-tag').innerText = "SEALED SURPRISE BOX";
-            document.getElementById('prize-headline').innerText = c.btn + " Ready!";
-            document.getElementById('prize-sub').innerText = "Click 'Unbox Gift / Open Surprise' to pop it open!";
-
-            if (autoOpen) unboxCurrentGift();
-        }
-
-        function unboxCurrentGift() {
-            const c = surpriseCards[activeCardIndex];
-            isUnboxed = true;
-            document.getElementById('prize-tag').innerText = c.tag;
-            document.getElementById('prize-headline').innerText = c.headline;
-            document.getElementById('prize-sub').innerText = c.sub;
-
-            const canvas = document.getElementById('motion-canvas');
-            if (canvas) spawnConfetti(canvas);
-            playCardSound(c.sound);
-        }
-
-        function pickRandomGift() {
-            const next = Math.floor(Math.random() * surpriseCards.length);
-            selectGiftCard(next, true);
-        }
-
-        // ================= CUSTOM TOPIC AUTO-NEXT QUIZ =================
-        const quizBanks = {
-            cpp: [
-                { q: "Which operator is used to get the memory address of a variable in C++?", opts: ["& (Address-of)", "* (Pointer)", "->", "::"], ans: 0 },
-                { q: "Which data structure follows LIFO (Last-In, First-Out)?", opts: ["Queue", "Stack", "Linked List", "Array"], ans: 1 },
-                { q: "What is the correct file extension for a C++ source file?", opts: [".py", ".java", ".cpp", ".html"], ans: 2 },
-                { q: "Which loop is guaranteed to execute at least once in C++?", opts: ["for loop", "while loop", "do-while loop", "nested loop"], ans: 2 },
-                { q: "Which keyword is used to define a constant variable in C++?", opts: ["static", "const", "final", "fixed"], ans: 1 }
-            ],
-            datascience: [
-                { q: "What is the first step in a typical Data Science workflow?", opts: ["Model Deployment", "Data Collection & Cleaning", "Deep Learning", "UI Design"], ans: 1 },
-                { q: "Which Python library is most famous for DataFrames and tabular data?", opts: ["Pandas", "PyGame", "Flask", "Tkinter"], ans: 0 },
-                { q: "Which chart is best for showing trends over time?", opts: ["Pie Chart", "Line Chart", "Scatter Plot", "Radar Chart"], ans: 1 },
-                { q: "What does CSV stand for in datasets?", opts: ["Computer System Value", "Comma-Separated Values", "Central Data Variable", "Code Syntax View"], ans: 1 },
-                { q: "Supervised learning uses which type of training data?", opts: ["Unlabeled data", "Labeled data", "Random noise", "Empty tables"], ans: 1 }
-            ],
-            ai: [
-                { q: "Which search algorithm uses a heuristic function h(n) to estimate goal distance?", opts: ["Breadth-First Search", "Depth-First Search", "A* / Heuristic Search", "Linear Search"], ans: 2 },
-                { q: "In Beam Search with k = 2, how many best nodes are kept at each level?", opts: ["1 node", "2 nodes", "All nodes", "0 nodes"], ans: 1 },
-                { q: "What can get Hill Climbing stuck before reaching the global best solution?", opts: ["Local Maximum", "Fast CPU", "Extra RAM", "Sorting"], ans: 0 },
-                { q: "Which test checks if a machine can exhibit human-like intelligence?", opts: ["Unit Test", "Turing Test", "Stress Test", "Speed Test"], ans: 1 },
-                { q: "Which branch of AI enables computers to learn from data without explicit rules?", opts: ["Machine Learning", "HTML Styling", "File Compression", "Networking"], ans: 0 }
-            ],
-            stats: [
-                { q: "Which measure represents the middle value of a sorted dataset?", opts: ["Mean", "Median", "Mode", "Range"], ans: 1 },
-                { q: "What is the probability of getting Heads on a fair coin toss?", opts: ["0.25", "0.50", "0.75", "1.00"], ans: 1 },
-                { q: "Which value appears most frequently in a dataset?", opts: ["Mode", "Mean", "Variance", "Median"], ans: 0 },
-                { q: "Standard deviation is the square root of which measure?", opts: ["Mean", "Variance", "Median", "Probability"], ans: 1 },
-                { q: "The sum of probabilities of all possible outcomes equals:", opts: ["0", "0.5", "1", "100"], ans: 2 }
-            ],
-            math: [
-                { q: "What is the derivative of x² with respect to x?", opts: ["x", "2x", "x²", "2"], ans: 1 },
-                { q: "What is the value of sin(90°)?", opts: ["0", "0.5", "1", "-1"], ans: 2 },
-                { q: "The integral of 1 dx is:", opts: ["0", "1", "x + C", "x²"], ans: 2 },
-                { q: "What is the slope of a horizontal line?", opts: ["0", "1", "Undefined", "-1"], ans: 0 },
-                { q: "If f(x) = 3x + 2, what is f(4)?", opts: ["10", "12", "14", "16"], ans: 2 }
-            ],
-            english: [
-                { q: "Which of these is a formal way to begin a business email?", opts: ["Hey buddy,", "Dear Sir/Madam,", "Yo!", "What's up,"], ans: 1 },
-                { q: "Choose the correct spelling:", opts: ["Definately", "Definitely", "Definatly", "Definetly"], ans: 1 },
-                { q: "A concise summary at the start of a technical report is called:", opts: ["Appendix", "Executive Summary / Abstract", "Bibliography", "Footnote"], ans: 1 },
-                { q: "Which punctuation mark introduces a list?", opts: ["Colon (:)", "Question mark (?)", "Apostrophe (')", "Hyphen (-)"], ans: 0 },
-                { q: "Active voice is generally preferred in technical writing because it is:", opts: ["Longer", "Clearer and more direct", "More confusing", "Slower"], ans: 1 }
-            ]
-        };
-
-        let activeQuizList = [];
-        let quizIndex = 0;
-        let quizScore = 0;
-        let currentTopicName = "";
-
-        function quickPickTopic(topic) {
-            document.getElementById('quiz-topic-input').value = topic;
-            startCustomQuiz();
-        }
-
-        function buildQuestionsForTopic(topic) {
-            const t = topic.toLowerCase();
-            if (t.includes('c++') || t.includes('cpp') || t.includes('program') || t.includes('cs201')) return quizBanks.cpp;
-            if (t.includes('data') || t.includes('python') || t.includes('cs442')) return quizBanks.datascience;
-            if (t.includes('ai') || t.includes('artificial') || t.includes('cs607') || t.includes('search')) return quizBanks.ai;
-            if (t.includes('stat') || t.includes('prob') || t.includes('sta301')) return quizBanks.stats;
-            if (t.includes('math') || t.includes('calc') || t.includes('mth101')) return quizBanks.math;
-            if (t.includes('eng') || t.includes('comm') || t.includes('grammar')) return quizBanks.english;
-
-            const cleanTopic = topic.trim();
-            return [
-                {
-                    q: `Question 1 (${cleanTopic}): What is the best first step when learning ${cleanTopic}?`,
-                    opts: [`Understand core definitions & basics of ${cleanTopic}`, "Skip fundamentals completely", "Memorize random words without meaning", "Avoid practicing examples"],
-                    ans: 0
-                },
-                {
-                    q: `Question 2 (${cleanTopic}): Which study method builds the strongest grip on ${cleanTopic}?`,
-                    opts: ["Passive reading once", "Solving practical examples & self-testing", "Ignoring key concepts", "Cramming right before exam"],
-                    ans: 1
-                },
-                {
-                    q: `Question 3 (${cleanTopic}): How should you organize revision notes for ${cleanTopic}?`,
-                    opts: ["Long unorganized paragraphs", "Short bullet points, definitions & examples", "No headings at all", "Only title page"],
-                    ans: 1
-                },
-                {
-                    q: `Question 4 (${cleanTopic}): When facing a tough problem in ${cleanTopic}, what works best?`,
-                    opts: ["Break it into smaller sub-steps", "Give up immediately", "Guess blindly every time", "Skip the entire chapter"],
-                    ans: 0
-                },
-                {
-                    q: `Question 5 (${cleanTopic}): What proves you have mastered a concept in ${cleanTopic}?`,
-                    opts: ["You can explain it clearly in simple words", "You only read the title", "You closed the book early", "You avoided all quizzes"],
-                    ans: 0
-                }
-            ];
-        }
-
-        function startCustomQuiz() {
-            const rawTopic = document.getElementById('quiz-topic-input').value.trim();
-            if (!rawTopic) {
-                alert("⚠️ Pehle likhein ke kis topic ka quiz solve karna hai!");
-                return;
-            }
-            currentTopicName = rawTopic;
-            activeQuizList = buildQuestionsForTopic(rawTopic);
-            quizIndex = 0;
-            quizScore = 0;
-            playCardSound('gift');
-            renderCurrentQuizQuestion();
-        }
-
-        function renderCurrentQuizQuestion() {
-            const box = document.getElementById('quiz-arena-box');
-            box.style.display = 'block';
-
-            if (quizIndex >= activeQuizList.length) {
-                playCardSound('win');
-                box.innerHTML = `
-                    <div class="quiz-arena" style="text-align:center;">
-                        <h3 style="color:var(--primary); margin-top:0;">🏆 Quiz Completed: ${esc(currentTopicName)}</h3>
-                        <p style="font-size:1.2rem; font-weight:800;">Your Score: ${quizScore} / ${activeQuizList.length}</p>
-                        <button type="button" class="mini-btn" onclick="startCustomQuiz()">🔄 Play Again</button>
-                    </div>
-                `;
-                return;
-            }
-
-            const item = activeQuizList[quizIndex];
-            box.innerHTML = `
-                <div class="quiz-arena">
-                    <div class="quiz-meta">
-                        <span>📘 Topic: ${esc(currentTopicName)}</span>
-                        <span>Question ${quizIndex + 1} of ${activeQuizList.length} • Score: ${quizScore}</span>
-                    </div>
-                    <div class="quiz-q-text">${esc(item.q)}</div>
-                    <div class="quiz-options">
-                        ${item.opts.map((opt, idx) => `
-                            <button type="button" class="opt-btn" id="qopt-${idx}" onclick="handleQuizAnswer(${idx})">
-                                ${String.fromCharCode(65 + idx)}. ${esc(opt)}
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div id="quiz-auto-msg" style="margin-top:12px; font-weight:700; font-size:0.9rem;"></div>
-                </div>
-            `;
-        }
-
-        function handleQuizAnswer(chosenIdx) {
-            const item = activeQuizList[quizIndex];
-            const buttons = document.querySelectorAll('.opt-btn');
-            buttons.forEach(b => b.disabled = true);
-
-            const msg = document.getElementById('quiz-auto-msg');
-            if (chosenIdx === item.ans) {
-                quizScore++;
-                buttons[chosenIdx].classList.add('correct');
-                playCardSound('win');
-                msg.style.color = '#10b981';
-                msg.innerText = "✅ Correct! Agla sawal aa raha hai...";
-            } else {
-                buttons[chosenIdx].classList.add('wrong');
-                buttons[item.ans].classList.add('correct');
-                playCardSound('wrong');
-                msg.style.color = '#ef4444';
-                msg.innerText = "❌ Wrong! Sahi jawab green hai — agla sawal aa raha hai...";
-            }
-
-            setTimeout(() => {
-                quizIndex++;
-                renderCurrentQuizQuestion();
-            }, 1300);
-        }
-
-        function setManualGender(g) {
-            user.gender = g;
-            const badge = document.getElementById('auto-detect-badge');
-            if (g === 'boy') {
-                document.documentElement.setAttribute('data-theme', 'boy');
-                badge.innerText = "🌊 Selected: Boy (Blue Theme)";
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-                badge.innerText = "🌸 Selected: Girl (Pink Theme)";
-            }
-        }
-
-        function detectGender(name) {
-            const val = (name || '').toLowerCase().trim();
-            const badge = document.getElementById('auto-detect-badge');
-            if (!val) {
-                badge.innerText = "🤖 Type your name or pick Girl / Boy theme below";
-                return;
-            }
-            const boys = ['ali', 'ahmed', 'ahmad', 'bilal', 'hamza', 'usman', 'umer', 'zain', 'saad', 'abdullah', 'asghar', 'mustafa'];
-            const isBoy = boys.some(b => val.includes(b));
-            setManualGender(isBoy ? 'boy' : 'girl');
-        }
-
-        function launchPortal() {
-            try {
-                const name = (document.getElementById('user-name-input').value || '').trim() || "Saba Anfaal";
-                const age = (document.getElementById('user-age-input').value || '').trim() || "20";
-                const level = document.getElementById('user-class-select').value || "BS / University";
-                const mood = document.getElementById('study-mood-select').value || "Super Focused 🚀";
-
-                user = { ...user, name, age, level, mood };
-
-                try {
-                    const logs = JSON.parse(localStorage.getItem('hubVisitorsV2') || '[]');
-                    logs.unshift({ name, level, mood, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
-                    localStorage.setItem('hubVisitorsV2', JSON.stringify(logs.slice(0, 40)));
-                    document.getElementById('visit-count').innerText = logs.length;
-                } catch (e) {
-                    document.getElementById('visit-count').innerText = '1';
-                }
-
-                if (user.gender === 'boy') {
-                    document.documentElement.setAttribute('data-theme', 'boy');
-                    document.getElementById('hub-title').innerText = '🌊 Blue Smart AI & Surprise Hub';
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                    document.getElementById('hub-title').innerText = '🌸 Pink Smart AI & Surprise Hub';
-                }
-
-                document.getElementById('welcome-msg').innerText = `Welcome, ${name} (${level})!`;
-                document.getElementById('vibe-label').innerText = mood;
-
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-
-                buildFunGrid();
-                renderVisitors();
-                renderPosts();
-                playCardSound('gift');
-
-                if (mood.includes('Exam Tension')) openTab('exam', 1);
-                else if (mood.includes('Surprise & Fun')) openTab('fun', 3);
-                else openTab('qa', 0);
-            } catch (err) {
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-            }
-        }
-
-        function toggleVisitors() {
-            const box = document.getElementById('visitor-box');
-            box.style.display = box.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function clearVisitors() {
-            try { localStorage.removeItem('hubVisitorsV2'); } catch (e) {}
-            document.getElementById('visit-count').innerText = '0';
-            renderVisitors();
-        }
-
-        function renderVisitors() {
-            try {
-                const logs = JSON.parse(localStorage.getItem('hubVisitorsV2') || '[]');
-                const list = document.getElementById('visitor-list');
-                list.innerHTML = logs.length
-                    ? logs.map(v => `<div class="visitor-row"><span>👤 <strong>${esc(v.name)}</strong> (${esc(v.level)})</span><span>${esc(v.mood)} • ${esc(v.time)}</span></div>`).join('')
-                    : '<p style="opacity:0.7;">No visitors yet.</p>';
-            } catch (e) {}
-        }
-
-        function openTab(name, idx) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn')[idx].classList.add('active');
-            document.getElementById(`${name}-tab`).classList.add('active');
-        }
-
-        function resetProfile() {
-            document.getElementById('main-app').style.display = 'none';
-            document.getElementById('welcome-screen').style.display = 'flex';
-        }
-
-        function makeAnswer() {
-            const q = document.getElementById('qa-question').value.trim();
-            if (!q) return;
-            playCardSound('gift');
-            document.getElementById('qa-output').innerHTML = `
-                <div class="post-card">
-                    <strong>💡 ${esc(q)}</strong>
-                    <p style="margin:8px 0 4px;"><strong>Summary:</strong> Core idea of ${esc(q)} for ${esc(user.level)}.</p>
-                    <p style="margin:0;"><strong>Key Points:</strong> 1) Definition  2) Main concept  3) Practical example.</p>
-                </div>`;
-        }
-
-        function startTimer() {
-            if (timerId) return;
-            timerId = setInterval(() => {
-                if (secLeft <= 0) { clearInterval(timerId); timerId = null; playCardSound('win'); alert("⏰ 5 minutes done!"); return; }
-                secLeft--;
-                const m = String(Math.floor(secLeft / 60)).padStart(2, '0');
-                const s = String(secLeft % 60).padStart(2, '0');
-                document.getElementById('timer-text').innerText = `${m}:${s}`;
-            }, 1000);
-        }
-
-        function resetTimer() {
-            clearInterval(timerId); timerId = null; secLeft = 300;
-            document.getElementById('timer-text').innerText = "05:00";
-        }
-
-        function makeCheatPoints() {
-            const t = document.getElementById('cheat-topic').value.trim();
-            if (!t) return;
-            playCardSound('gift');
-            document.getElementById('cheat-output').innerHTML = `
-                <div class="post-card">
-                    <strong>⚡ Fast Points: ${esc(t)}</strong>
-                    <p style="margin:6px 0 0;">• Write a crisp 2-line definition first.<br>• List 3 key features/steps.<br>• Add one quick example for full clarity.</p>
-                </div>`;
-        }
-
-        function addPost() {
-            try {
-                const title = document.getElementById('post-title').value.trim();
-                const body = document.getElementById('post-body').value.trim();
-                if (!title || !body) return;
-                const posts = JSON.parse(localStorage.getItem('hubFunPosts') || '[]');
-                posts.unshift({ title, body, by: user.name });
-                localStorage.setItem('hubFunPosts', JSON.stringify(posts));
-                document.getElementById('post-title').value = '';
-                document.getElementById('post-body').value = '';
-                playCardSound('celebration');
-                renderPosts();
-            } catch (e) {}
-        }
-
-        function renderPosts() {
-            try {
-                const posts = JSON.parse(localStorage.getItem('hubFunPosts') || '[]');
-                document.getElementById('user-posts').innerHTML = posts.map(p =>
-                    `<div class="post-card"><strong>${esc(p.title)}</strong><p style="margin:6px 0;">${esc(p.body)}</p><small>By ${esc(p.by)}</small></div>`
-                ).join('');
-            } catch (e) {}
-        }
-
-        function esc(s) {
-            return String(s).replace(/[&<>'"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[m]));
-        }
-    </script>
-</body>
-</html>
