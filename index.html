@@ -8,23 +8,23 @@
         :root {
             --primary: #db2777;
             --bg-color: #fdf2f8;
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: rgba(255, 255, 255, 0.94);
             --text-color: #831843;
             --text-light: #9d174d;
             --border-color: #f472b6;
             --btn-gradient: linear-gradient(135deg, #db2777 0%, #be185d 100%);
-            --shadow: 0 10px 28px -6px rgba(219, 39, 119, 0.18);
+            --shadow: 0 10px 28px -6px rgba(219, 39, 119, 0.2);
         }
 
         [data-theme="boy"] {
             --primary: #06b6d4;
             --bg-color: #030712;
-            --card-bg: rgba(15, 23, 42, 0.88);
+            --card-bg: rgba(15, 23, 42, 0.9);
             --text-color: #f8fafc;
             --text-light: #94a3b8;
             --border-color: #3b82f6;
             --btn-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
-            --shadow: 0 10px 28px -6px rgba(6, 182, 212, 0.25);
+            --shadow: 0 10px 28px -6px rgba(6, 182, 212, 0.28);
         }
 
         * { box-sizing: border-box; }
@@ -51,13 +51,13 @@
 
         .welcome-card {
             background: #0f172a;
-            border: 1px solid rgba(59, 130, 246, 0.4);
+            border: 1.5px solid rgba(59, 130, 246, 0.45);
             padding: 26px; border-radius: 22px;
-            text-align: center; max-width: 430px; width: 100%;
+            text-align: center; max-width: 440px; width: 100%;
             color: #f8fafc;
         }
 
-        .welcome-card h2 { color: #06b6d4; margin: 0 0 8px; }
+        .welcome-card h2 { color: #06b6d4; margin: 0 0 6px; }
         .welcome-card p { color: #94a3b8; font-size: 0.9rem; margin: 0 0 14px; }
 
         .welcome-card input, .welcome-card select {
@@ -67,8 +67,21 @@
             background: #1e293b; color: #ffffff; outline: none;
         }
 
+        .gender-toggle-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+            margin-bottom: 11px;
+        }
+
+        .g-btn {
+            padding: 9px; border-radius: 10px; border: 1.5px solid #334155;
+            background: #1e293b; color: #cbd5e1; font-weight: 700; cursor: pointer;
+        }
+
+        .g-btn.active-girl { background: #db2777; color: #fff; border-color: #f472b6; }
+        .g-btn.active-boy { background: #0284c7; color: #fff; border-color: #38bdf8; }
+
         #auto-detect-badge {
-            padding: 8px; border-radius: 10px; font-size: 0.85rem;
+            padding: 8px; border-radius: 10px; font-size: 0.84rem;
             font-weight: 700; margin-bottom: 12px;
             background: #1e293b; color: #94a3b8;
         }
@@ -145,84 +158,72 @@
             transition: transform 0.2s, background 0.2s;
         }
 
-        .fun-card-btn:hover, .fun-card-btn.selected {
+        .fun-card-btn:hover, .fun-card-btn.selected-card {
             background: var(--primary); color: #fff; transform: translateY(-2px);
         }
 
-        /* Animated Video-Style Showcase Box */
+        /* Upgraded Interactive Fun Showcase */
         .fun-showcase {
             border: 2px solid var(--border-color);
-            border-radius: 20px; padding: 18px;
-            background: rgba(255,255,255,0.06);
-            display: grid; grid-template-columns: 220px 1fr;
+            border-radius: 20px; padding: 20px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+            display: grid; grid-template-columns: 165px 1fr;
             gap: 18px; align-items: center;
             box-shadow: var(--shadow);
+            animation: popIn 0.25s ease;
         }
 
-        @media (max-width: 650px) {
+        @keyframes popIn {
+            from { opacity: 0.6; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 620px) {
             .fun-showcase { grid-template-columns: 1fr; text-align: center; }
         }
 
-        .video-stage {
-            position: relative;
-            width: 220px; height: 170px; margin: 0 auto;
+        .fun-pic-box {
+            width: 165px; height: 145px; margin: 0 auto;
             border-radius: 16px; overflow: hidden;
             border: 2px solid var(--border-color);
-            background: #0f172a;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
-        .video-stage canvas {
-            width: 100%; height: 100%; display: block;
-        }
-
-        .live-pill {
-            position: absolute; top: 8px; left: 8px;
-            background: rgba(0, 0, 0, 0.6); color: #fff;
-            font-size: 0.7rem; font-weight: 700;
-            padding: 3px 8px; border-radius: 999px;
-            display: flex; align-items: center; gap: 5px;
-        }
-
-        .live-dot {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: #ef4444;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
+        .fun-pic-box svg { width: 100%; height: 100%; display: block; }
 
         .fun-badge {
-            display: inline-block; padding: 4px 10px; border-radius: 999px;
-            background: var(--primary); color: #fff; font-size: 0.78rem; font-weight: 700;
-            margin-bottom: 6px;
+            display: inline-block; padding: 4px 12px; border-radius: 999px;
+            background: var(--primary); color: #fff; font-size: 0.78rem; font-weight: 800;
+            margin-bottom: 8px; letter-spacing: 0.5px;
         }
 
-        .fun-title { font-size: 1.2rem; font-weight: 800; margin: 0 0 6px; }
-        .fun-desc { font-size: 0.95rem; line-height: 1.5; margin: 0 0 10px; }
+        .fun-title { font-size: 1.25rem; font-weight: 800; margin: 0 0 8px; }
+        .fun-desc {
+            font-size: 1.02rem; line-height: 1.55; margin: 0 0 12px;
+            font-weight: 600;
+        }
 
         .fun-extra-box {
-            padding: 10px 12px; border-radius: 12px;
-            background: rgba(255,255,255,0.08); border: 1px solid var(--border-color);
-            font-size: 0.88rem; margin-bottom: 12px;
+            padding: 12px 14px; border-radius: 14px;
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid var(--primary);
+            font-size: 0.92rem; margin-bottom: 12px;
+            font-weight: 600;
         }
 
-        .mini-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-        @media (max-width: 650px) {
-            .mini-actions { justify-content: center; }
-        }
+        .mini-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
         .mini-btn {
-            padding: 8px 13px; border-radius: 10px; border: none;
+            padding: 8px 14px; border-radius: 10px; border: none;
             background: var(--primary); color: #fff; font-weight: 700;
-            font-size: 0.82rem; cursor: pointer;
+            font-size: 0.84rem; cursor: pointer;
         }
 
         .mini-btn.secondary { background: #475569; }
-        .mini-btn.sound-on { background: #10b981; }
+        .mini-btn.react-btn {
+            background: rgba(255,255,255,0.12); color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
 
         .post-card {
             background: var(--card-bg); border: 2px solid var(--border-color);
@@ -246,7 +247,13 @@
         <div class="welcome-card">
             <h2>✨ AI Smart Student Portal</h2>
             <p>Enter your details & pick your vibe:</p>
-            <input type="text" id="user-name-input" placeholder="Enter your full name..." oninput="detectGender(this.value)">
+            <input type="text" id="user-name-input" placeholder="Enter your name (e.g. Hassan, Saba)..." oninput="detectGender(this.value)">
+            
+            <div class="gender-toggle-row">
+                <button type="button" id="btn-set-girl" class="g-btn active-girl" onclick="setGenderManual('girl')">🌸 Girl (Pink)</button>
+                <button type="button" id="btn-set-boy" class="g-btn" onclick="setGenderManual('boy')">⚡ Boy (Blue)</button>
+            </div>
+
             <input type="number" id="user-age-input" placeholder="Enter your age..." min="5" max="99">
             <select id="user-class-select">
                 <option value="">-- Select Class / Level --</option>
@@ -259,7 +266,7 @@
                 <option value="Exam Tension 🤯">🤯 Exam Tension</option>
                 <option value="Fun & Entertainment 🎉">🎉 Fun & Entertainment</option>
             </select>
-            <div id="auto-detect-badge">🤖 Type your name for Girl/Boy theme...</div>
+            <div id="auto-detect-badge">🤖 Auto-detects from name (or tap button above)</div>
             <button class="enter-btn" onclick="launchPortal()">🚀 Enter Hub</button>
         </div>
     </div>
@@ -274,10 +281,7 @@
         <div class="top-bar">
             <span>📊 Visits: <strong id="visit-count">0</strong></span>
             <span>✨ Vibe: <strong id="vibe-label">-</strong></span>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button class="mini-btn secondary" id="ambient-btn" onclick="toggleAmbientChill()">🌧️ Chill Audio: OFF</button>
-                <button class="mini-btn" onclick="toggleVisitors()">👥 Visitors Log</button>
-            </div>
+            <button class="mini-btn" onclick="toggleVisitors()">👥 Visitors Log</button>
         </div>
 
         <div class="card" id="visitor-box" style="display:none;">
@@ -292,7 +296,7 @@
             <button class="tab-btn active" onclick="openTab('qa', 0)">💡 AI Q&A</button>
             <button class="tab-btn" onclick="openTab('exam', 1)">⚡ Exam Speed Mode</button>
             <button class="tab-btn" onclick="openTab('quiz', 2)">🎮 Quiz</button>
-            <button class="tab-btn" onclick="openTab('fun', 3)">🎬 Fun Zone (Motion + Sound)</button>
+            <button class="tab-btn" onclick="openTab('fun', 3)">🎉 Fun Zone (15 Cards)</button>
             <button class="tab-btn" onclick="resetProfile()" style="background:#64748b; color:#fff; border-color:#64748b;">🔄 Switch</button>
         </div>
 
@@ -327,33 +331,32 @@
             <div class="card" style="text-align:center;">
                 <h2>🎮 Quick Challenge</h2>
                 <p><strong>Question:</strong> Does a Stack work on LIFO (Last-In, First-Out)?</p>
-                <button class="mini-btn" onclick="playCardSound('win'); alert('✅ Correct! Stack is LIFO.')">True (Stack)</button>
-                <button class="mini-btn secondary" onclick="playCardSound('boing'); alert('❌ Try again! Queue is FIFO.')">False (Queue)</button>
+                <button class="mini-btn" onclick="alert('✅ Correct! Stack is LIFO.')">True (Stack)</button>
+                <button class="mini-btn secondary" onclick="alert('❌ Try again! Queue is FIFO.')">False (Queue)</button>
             </div>
         </div>
 
-        <!-- TAB 4: 15 FUN CARDS WITH LIVE MOTION SCENE & SOUND -->
+        <!-- TAB 4: 15 FUN CARDS WITH RICH INTERACTIVE SHOWCASE -->
         <div id="fun-tab" class="tab-content">
             <div class="card">
-                <h2>🎬 15 Animated Fun Cards (Live Visual Motion + Sound)</h2>
-                <p style="font-size:0.9rem; color:var(--text-light);">Har card ke saath chalta-phirta motion scene aur uske mood ki sound bajegi!</p>
+                <h2>🎉 15 Fun & Entertainment Cards</h2>
+                <p style="font-size:0.9rem; color:var(--text-light);">Tap any card below, reveal the twist, or hit <strong>Next One 🔄</strong> for fresh jokes, riddles & shayari!</p>
 
                 <div class="fun-grid" id="fun-buttons-grid"></div>
 
                 <div class="fun-showcase" id="fun-showcase">
-                    <div class="video-stage">
-                        <span class="live-pill"><span class="live-dot"></span> LIVE SCENE</span>
-                        <canvas id="motion-canvas" width="220" height="170"></canvas>
-                    </div>
+                    <div class="fun-pic-box" id="fun-pic"></div>
                     <div>
                         <span class="fun-badge" id="fun-tag">FUN CARD #1</span>
-                        <h3 class="fun-title" id="fun-title">Tap a card to play!</h3>
-                        <p class="fun-desc" id="fun-desc">Live animated visual + custom sound effect for every card.</p>
-                        <div class="fun-extra-box" id="fun-extra">✨ Bonus / Interactive Box</div>
+                        <h3 class="fun-title" id="fun-title">Tap a card!</h3>
+                        <p class="fun-desc" id="fun-desc">Loading fun...</p>
+                        <div class="fun-extra-box" id="fun-extra">✨ Twist / Answer box</div>
                         <div class="mini-actions">
-                            <button class="mini-btn sound-on" onclick="replayCurrentSound()">🔊 Play Card Sound</button>
-                            <button class="mini-btn" onclick="revealBonus()">👀 Show Answer / Bonus</button>
-                            <button class="mini-btn secondary" onclick="randomFunCard()">🎲 Next Random</button>
+                            <button class="mini-btn" onclick="revealBonus()">👀 Reveal Answer / Twist</button>
+                            <button class="mini-btn secondary" onclick="nextVariation()">🔄 Next One</button>
+                            <button class="mini-btn react-btn" onclick="addReaction('😂')">😂 <span id="react-laugh">0</span></button>
+                            <button class="mini-btn react-btn" onclick="addReaction('❤️')">❤️ <span id="react-love">0</span></button>
+                            <button class="mini-btn react-btn" onclick="copyCurrentCard()">📋 Copy</button>
                         </div>
                     </div>
                 </div>
@@ -374,285 +377,142 @@
         let timerId = null;
         let secLeft = 300;
         let activeCardIndex = 0;
-        let animFrameId = null;
-        let animTick = 0;
+        let variationIndex = 0;
+        let laughCount = 0;
+        let loveCount = 0;
 
-        // Web Audio API Sound Engine (Zero external files needed!)
-        let audioCtx = null;
-        let ambientPlaying = false;
-        let ambientNode = null;
-        let ambientGain = null;
-
-        function getAudioCtx() {
-            if (!audioCtx) {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                audioCtx = new AudioContext();
-            }
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            return audioCtx;
-        }
-
-        function playTone(freq, type, startTime, duration, vol = 0.14) {
-            const ctx = getAudioCtx();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, startTime);
-            gain.gain.setValueAtTime(0.001, startTime);
-            gain.gain.exponentialRampToValueAtTime(vol, startTime + 0.03);
-            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(startTime);
-            osc.stop(startTime + duration + 0.02);
-        }
-
-        function playCardSound(soundType) {
-            try {
-                const ctx = getAudioCtx();
-                const now = ctx.currentTime;
-
-                if (soundType === 'comedy') {
-                    // Playful bouncy comedy notes
-                    playTone(330, 'triangle', now, 0.14, 0.16);
-                    playTone(392, 'triangle', now + 0.13, 0.14, 0.16);
-                    playTone(523, 'sine', now + 0.26, 0.25, 0.18);
-                    playTone(659, 'triangle', now + 0.42, 0.3, 0.16);
-                } else if (soundType === 'mystery') {
-                    // Riddle / curious chime
-                    playTone(440, 'sine', now, 0.25, 0.14);
-                    playTone(466, 'sine', now + 0.2, 0.25, 0.14);
-                    playTone(587, 'triangle', now + 0.4, 0.45, 0.15);
-                } else if (soundType === 'chill') {
-                    // Warm soft coffee/lofi chord
-                    playTone(261.6, 'sine', now, 0.8, 0.1);
-                    playTone(329.6, 'sine', now + 0.08, 0.8, 0.09);
-                    playTone(392.0, 'sine', now + 0.16, 0.9, 0.09);
-                    playTone(493.8, 'sine', now + 0.24, 1.0, 0.08);
-                } else if (soundType === 'sparkle') {
-                    // Magical ascending arpeggio
-                    [523, 659, 784, 1046, 1318].forEach((f, i) => {
-                        playTone(f, 'sine', now + i * 0.08, 0.28, 0.12);
-                    });
-                } else if (soundType === 'retro') {
-                    // Coder / arcade beep
-                    playTone(587, 'square', now, 0.1, 0.08);
-                    playTone(880, 'square', now + 0.11, 0.18, 0.08);
-                } else if (soundType === 'breathe') {
-                    // Deep calm swell
-                    playTone(220, 'sine', now, 1.1, 0.12);
-                    playTone(330, 'sine', now + 0.2, 1.0, 0.09);
-                } else if (soundType === 'win') {
-                    // Victory fanfare
-                    playTone(523, 'triangle', now, 0.15, 0.16);
-                    playTone(659, 'triangle', now + 0.14, 0.15, 0.16);
-                    playTone(784, 'triangle', now + 0.28, 0.15, 0.16);
-                    playTone(1046, 'triangle', now + 0.42, 0.45, 0.18);
-                } else {
-                    playTone(480, 'sine', now, 0.25, 0.13);
-                }
-            } catch (e) {}
-        }
-
-        function toggleAmbientChill() {
-            const btn = document.getElementById('ambient-btn');
-            if (ambientPlaying) {
-                if (ambientNode) { try { ambientNode.stop(); } catch(e){} ambientNode = null; }
-                ambientPlaying = false;
-                btn.innerText = "🌧️ Chill Audio: OFF";
-                btn.classList.remove('sound-on');
-                return;
-            }
-            try {
-                const ctx = getAudioCtx();
-                const bufferSize = 2 * ctx.sampleRate;
-                const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                const output = noiseBuffer.getChannelData(0);
-                let lastOut = 0.0;
-                for (let i = 0; i < bufferSize; i++) {
-                    const white = Math.random() * 2 - 1;
-                    output[i] = (lastOut + (0.02 * white)) / 1.02;
-                    lastOut = output[i];
-                    output[i] *= 1.8;
-                }
-                ambientNode = ctx.createBufferSource();
-                ambientNode.buffer = noiseBuffer;
-                ambientNode.loop = true;
-
-                const filter = ctx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = 420;
-
-                ambientGain = ctx.createGain();
-                ambientGain.gain.value = 0.12;
-
-                ambientNode.connect(filter);
-                filter.connect(ambientGain);
-                ambientGain.connect(ctx.destination);
-                ambientNode.start(0);
-
-                ambientPlaying = true;
-                btn.innerText = "🌧️ Chill Rain: ON";
-                btn.classList.add('sound-on');
-            } catch (e) {}
-        }
-
+        // Multiple variations per card so clicking "Next One" gives fresh entertainment!
         const funCards = [
-            { tag: "COMEDY #1", title: "Exam Hall Logic 😂", desc: "Teacher: 'Why is your answer sheet empty?' Student: 'Ma'am, I left space for your imagination!'", extra: "Bonus Tip: Even 3 neat bullet points beat a blank line!", c1: "#f59e0b", c2: "#ef4444", icon: "😂", sound: "comedy", scene: "bounce" },
-            { tag: "RIDDLE #2", title: "Brain Teaser 🧩", desc: "I have cities, but no houses; mountains, but no trees; and water, but no fish. What am I?", extra: "Answer: A Map! 🗺️", c1: "#8b5cf6", c2: "#ec4899", icon: "🧩", sound: "mystery", scene: "orbit" },
-            { tag: "COFFEE #3", title: "Chai & Coffee Break ☕", desc: "Step away from the screen for 5 minutes, sip warm tea/coffee, and relax your shoulders.", extra: "Mini Challenge: Drink one full glass of water right now!", c1: "#d97706", c2: "#78350f", icon: "☕", sound: "chill", scene: "steam" },
-            { tag: "SHAYARI #4", title: "Student Vibe ✨", desc: "Raat bhar jagne ka wada kiya tha, takiye ne dekha aur neend aa gayi!", extra: "Bonus Note: Focused daytime study beats late-night exhaustion.", c1: "#ec4899", c2: "#6366f1", icon: "✨", sound: "sparkle", scene: "stars" },
-            { tag: "FACT #5", title: "Cool Brain Fact 🧠", desc: "Your brain creates around 12–25 watts of electrical power—enough to light a small LED bulb!", extra: "Bonus Fact: Writing short notes by hand boosts recall.", c1: "#06b6d4", c2: "#3b82f6", icon: "🧠", sound: "sparkle", scene: "waves" },
-            { tag: "CODER #6", title: "Programming Humor 💻", desc: "99 little bugs in the code, patch one down... 127 little bugs in the code!", extra: "Bonus Rule: Always check missing semicolons & brackets first!", c1: "#10b981", c2: "#0f766e", icon: "💻", sound: "retro", scene: "matrix" },
-            { tag: "RESET #7", title: "10-Second Calm Breath 🎯", desc: "Sit straight, roll your neck gently, and follow the glowing circle to breathe in and out.", extra: "Bonus Reward: You deserve a calm, unhurried pause.", c1: "#f97316", c2: "#e11d48", icon: "🎯", sound: "breathe", scene: "breathe" },
-            { tag: "MOVIE #8", title: "Emoji Movie Guess 🎬", desc: "Guess this classic movie: 🦁👑🌅", extra: "Answer: The Lion King! 🦁", c1: "#eab308", c2: "#ea580c", icon: "🎬", sound: "mystery", scene: "stars" },
-            { tag: "BOOST #9", title: "Confidence Booster 🌟", desc: "You're balancing studies, work, and goals—steady daily steps always move you forward.", extra: "Bonus Reminder: Quiet progress is still real progress.", c1: "#a855f7", c2: "#3b82f6", icon: "🌟", sound: "win", scene: "orbit" },
-            { tag: "AUDIO #10", title: "Lo-Fi Sound Waves 🎧", desc: "Listen to the soft audio wave and let background noise fade out for a few minutes.", extra: "Tip: Try turning on 'Chill Rain' in the top bar!", c1: "#14b8a6", c2: "#0284c7", icon: "🎧", sound: "chill", scene: "waves" },
-            { tag: "SWEET #11", title: "Sweet Treat Break 🍫", desc: "Grab a small piece of chocolate or sweet—a tiny treat makes a busy day feel lighter.", extra: "Bonus Fun: Share a joke or sweet with your bestie today!", c1: "#f43f5e", c2: "#9333ea", icon: "🍫", sound: "comedy", scene: "bounce" },
-            { tag: "TRIVIA #12", title: "Quick Word Riddle 📚", desc: "Which word becomes shorter when you add two letters to it?", extra: "Answer: 'Short' -> 'Shorter'! 😄", c1: "#3b82f6", c2: "#1d4ed8", icon: "📚", sound: "mystery", scene: "orbit" },
-            { tag: "NIGHT #13", title: "Starry Night Routine 🌙", desc: "Sleeping on time keeps your mind fresh for tomorrow instead of fighting fatigue.", extra: "Bonus Tip: Write tomorrow's top 2 priorities before sleeping.", c1: "#6366f1", c2: "#1e1b4b", icon: "🌙", sound: "chill", scene: "stars" },
-            { tag: "EYES #14", title: "20-20 Eye Relax 👀", desc: "Look away from your laptop screen at something far away for 15 seconds.", extra: "Bonus Tip: Blink slowly 5 times to refresh your eyes!", c1: "#22c55e", c2: "#15803d", icon: "👀", sound: "breathe", scene: "breathe" },
-            { tag: "FORTUNE #15", title: "Winner Vibe Card 🏆", desc: "Good things are lining up for you—stay curious, stay confident, and keep shining!", extra: "Bonus Cheer: You've got this! 🎉", c1: "#ec4899", c2: "#f59e0b", icon: "🏆", sound: "win", scene: "stars" }
-        ];
-
-        // Live Video-Style Canvas Animation Loop
-        function startMotionScene() {
-            if (animFrameId) cancelAnimationFrame(animFrameId);
-            const canvas = document.getElementById('motion-canvas');
-            const ctx = canvas.getContext('2d');
-
-            function render() {
-                animTick += 0.04;
-                const c = funCards[activeCardIndex];
-                const w = canvas.width;
-                const h = canvas.height;
-
-                // Animated gradient background
-                const grad = ctx.createLinearGradient(0, 0, w, h);
-                grad.addColorStop(0, c.c1);
-                grad.addColorStop(1, c.c2);
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, w, h);
-
-                // Scene-specific live animation
-                ctx.save();
-                if (c.scene === 'steam') {
-                    // Rising steam waves above coffee
-                    ctx.strokeStyle = 'rgba(255,255,255,0.55)';
-                    ctx.lineWidth = 3;
-                    for (let s = 0; s < 3; s++) {
-                        ctx.beginPath();
-                        for (let y = 0; y < 45; y += 3) {
-                            const x = 85 + s * 25 + Math.sin(animTick * 2 + y * 0.12 + s) * 7;
-                            const py = 65 - y;
-                            if (y === 0) ctx.moveTo(x, py);
-                            else ctx.lineTo(x, py);
-                        }
-                        ctx.stroke();
-                    }
-                } else if (c.scene === 'waves') {
-                    // Equalizer audio bars
-                    ctx.fillStyle = 'rgba(255,255,255,0.4)';
-                    for (let b = 0; b < 11; b++) {
-                        const barH = 20 + Math.abs(Math.sin(animTick * 2.4 + b * 0.6)) * 55;
-                        ctx.fillRect(20 + b * 17, h - barH - 12, 10, barH);
-                    }
-                } else if (c.scene === 'breathe') {
-                    // Expanding & contracting calm ring
-                    const radius = 38 + Math.sin(animTick * 1.1) * 18;
-                    ctx.beginPath();
-                    ctx.arc(w / 2, h / 2, radius, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(255,255,255,0.22)';
-                    ctx.fill();
-                    ctx.strokeStyle = 'rgba(255,255,255,0.75)';
-                    ctx.lineWidth = 3;
-                    ctx.stroke();
-                } else if (c.scene === 'orbit') {
-                    // Orbiting glowing dots
-                    for (let k = 0; k < 4; k++) {
-                        const ang = animTick * 1.4 + (k * Math.PI) / 2;
-                        const ox = w / 2 + Math.cos(ang) * 58;
-                        const oy = h / 2 + Math.sin(ang) * 42;
-                        ctx.beginPath();
-                        ctx.arc(ox, oy, 7, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(255,255,255,0.75)';
-                        ctx.fill();
-                    }
-                } else if (c.scene === 'matrix') {
-                    // Falling code bits
-                    ctx.fillStyle = 'rgba(255,255,255,0.45)';
-                    ctx.font = 'bold 13px monospace';
-                    for (let col = 0; col < 8; col++) {
-                        const py = ((animTick * 38 + col * 37) % (h + 20));
-                        ctx.fillText(col % 2 === 0 ? '101' : '010', 18 + col * 25, py);
-                    }
-                } else {
-                    // Floating twinkling stars / particles
-                    for (let p = 0; p < 10; p++) {
-                        const px = (p * 47 + Math.sin(animTick + p) * 15) % w;
-                        const py = h - ((animTick * 24 + p * 29) % h);
-                        ctx.beginPath();
-                        ctx.arc(px, py, 3 + (p % 3), 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(255,255,255,0.55)';
-                        ctx.fill();
-                    }
-                }
-                ctx.restore();
-
-                // Center animated emoji icon
-                const bounceY = c.scene === 'bounce' ? Math.abs(Math.sin(animTick * 2.5)) * -14 : Math.sin(animTick * 1.5) * 5;
-                ctx.font = '54px Segoe UI Emoji, Apple Color Emoji, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(c.icon, w / 2, h / 2 + 8 + bounceY);
-
-                animFrameId = requestAnimationFrame(render);
+            {
+                tag: "JOKE #1", title: "Exam Hall Comedy 😂", c1: "#f59e0b", c2: "#ef4444", icon: "😂",
+                items: [
+                    { q: "Teacher: 'Why is your answer sheet completely blank?' Student: 'Ma'am, I left space for your imagination!'", a: "🎭 Moral: Even 3 neat bullet points save you from a blank page!" },
+                    { q: "Friend before exam: 'Yaar maine toh kuch bhi nahi parha!' — Same friend after paper: 'Bas 3 extra sheets li hain!'", a: "😤 Classic topper drama in every exam center!" },
+                    { q: "Exam question: 'Define Pressure.' Student: 'When 18 lectures are left and the paper starts in 2 hours!'", a: "⚡ Tip: Switch to Exam Speed Mode when that happens!" }
+                ]
+            },
+            {
+                tag: "RIDDLE #2", title: "Brain Teaser 🧩", c1: "#8b5cf6", c2: "#ec4899", icon: "🧩",
+                items: [
+                    { q: "I have cities, but no houses; mountains, but no trees; and water, but no fish. What am I?", a: "🗺️ Answer: A Map!" },
+                    { q: "What has keys that open no locks, space but no room, and you can enter but never go outside?", a: "⌨️ Answer: A Keyboard!" },
+                    { q: "The more of me you take, the more you leave behind. What am I?", a: "👣 Answer: Footsteps!" }
+                ]
+            },
+            {
+                tag: "COFFEE #3", title: "Chai & Coffee Lounge ☕", c1: "#d97706", c2: "#78350f", icon: "☕",
+                items: [
+                    { q: "Hot doodh patti or frothy coffee + 5 minutes away from notifications = instant mental recharge!", a: "☕ Challenge: Take 3 slow sips without checking your phone." },
+                    { q: "Cold water + 10 deep breaths works faster than scrolling social media during a study break.", a: "💧 Hydration Check: Go drink half a glass of water right now!" }
+                ]
+            },
+            {
+                tag: "SHAYARI #4", title: "Witty Student Shayari ✨", c1: "#ec4899", c2: "#6366f1", icon: "✨",
+                items: [
+                    { q: "Syllabus dekh kar neend bhi sharma gayi, kitaab kholi toh chai yaad aa gayi! ☕😄", a: "🌟 Wah wah! Tap 'Next One' for another sher!" },
+                    { q: "Assignment ki deadline sar pe khari thi, aur hum Wi-Fi ke signals dhoondh rahe thay! 📶😂", a: "💻 Every online student's true story!" },
+                    { q: "Manzil unhi ko milti hai jo roz thoda thoda chalte hain, warna irade toh roz badalte hain!", a: "🚀 Keep moving step by step!" }
+                ]
+            },
+            {
+                tag: "FACT #5", title: "Mind-Blowing Fact 🤯", c1: "#06b6d4", c2: "#3b82f6", icon: "🧠",
+                items: [
+                    { q: "Your brain generates about 12–25 watts of electricity—enough to power a small LED bulb!", a: "💡 Fun Twist: No wonder your head feels warm after calculus!" },
+                    { q: "Honey never spoils—archaeologists found 3,000-year-old honey in Egyptian tombs that was still edible!", a: "🍯 Nature's ultimate preservative!" }
+                ]
+            },
+            {
+                tag: "CODER #6", title: "Programmer Humor 💻", c1: "#10b981", c2: "#0f766e", icon: "💻",
+                items: [
+                    { q: "99 little bugs in the code, take one down, patch it around... 127 little bugs in the code!", a: "🐞 Dev Rule: Always save a backup before 'fixing' working code!" },
+                    { q: "When C++ compiles with 0 errors on the first try: 'Wait... something is definitely suspicious!' 😅", a: "🔍 Check your logic twice!" }
+                ]
+            },
+            {
+                tag: "DARE #7", title: "10-Second Fun Dare 🎯", c1: "#f97316", c2: "#e11d48", icon: "🎯",
+                items: [
+                    { q: "Sit up straight, roll your shoulders back 5 times, and stretch both arms toward the ceiling!", a: "✅ Done? Instant posture & energy boost!" },
+                    { q: "Send a funny emoji or 'Chai peeni hai?' message to your bestie right now!", a: "👯 Bestie energy unlocked!" }
+                ]
+            },
+            {
+                tag: "MOVIE #8", title: "Emoji Movie Guess 🎬", c1: "#eab308", c2: "#ea580c", icon: "🎬",
+                items: [
+                    { q: "Guess the movie from emojis: 🦁👑🌅", a: "🎬 Answer: The Lion King!" },
+                    { q: "Guess the movie from emojis: 🚢❄️💔", a: "🎬 Answer: Titanic!" },
+                    { q: "Guess the movie from emojis: 🕷️🧑🏻🕸️🏙️", a: "🎬 Answer: Spider-Man!" }
+                ]
+            },
+            {
+                tag: "BOOST #9", title: "Confidence Booster 🌟", c1: "#a855f7", c2: "#3b82f6", icon: "🌟",
+                items: [
+                    { q: "You're juggling classes, tasks, and responsibilities every single day—give yourself credit!", a: "🏆 Reminder: Steady effort always wins in the long run." },
+                    { q: "You don't need to finish everything today—just win the next 30 minutes!", a: "⚡ Small wins build big results." }
+                ]
+            },
+            {
+                tag: "AUDIO #10", title: "Focus Sound Hack 🎧", c1: "#14b8a6", c2: "#0284c7", icon: "🎧",
+                items: [
+                    { q: "Soft rain sounds or instrumental lo-fi beats block noisy distractions without lyrics pulling your attention.", a: "🎵 Pro Tip: Set a 20-minute timer and put on calm rain audio!" }
+                ]
+            },
+            {
+                tag: "SWEET #11", title: "Sweet Treat Therapy 🍫", c1: "#f43f5e", c2: "#9333ea", icon: "🍫",
+                items: [
+                    { q: "A small piece of dark chocolate or homemade mithai boosts dopamine and lifts tired moods fast!", a: "🍬 Treat yourself after finishing your next topic!" }
+                ]
+            },
+            {
+                tag: "TRIVIA #12", title: "Word & Logic Trivia 📚", c1: "#3b82f6", c2: "#1d4ed8", icon: "📚",
+                items: [
+                    { q: "Which English word becomes shorter when you add two letters to it?", a: "😄 Answer: 'Short' becomes 'Shorter'!" },
+                    { q: "What belongs to you, but other people use it way more than you do?", a: "🗣️ Answer: Your Name!" }
+                ]
+            },
+            {
+                tag: "NIGHT #13", title: "Routine Reality Check 🌙", c1: "#6366f1", c2: "#1e1b4b", icon: "🌙",
+                items: [
+                    { q: "Sleeping on time keeps your brain sharp for tomorrow morning instead of dragging through brain fog.", a: "😴 Plan tomorrow's top 2 priorities before closing your eyes!" }
+                ]
+            },
+            {
+                tag: "EYES #14", title: "20-20 Eye Care 👀", c1: "#22c55e", c2: "#15803d", icon: "👀",
+                items: [
+                    { q: "Look at something 20 feet away for 20 seconds right now to give your eyes a break from screen glare.", a: "🌿 Your eyes will thank you!" }
+                ]
+            },
+            {
+                tag: "FORTUNE #15", title: "Lucky Vibe Card 🏆", c1: "#ec4899", c2: "#f59e0b", icon: "🏆",
+                items: [
+                    { q: "Good news and positive energy are headed your way—stay curious, stay confident, and keep shining!", a: "✨ Lucky Number Today: 7" }
+                ]
             }
-            render();
-        }
+        ];
 
         function buildFunGrid() {
             const grid = document.getElementById('fun-buttons-grid');
             grid.innerHTML = funCards.map((c, i) =>
-                `<button class="fun-card-btn" id="fbtn-${i}" onclick="selectFunCard(${i}, true)">${c.icon} ${i + 1}. ${c.title.split(' ')[0]}</button>`
+                `<button class="fun-card-btn" id="fbtn-${i}" onclick="selectFunCard(${i})">${c.icon} ${i + 1}. ${c.title.split(' ')[0]}</button>`
             ).join('');
-            selectFunCard(0, false);
-            startMotionScene();
+            selectFunCard(0);
         }
 
-        function selectFunCard(index, withSound) {
+        function makeSvgPic(c1, c2, icon) {
+            return `<svg viewBox="0 0 165 145" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="g${icon.codePointAt(0)}" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="${c1}"/>
+                        <stop offset="100%" stop-color="${c2}"/>
+                    </linearGradient>
+                </defs>
+                <rect width="165" height="145" fill="url(#g${icon.codePointAt(0)})"/>
+                <circle cx="135" cy="26" r="22" fill="rgba(255,255,255,0.2)"/>
+                <circle cx="28" cy="118" r="28" fill="rgba(255,255,255,0.16)"/>
+                <text x="82" y="88" text-anchor="middle" font-size="54">${icon}</text>
+            </svg>`;
+        }
+
+        function selectFunCard(index) {
             activeCardIndex = index;
-            document.querySelectorAll('.fun-card-btn').forEach(b => b.classList.remove('selected'));
-            const activeBtn = document.getElementById(`fbtn-${index}`);
-            if (activeBtn) activeBtn.classList.add('selected');
-
-            const c = funCards[index];
-            document.getElementById('fun-tag').innerText = c.tag;
-            document.getElementById('fun-title').innerText = c.title;
-            document.getElementById('fun-desc').innerText = c.desc;
-            document.getElementById('fun-extra').innerText = "🔒 Click 'Show Answer / Bonus' to reveal the extra!";
-            if (withSound) playCardSound(c.sound);
-        }
-
-        function replayCurrentSound() {
-            playCardSound(funCards[activeCardIndex].sound);
-        }
-
-        function revealBonus() {
-            playCardSound('sparkle');
-            document.getElementById('fun-extra').innerText = funCards[activeCardIndex].extra;
-        }
-
-        function randomFunCard() {
-            const next = Math.floor(Math.random() * funCards.length);
-            selectFunCard(next, true);
-        }
-
-        function detectGender(name) {
-            const val = name.toLowerCase().trim();
-            const badge = document.getElementById('auto-detect-badge');
-            if (!val) {
-                badge.innerText = "🤖 Type your name for Girl/Boy theme...";
-                return;
-            }
-            const boys = ['ali', 'ahmed', 'ahmad', 'bilal', 'hamza', 'usman', 'umer', 'zain', 'sa
+            variationIndex = 0;
+            document.querySelectorAll('.fun-card-btn').forEach(b => b.classList.
