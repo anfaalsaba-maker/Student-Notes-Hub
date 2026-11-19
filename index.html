@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart AI Q&A & Fun Hub</title>
+    <title>Smart AI Q&A & Surprise Hub</title>
     <style>
         :root {
             --primary: #db2777;
@@ -40,7 +40,6 @@
 
         .container { max-width: 1020px; margin: 0 auto; }
 
-        /* Welcome Screen */
         #welcome-screen {
             position: fixed; inset: 0;
             background: rgba(3, 7, 18, 0.92);
@@ -144,17 +143,13 @@
         }
 
         /* Quiz Styling */
-        .topic-chips {
-            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
-        }
-
+        .topic-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
         .chip-btn {
             padding: 6px 12px; border-radius: 999px;
             border: 1.5px solid var(--border-color);
             background: rgba(255,255,255,0.08); color: var(--text-color);
             font-size: 0.82rem; font-weight: 700; cursor: pointer;
         }
-
         .chip-btn:hover { background: var(--primary); color: #fff; }
 
         .quiz-arena {
@@ -162,35 +157,28 @@
             border-radius: 18px; padding: 20px; margin-top: 14px;
             background: rgba(255,255,255,0.05);
         }
-
         .quiz-meta {
             display: flex; justify-content: space-between; align-items: center;
             font-size: 0.88rem; font-weight: 700; margin-bottom: 12px;
             padding-bottom: 8px; border-bottom: 1px solid var(--border-color);
             flex-wrap: wrap; gap: 6px;
         }
-
-        .quiz-q-text {
-            font-size: 1.12rem; font-weight: 800; margin-bottom: 14px; line-height: 1.45;
-        }
-
+        .quiz-q-text { font-size: 1.12rem; font-weight: 800; margin-bottom: 14px; line-height: 1.45; }
         .quiz-options { display: grid; gap: 10px; }
-
         .opt-btn {
             text-align: left; padding: 12px 15px; border-radius: 12px;
             border: 2px solid var(--border-color);
             background: var(--card-bg); color: var(--text-color);
             font-size: 0.95rem; font-weight: 700; cursor: pointer;
         }
-
         .opt-btn:hover:not(:disabled) { background: var(--primary); color: #fff; }
         .opt-btn.correct { background: #10b981 !important; color: #fff !important; border-color: #10b981 !important; }
         .opt-btn.wrong { background: #ef4444 !important; color: #fff !important; border-color: #ef4444 !important; }
 
-        /* 15 Fun Cards Grid */
+        /* Gift / Surprise Cards Grid */
         .fun-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
             gap: 10px; margin: 14px 0 18px;
         }
 
@@ -206,65 +194,68 @@
             background: var(--primary); color: #fff; transform: translateY(-2px);
         }
 
-        .fun-showcase {
+        .surprise-stage {
             border: 2px solid var(--border-color);
-            border-radius: 20px; padding: 18px;
-            background: rgba(255,255,255,0.06);
-            display: grid; grid-template-columns: 220px 1fr;
-            gap: 18px; align-items: center;
+            border-radius: 22px; padding: 22px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+            display: grid; grid-template-columns: 230px 1fr;
+            gap: 20px; align-items: center;
             box-shadow: var(--shadow);
         }
 
-        @media (max-width: 650px) {
-            .fun-showcase { grid-template-columns: 1fr; text-align: center; }
+        @media (max-width: 660px) {
+            .surprise-stage { grid-template-columns: 1fr; text-align: center; }
         }
 
         .video-stage {
             position: relative;
-            width: 220px; height: 170px; margin: 0 auto;
-            border-radius: 16px; overflow: hidden;
+            width: 230px; height: 175px; margin: 0 auto;
+            border-radius: 18px; overflow: hidden;
             border: 2px solid var(--border-color);
             background: #0f172a;
         }
 
         .video-stage canvas { width: 100%; height: 100%; display: block; }
 
-        .live-pill {
-            position: absolute; top: 8px; left: 8px;
-            background: rgba(0, 0, 0, 0.65); color: #fff;
-            font-size: 0.7rem; font-weight: 700;
-            padding: 3px 8px; border-radius: 999px;
-            display: flex; align-items: center; gap: 5px;
+        .gift-unbox-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 18px; border-radius: 999px; border: none;
+            background: linear-gradient(135deg, #f59e0b, #ec4899);
+            color: #fff; font-weight: 800; font-size: 0.92rem;
+            cursor: pointer; margin-bottom: 10px;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.35);
+            transition: transform 0.2s;
         }
 
-        .live-dot {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: #ef4444;
-            animation: blink 1s infinite;
+        .gift-unbox-btn:hover { transform: scale(1.04); }
+
+        .prize-reveal-card {
+            margin-top: 10px; padding: 14px 16px; border-radius: 16px;
+            border: 2px dashed var(--border-color);
+            background: rgba(255,255,255,0.08);
+            animation: popIn 0.35s ease;
         }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-
-        .fun-badge {
-            display: inline-block; padding: 4px 10px; border-radius: 999px;
-            background: var(--primary); color: #fff; font-size: 0.78rem; font-weight: 700;
-            margin-bottom: 6px;
+        @keyframes popIn {
+            0% { transform: scale(0.92); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .fun-title { font-size: 1.2rem; font-weight: 800; margin: 0 0 6px; }
-        .fun-desc { font-size: 0.95rem; line-height: 1.5; margin: 0 0 10px; }
+        .prize-tag {
+            font-size: 0.78rem; font-weight: 800; letter-spacing: 0.5px;
+            text-transform: uppercase; color: var(--primary); margin-bottom: 4px;
+        }
 
-        .fun-extra-box {
-            padding: 10px 12px; border-radius: 12px;
-            background: rgba(255,255,255,0.08); border: 1px solid var(--border-color);
-            font-size: 0.88rem; margin-bottom: 12px;
+        .prize-headline {
+            font-size: 1.25rem; font-weight: 900; margin: 0 0 6px;
+        }
+
+        .prize-sub {
+            font-size: 0.95rem; margin: 0 0 10px; line-height: 1.45;
         }
 
         .mini-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-        @media (max-width: 650px) {
-            .mini-actions { justify-content: center; }
-        }
+        @media (max-width: 660px) { .mini-actions { justify-content: center; } }
 
         .mini-btn {
             padding: 8px 13px; border-radius: 10px; border: none;
@@ -308,7 +299,7 @@
             <select id="study-mood-select">
                 <option value="Super Focused 🚀">🚀 Super Focused</option>
                 <option value="Exam Tension 🤯">🤯 Exam Tension</option>
-                <option value="Fun & Entertainment 🎉">🎉 Fun & Entertainment</option>
+                <option value="Surprise & Fun 🎁">🎁 Surprise & Fun</option>
             </select>
 
             <div id="auto-detect-badge">🤖 Type your name or pick Girl / Boy theme below</div>
@@ -325,7 +316,7 @@
     <!-- MAIN APP -->
     <div class="container" id="main-app" style="display:none;">
         <header>
-            <h1 id="hub-title">🌸 Pink Smart AI & Fun Hub</h1>
+            <h1 id="hub-title">🌸 Pink Smart AI & Surprise Hub</h1>
             <p id="welcome-msg">Welcome!</p>
         </header>
 
@@ -333,8 +324,7 @@
             <span>📊 Visits: <strong id="visit-count">0</strong></span>
             <span>✨ Vibe: <strong id="vibe-label">-</strong></span>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button type="button" class="mini-btn sound-on" id="voice-toggle-btn" onclick="toggleVoiceAuto()">🗣️ Auto Voice: ON</button>
-                <button type="button" class="mini-btn secondary" id="ambient-btn" onclick="toggleAmbientChill()">🌧️ Chill Audio: OFF</button>
+                <button type="button" class="mini-btn secondary" id="ambient-btn" onclick="toggleAmbientChill()">🌧️ Chill Sound: OFF</button>
                 <button type="button" class="mini-btn" onclick="toggleVisitors()">👥 Visitors Log</button>
             </div>
         </div>
@@ -351,7 +341,7 @@
             <button type="button" class="tab-btn active" onclick="openTab('qa', 0)">💡 AI Q&A</button>
             <button type="button" class="tab-btn" onclick="openTab('exam', 1)">⚡ Exam Speed Mode</button>
             <button type="button" class="tab-btn" onclick="openTab('quiz', 2)">🎮 Topic Quiz</button>
-            <button type="button" class="tab-btn" onclick="openTab('fun', 3)">🎬 Fun Zone (Voice + Sound)</button>
+            <button type="button" class="tab-btn" onclick="openTab('fun', 3)">🎁 Gift & Surprise Zone</button>
             <button type="button" class="tab-btn" onclick="resetProfile()" style="background:#64748b; color:#fff; border-color:#64748b;">🔄 Switch</button>
         </div>
 
@@ -403,39 +393,40 @@
             </div>
         </div>
 
-        <!-- TAB 4: 15 FUN CARDS WITH VOICE + SOUND + MOTION -->
+        <!-- TAB 4: GIFT BOX + CELEBRATION SURPRISE ZONE -->
         <div id="fun-tab" class="tab-content">
             <div class="card">
-                <h2>🎬 15 Talking & Animated Fun Cards (Voice + Sound + Motion)</h2>
-                <p style="font-size:0.9rem; color:var(--text-light);">Card click karte hi awaaz khud bol kar sunayegi, sound bajegi aur live scene chalega!</p>
+                <h2>🎁 Gift Boxes, Celebration Cards & Fun Prises</h2>
+                <p style="font-size:0.9rem; color:var(--text-light); margin-top:0;">Koi bhi Gift/Card chuno aur <strong>Unbox Gift</strong> dabao — andar se naya prize, wish card ya fun surprise niklega!</p>
 
                 <div class="fun-grid" id="fun-buttons-grid"></div>
 
-                <div class="fun-showcase" id="fun-showcase">
+                <div class="surprise-stage">
                     <div class="video-stage">
-                        <span class="live-pill"><span class="live-dot"></span> LIVE AUDIO + VIDEO</span>
-                        <canvas id="motion-canvas" width="220" height="170"></canvas>
+                        <canvas id="motion-canvas" width="230" height="175"></canvas>
                     </div>
+
                     <div>
-                        <span class="fun-badge" id="fun-tag">FUN CARD #1</span>
-                        <h3 class="fun-title" id="fun-title">Tap a card to play!</h3>
-                        <p class="fun-desc" id="fun-desc">Voice narration + music sound + animated visual.</p>
-                        <div class="fun-extra-box" id="fun-extra">✨ Bonus / Interactive Box</div>
-                        <div class="mini-actions">
-                            <button type="button" class="mini-btn sound-on" onclick="speakCurrentCard()">🗣️ Read Aloud Again</button>
-                            <button type="button" class="mini-btn" onclick="replayCurrentSound()">🎵 Music Effect</button>
-                            <button type="button" class="mini-btn" onclick="revealBonus()">👀 Show Bonus</button>
-                            <button type="button" class="mini-btn secondary" onclick="randomFunCard()">🎲 Next Random</button>
+                        <button type="button" class="gift-unbox-btn" onclick="unboxCurrentGift()">🎀 Unbox Gift / Open Surprise</button>
+
+                        <div class="prize-reveal-card" id="prize-card">
+                            <div class="prize-tag" id="prize-tag">MYSTERY GIFT #1</div>
+                            <h3 class="prize-headline" id="prize-headline">Tap a gift & click Unbox!</h3>
+                            <p class="prize-sub" id="prize-sub">Celebration wishes, mystery prizes, coffee treats & fun surprises inside.</p>
+                            <div class="mini-actions">
+                                <button type="button" class="mini-btn" onclick="playCardSound(surpriseCards[activeCardIndex].sound)">🎵 Play Sound</button>
+                                <button type="button" class="mini-btn secondary" onclick="pickRandomGift()">🎲 Random Gift</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <h2>✍️ Post Your Own Fun / Chill Note</h2>
-                <input type="text" id="post-title" placeholder="Title...">
-                <textarea id="post-body" placeholder="Write a funny line, shayari, or chill thought..."></textarea>
-                <button type="button" class="main-btn" onclick="addPost()">Post Now</button>
+                <h2>✍️ Drop a Fun Wish / Surprise Note</h2>
+                <input type="text" id="post-title" placeholder="Title (e.g. Happy Birthday / Bestie Note)...">
+                <textarea id="post-body" placeholder="Write a fun wish or surprise message..."></textarea>
+                <button type="button" class="main-btn" onclick="addPost()">Post Surprise Note</button>
                 <div id="user-posts"></div>
             </div>
         </div>
@@ -446,9 +437,10 @@
         let timerId = null;
         let secLeft = 300;
         let activeCardIndex = 0;
+        let isUnboxed = false;
         let animFrameId = null;
         let animTick = 0;
-        let autoVoiceEnabled = true;
+        let confettiBursts = [];
 
         let audioCtx = null;
         let ambientPlaying = false;
@@ -491,29 +483,21 @@
                 if (!ctx) return;
                 const now = ctx.currentTime;
 
-                if (soundType === 'comedy') {
-                    playTone(330, 'triangle', now, 0.14, 0.15);
-                    playTone(392, 'triangle', now + 0.13, 0.14, 0.15);
-                    playTone(523, 'sine', now + 0.26, 0.25, 0.16);
-                    playTone(659, 'triangle', now + 0.42, 0.3, 0.15);
-                } else if (soundType === 'mystery') {
-                    playTone(440, 'sine', now, 0.25, 0.13);
-                    playTone(466, 'sine', now + 0.2, 0.25, 0.13);
-                    playTone(587, 'triangle', now + 0.4, 0.45, 0.14);
-                } else if (soundType === 'chill') {
-                    playTone(261.6, 'sine', now, 0.8, 0.1);
-                    playTone(329.6, 'sine', now + 0.08, 0.8, 0.09);
-                    playTone(392.0, 'sine', now + 0.16, 0.9, 0.09);
-                } else if (soundType === 'sparkle') {
-                    [523, 659, 784, 1046].forEach((f, i) => {
-                        playTone(f, 'sine', now + i * 0.08, 0.25, 0.11);
+                if (soundType === 'gift') {
+                    // Gift pop + sparkle chime
+                    playTone(440, 'sine', now, 0.12, 0.16);
+                    playTone(587.33, 'sine', now + 0.1, 0.14, 0.16);
+                    playTone(783.99, 'triangle', now + 0.2, 0.2, 0.18);
+                    playTone(1046.5, 'sine', now + 0.32, 0.35, 0.18);
+                } else if (soundType === 'celebration') {
+                    // Festive wish fanfare
+                    [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5].forEach((f, i) => {
+                        playTone(f, 'triangle', now + i * 0.11, 0.24, 0.15);
                     });
-                } else if (soundType === 'retro') {
-                    playTone(587, 'square', now, 0.1, 0.08);
-                    playTone(880, 'square', now + 0.11, 0.18, 0.08);
-                } else if (soundType === 'breathe') {
-                    playTone(220, 'sine', now, 1.0, 0.11);
-                    playTone(330, 'sine', now + 0.2, 0.9, 0.09);
+                } else if (soundType === 'chill') {
+                    playTone(261.6, 'sine', now, 0.8, 0.11);
+                    playTone(329.6, 'sine', now + 0.08, 0.8, 0.1);
+                    playTone(392.0, 'sine', now + 0.16, 0.9, 0.1);
                 } else if (soundType === 'win') {
                     playTone(523, 'triangle', now, 0.14, 0.15);
                     playTone(659, 'triangle', now + 0.13, 0.14, 0.15);
@@ -526,39 +510,12 @@
             } catch (e) {}
         }
 
-        function speakText(text) {
-            try {
-                if (!autoVoiceEnabled || !('speechSynthesis' in window)) return;
-                window.speechSynthesis.cancel();
-                const clean = String(text).replace(/[^\w\s.,!?':-]/g, ' ');
-                const utter = new SpeechSynthesisUtterance(clean);
-                utter.rate = 1.0;
-                utter.pitch = 1.05;
-                window.speechSynthesis.speak(utter);
-            } catch (e) {}
-        }
-
-        function toggleVoiceAuto() {
-            autoVoiceEnabled = !autoVoiceEnabled;
-            const btn = document.getElementById('voice-toggle-btn');
-            if (autoVoiceEnabled) {
-                btn.innerText = "🗣️ Auto Voice: ON";
-                btn.classList.add('sound-on');
-                btn.classList.remove('secondary');
-            } else {
-                btn.innerText = "🔇 Auto Voice: OFF";
-                btn.classList.remove('sound-on');
-                btn.classList.add('secondary');
-                try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) {}
-            }
-        }
-
         function toggleAmbientChill() {
             const btn = document.getElementById('ambient-btn');
             if (ambientPlaying) {
                 if (ambientNode) { try { ambientNode.stop(); } catch(e){} ambientNode = null; }
                 ambientPlaying = false;
-                btn.innerText = "🌧️ Chill Audio: OFF";
+                btn.innerText = "🌧️ Chill Sound: OFF";
                 btn.classList.remove('sound-on');
                 return;
             }
@@ -592,79 +549,144 @@
                 ambientNode.start(0);
 
                 ambientPlaying = true;
-                btn.innerText = "🌧️ Chill Rain: ON";
+                btn.innerText = "🌧️ Chill Sound: ON";
                 btn.classList.add('sound-on');
             } catch (e) {}
         }
 
-        function setManualGender(g) {
-            user.gender = g;
-            const badge = document.getElementById('auto-detect-badge');
-            if (g === 'boy') {
-                document.documentElement.setAttribute('data-theme', 'boy');
-                badge.innerText = "🌊 Selected: Boy (Blue Theme)";
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-                badge.innerText = "🌸 Selected: Girl (Pink Theme)";
+        // 15 Gift / Surprise / Celebration Cards
+        const surpriseCards = [
+            { btn: "🎁 1. Mystery Gift", tag: "GOLD PRIZE UNBOXED", headline: "Golden Focus Pass ✨", sub: "You unlocked a 100% stress-free 10-minute break pass!", c1: "#ec4899", c2: "#8b5cf6", icon: "🎁", prizeIcon: "👑", sound: "gift", mode: "confetti" },
+            { btn: "🎂 2. Celebration Wish", tag: "SPECIAL WISH CARD", headline: "Sparkle & Celebration Wish! 🎈", sub: "May your days ahead be full of laughter, bright moments & big wins!", c1: "#f59e0b", c2: "#ec4899", icon: "🎂", prizeIcon: "🎉", sound: "celebration", mode: "confetti" },
+            { btn: "☕ 3. Coffee Treat", tag: "COZY TREAT PRIZE", headline: "Warm Coffee / Chai Voucher ☕", sub: "Claim 1 hot cup of coffee or doodh patti + zero screen time for 5 mins!", c1: "#d97706", c2: "#78350f", icon: "☕", prizeIcon: "🥐", sound: "chill", mode: "sparkles" },
+            { btn: "🍫 4. Sweet Surprise", tag: "SWEET REWARD", headline: "Chocolate & Mithai Box 🍫", sub: "Treat unlocked! Grab a sweet piece—you earned a happy pause.", c1: "#f43f5e", c2: "#9333ea", icon: "🍫", prizeIcon: "🍬", sound: "gift", mode: "confetti" },
+            { btn: "🌟 5. Lucky Star", tag: "LUCKY CHARM", headline: "Shooting Star Fortune 🌟", sub: "A surprise good-vibe boost just landed for you!", c1: "#06b6d4", c2: "#3b82f6", icon: "🌟", prizeIcon: "🌠", sound: "celebration", mode: "sparkles" },
+            { btn: "🏆 6. Winner Trophy", tag: "CHAMPION PRIZE", headline: "Super achiever Badge 🏆", sub: "Awarded for juggling classes, work, and creativity like a star!", c1: "#eab308", c2: "#ea580c", icon: "🏆", prizeIcon: "🥇", sound: "gift", mode: "confetti" },
+            { btn: "🎭 7. Prank / Fun Card", tag: "FUNNY SURPRISE", headline: "Exam Paper Plot Twist 😂", sub: "Prize: Permission to laugh for 15 seconds straight!", c1: "#10b981", c2: "#059669", icon: "🎭", prizeIcon: "🤣", sound: "gift", mode: "confetti" },
+            { btn: "💎 8. Diamond Vibe", tag: "RARE UNBOX", headline: "Diamond Calm Energy 💎", sub: "Rare drop: Instant peace of mind & sharp focus!", c1: "#38bdf8", c2: "#6366f1", icon: "💎", prizeIcon: "✨", sound: "celebration", mode: "sparkles" },
+            { btn: "🧸 9. Cozy Hug Card", tag: "WARM SURPRISE", headline: "Good Vibes & Warm Cheer 🧸", sub: "Sending positive energy and smiles straight to your screen!", c1: "#fb7185", c2: "#f472b6", icon: "🧸", prizeIcon: "💖", sound: "chill", mode: "sparkles" },
+            { btn: "🚀 10. Turbo Boost", tag: "SPEED PRIZE", headline: "Rocket Motivation Boost 🚀", sub: "Ready to crush your next task in record time!", c1: "#6366f1", c2: "#06b6d4", icon: "🚀", prizeIcon: "⚡", sound: "gift", mode: "confetti" },
+            { btn: "🎪 11. Carnival Spin", tag: "CARNIVAL PRIZE", headline: "Festival Confetti Blast 🎪", sub: "Spin & win: One random smile + one fresh start!", c1: "#a855f7", c2: "#ec4899", icon: "🎪", prizeIcon: "🎊", sound: "celebration", mode: "confetti" },
+            { btn: "🌙 12. Moonlight Rest", tag: "CHILL PRIZE", headline: "Starlight Relaxation Ticket 🌙", sub: "Time to slow down, breathe deep, and rest your eyes.", c1: "#1e1b4b", c2: "#4f46e5", icon: "🌙", prizeIcon: "☁️", sound: "chill", mode: "sparkles" },
+            { btn: "🦋 13. Aesthetic Card", tag: "GLOW PRIZE", headline: "Butterfly Glow Card 🦋", sub: "Fresh aesthetic energy & creative inspiration unlocked!", c1: "#f472b6", c2: "#a855f7", icon: "🦋", prizeIcon: "🌸", sound: "celebration", mode: "sparkles" },
+            { btn: "🎯 14. Bullseye Dare", tag: "MINI CHALLENGE", headline: "10-Second Stretch Prize 🎯", sub: "Stand up, stretch wide, and shake off stiffness!", c1: "#ef4444", c2: "#f97316", icon: "🎯", prizeIcon: "🔥", sound: "gift", mode: "confetti" },
+            { btn: "💌 15. Secret Note", tag: "FINAL SURPRISE", headline: "Secret VIP Message 💌", sub: "Keep shining your own way—something awesome is coming up!", c1: "#ec4899", c2: "#eab308", icon: "💌", prizeIcon: "🌈", sound: "celebration", mode: "confetti" }
+        ];
+
+        function spawnConfetti(canvas) {
+            const colors = ['#fde047', '#fb7185', '#38bdf8', '#4ade80', '#c084fc', '#ffffff'];
+            for (let i = 0; i < 36; i++) {
+                confettiBursts.push({
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 30,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 6.5,
+                    vy: -Math.random() * 5.5 - 1.5,
+                    size: 4 + Math.random() * 5,
+                    color: colors[i % colors.length],
+                    life: 1
+                });
             }
         }
 
-        function detectGender(name) {
-            const val = (name || '').toLowerCase().trim();
-            const badge = document.getElementById('auto-detect-badge');
-            if (!val) {
-                badge.innerText = "🤖 Type your name or pick Girl / Boy theme below";
-                return;
-            }
-            const boys = ['ali', 'ahmed', 'ahmad', 'bilal', 'hamza', 'usman', 'umer', 'zain', 'saad', 'abdullah', 'asghar', 'mustafa'];
-            const isBoy = boys.some(b => val.includes(b));
-            setManualGender(isBoy ? 'boy' : 'girl');
-        }
-
-        function launchPortal() {
+        function startMotionScene() {
             try {
-                const name = (document.getElementById('user-name-input').value || '').trim() || "Saba Anfaal";
-                const age = (document.getElementById('user-age-input').value || '').trim() || "20";
-                const level = document.getElementById('user-class-select').value || "BS / University";
-                const mood = document.getElementById('study-mood-select').value || "Super Focused 🚀";
+                if (animFrameId) cancelAnimationFrame(animFrameId);
+                const canvas = document.getElementById('motion-canvas');
+                if (!canvas || !canvas.getContext) return;
+                const ctx = canvas.getContext('2d');
 
-                user = { ...user, name, age, level, mood };
+                function render() {
+                    animTick += 0.045;
+                    const c = surpriseCards[activeCardIndex];
+                    const w = canvas.width;
+                    const h = canvas.height;
 
-                try {
-                    const logs = JSON.parse(localStorage.getItem('hubVisitorsV2') || '[]');
-                    logs.unshift({ name, level, mood, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
-                    localStorage.setItem('hubVisitorsV2', JSON.stringify(logs.slice(0, 40)));
-                    document.getElementById('visit-count').innerText = logs.length;
-                } catch (e) {
-                    document.getElementById('visit-count').innerText = '1';
+                    const grad = ctx.createLinearGradient(0, 0, w, h);
+                    grad.addColorStop(0, c.c1);
+                    grad.addColorStop(1, c.c2);
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, w, h);
+
+                    // Ambient floating sparkles
+                    for (let i = 0; i < 12; i++) {
+                        const sx = ((i * 39 + Math.sin(animTick + i) * 18) % w + w) % w;
+                        const sy = ((i * 27 + Math.cos(animTick * 0.8 + i) * 16) % h + h) % h;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, 2.5 + (i % 2), 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+                        ctx.fill();
+                    }
+
+                    // Gift / Prize center icon with bounce
+                    const bounce = Math.sin(animTick * 2.2) * 7;
+                    ctx.font = '56px Segoe UI Emoji, Apple Color Emoji, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(isUnboxed ? c.prizeIcon : c.icon, w / 2, h / 2 + bounce);
+
+                    // Confetti particles when unboxed
+                    for (let p = confettiBursts.length - 1; p >= 0; p--) {
+                        const pt = confettiBursts[p];
+                        pt.x += pt.vx;
+                        pt.y += pt.vy;
+                        pt.vy += 0.16;
+                        pt.life -= 0.022;
+                        if (pt.life <= 0) {
+                            confettiBursts.splice(p, 1);
+                            continue;
+                        }
+                        ctx.save();
+                        ctx.globalAlpha = Math.max(0, pt.life);
+                        ctx.fillStyle = pt.color;
+                        ctx.fillRect(pt.x, pt.y, pt.size, pt.size);
+                        ctx.restore();
+                    }
+
+                    animFrameId = requestAnimationFrame(render);
                 }
+                render();
+            } catch (e) {}
+        }
 
-                if (user.gender === 'boy') {
-                    document.documentElement.setAttribute('data-theme', 'boy');
-                    document.getElementById('hub-title').innerText = '🌊 Blue Smart AI & Fun Hub';
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                    document.getElementById('hub-title').innerText = '🌸 Pink Smart AI & Fun Hub';
-                }
+        function buildFunGrid() {
+            const grid = document.getElementById('fun-buttons-grid');
+            grid.innerHTML = surpriseCards.map((c, i) =>
+                `<button type="button" class="fun-card-btn" id="fbtn-${i}" onclick="selectGiftCard(${i}, false)">${c.btn}</button>`
+            ).join('');
+            selectGiftCard(0, false);
+            startMotionScene();
+        }
 
-                document.getElementById('welcome-msg').innerText = `Welcome, ${name} (${level})!`;
-                document.getElementById('vibe-label').innerText = mood;
+        function selectGiftCard(index, autoOpen) {
+            activeCardIndex = index;
+            isUnboxed = false;
+            document.querySelectorAll('.fun-card-btn').forEach(b => b.classList.remove('selected'));
+            const activeBtn = document.getElementById(`fbtn-${index}`);
+            if (activeBtn) activeBtn.classList.add('selected');
 
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
+            const c = surpriseCards[index];
+            document.getElementById('prize-tag').innerText = "SEALED SURPRISE BOX";
+            document.getElementById('prize-headline').innerText = c.btn + " Ready!";
+            document.getElementById('prize-sub').innerText = "Click 'Unbox Gift / Open Surprise' to pop it open!";
 
-                buildFunGrid();
-                renderVisitors();
-                renderPosts();
-                playCardSound('sparkle');
+            if (autoOpen) unboxCurrentGift();
+        }
 
-                if (mood.includes('Exam Tension')) openTab('exam', 1);
-                else if (mood.includes('Fun & Entertainment')) openTab('fun', 3);
-                else openTab('qa', 0);
-            } catch (err) {
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-            }
+        function unboxCurrentGift() {
+            const c = surpriseCards[activeCardIndex];
+            isUnboxed = true;
+            document.getElementById('prize-tag').innerText = c.tag;
+            document.getElementById('prize-headline').innerText = c.headline;
+            document.getElementById('prize-sub').innerText = c.sub;
+
+            const canvas = document.getElementById('motion-canvas');
+            if (canvas) spawnConfetti(canvas);
+            playCardSound(c.sound);
+        }
+
+        function pickRandomGift() {
+            const next = Math.floor(Math.random() * surpriseCards.length);
+            selectGiftCard(next, true);
         }
 
         // ================= CUSTOM TOPIC AUTO-NEXT QUIZ =================
@@ -772,7 +794,7 @@
             activeQuizList = buildQuestionsForTopic(rawTopic);
             quizIndex = 0;
             quizScore = 0;
-            playCardSound('sparkle');
+            playCardSound('gift');
             renderCurrentQuizQuestion();
         }
 
@@ -786,7 +808,6 @@
                     <div class="quiz-arena" style="text-align:center;">
                         <h3 style="color:var(--primary); margin-top:0;">🏆 Quiz Completed: ${esc(currentTopicName)}</h3>
                         <p style="font-size:1.2rem; font-weight:800;">Your Score: ${quizScore} / ${activeQuizList.length}</p>
-                        <p style="color:var(--text-light);">Zabardast! Aap dobara khel sakti hain ya koi naya topic likh sakti hain.</p>
                         <button type="button" class="mini-btn" onclick="startCustomQuiz()">🔄 Play Again</button>
                     </div>
                 `;
@@ -839,160 +860,74 @@
             }, 1300);
         }
 
-        // ================= 15 FUN CARDS WITH VOICE + SOUND + MOTION =================
-        const funCards = [
-            { tag: "COMEDY #1", title: "Exam Hall Logic 😂", desc: "Teacher: Why is your answer sheet empty? Student: Ma'am, I left space for your imagination!", extra: "Bonus Tip: Even 3 neat bullet points beat a blank line!", c1: "#f59e0b", c2: "#ef4444", icon: "😂", sound: "comedy", scene: "bounce" },
-            { tag: "RIDDLE #2", title: "Brain Teaser 🧩", desc: "I have cities, but no houses; mountains, but no trees; and water, but no fish. What am I?", extra: "Answer: A Map! 🗺️", c1: "#8b5cf6", c2: "#ec4899", icon: "🧩", sound: "mystery", scene: "orbit" },
-            { tag: "COFFEE #3", title: "Chai & Coffee Break ☕", desc: "Step away from the screen for 5 minutes, sip warm tea or coffee, and relax your shoulders.", extra: "Mini Challenge: Drink one full glass of water right now!", c1: "#d97706", c2: "#78350f", icon: "☕", sound: "chill", scene: "steam" },
-            { tag: "SHAYARI #4", title: "Student Vibe ✨", desc: "Raat bhar jagne ka wada kiya tha, takiye ne dekha aur neend aa gayi!", extra: "Bonus Note: Focused daytime study beats late-night exhaustion.", c1: "#ec4899", c2: "#6366f1", icon: "✨", sound: "sparkle", scene: "stars" },
-            { tag: "FACT #5", title: "Cool Brain Fact 🧠", desc: "Your brain creates around 12 to 25 watts of electrical power, enough to light a small LED bulb!", extra: "Bonus Fact: Writing short notes by hand boosts recall.", c1: "#06b6d4", c2: "#3b82f6", icon: "🧠", sound: "sparkle", scene: "waves" },
-            { tag: "CODER #6", title: "Programming Humor 💻", desc: "99 little bugs in the code, take one down, patch it around... 127 little bugs in the code!", extra: "Bonus Rule: Always check missing semicolons and brackets first!", c1: "#10b981", c2: "#0f766e", icon: "💻", sound: "retro", scene: "matrix" },
-            { tag: "RESET #7", title: "10-Second Calm Breath 🎯", desc: "Sit straight, roll your neck gently, and follow the glowing circle to breathe in and out.", extra: "Bonus Reward: You deserve a calm, unhurried pause.", c1: "#f97316", c2: "#e11d48", icon: "🎯", sound: "breathe", scene: "breathe" },
-            { tag: "MOVIE #8", title: "Emoji Movie Guess 🎬", desc: "Guess this classic movie: Lion, Crown, Sunrise!", extra: "Answer: The Lion King! 🦁", c1: "#eab308", c2: "#ea580c", icon: "🎬", sound: "mystery", scene: "stars" },
-            { tag: "BOOST #9", title: "Confidence Booster 🌟", desc: "You are balancing studies, work, and goals. Steady daily steps always move you forward.", extra: "Bonus Reminder: Quiet progress is still real progress.", c1: "#a855f7", c2: "#3b82f6", icon: "🌟", sound: "win", scene: "orbit" },
-            { tag: "AUDIO #10", title: "Lo-Fi Sound Waves 🎧", desc: "Listen to the soft audio wave and let background noise fade out for a few minutes.", extra: "Tip: Turn on Chill Rain in the top bar for soothing rain sound!", c1: "#14b8a6", c2: "#0284c7", icon: "🎧", sound: "chill", scene: "waves" },
-            { tag: "SWEET #11", title: "Sweet Treat Break 🍫", desc: "Grab a small piece of chocolate or sweet. A tiny treat makes a busy day feel lighter.", extra: "Bonus Fun: Share a joke or sweet with your bestie today!", c1: "#f43f5e", c2: "#9333ea", icon: "🍫", sound: "comedy", scene: "bounce" },
-            { tag: "TRIVIA #12", title: "Quick Word Riddle 📚", desc: "Which word becomes shorter when you add two letters to it?", extra: "Answer: Short becomes Shorter! 😄", c1: "#3b82f6", c2: "#1d4ed8", icon: "📚", sound: "mystery", scene: "orbit" },
-            { tag: "NIGHT #13", title: "Starry Night Routine 🌙", desc: "Sleeping on time keeps your mind fresh for tomorrow instead of fighting fatigue.", extra: "Bonus Tip: Write tomorrow's top 2 priorities before sleeping.", c1: "#6366f1", c2: "#1e1b4b", icon: "🌙", sound: "chill", scene: "stars" },
-            { tag: "EYES #14", title: "20-20 Eye Relax 👀", desc: "Look away from your laptop screen at something far away for 15 seconds.", extra: "Bonus Tip: Blink slowly 5 times to refresh your eyes!", c1: "#22c55e", c2: "#15803d", icon: "👀", sound: "breathe", scene: "breathe" },
-            { tag: "FORTUNE #15", title: "Winner Vibe Card 🏆", desc: "Good things are lining up for you. Stay curious, stay confident, and keep shining!", extra: "Bonus Cheer: You have got this! 🎉", c1: "#ec4899", c2: "#f59e0b", icon: "🏆", sound: "win", scene: "stars" }
-        ];
-
-        function startMotionScene() {
-            try {
-                if (animFrameId) cancelAnimationFrame(animFrameId);
-                const canvas = document.getElementById('motion-canvas');
-                if (!canvas || !canvas.getContext) return;
-                const ctx = canvas.getContext('2d');
-
-                function render() {
-                    animTick += 0.04;
-                    const c = funCards[activeCardIndex];
-                    const w = canvas.width;
-                    const h = canvas.height;
-
-                    const grad = ctx.createLinearGradient(0, 0, w, h);
-                    grad.addColorStop(0, c.c1);
-                    grad.addColorStop(1, c.c2);
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0, 0, w, h);
-
-                    ctx.save();
-                    if (c.scene === 'steam') {
-                        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-                        ctx.lineWidth = 3;
-                        for (let s = 0; s < 3; s++) {
-                            ctx.beginPath();
-                            for (let y = 0; y < 45; y += 3) {
-                                const x = 85 + s * 25 + Math.sin(animTick * 2 + y * 0.12 + s) * 7;
-                                const py = 65 - y;
-                                if (y === 0) ctx.moveTo(x, py);
-                                else ctx.lineTo(x, py);
-                            }
-                            ctx.stroke();
-                        }
-                    } else if (c.scene === 'waves') {
-                        ctx.fillStyle = 'rgba(255,255,255,0.45)';
-                        for (let b = 0; b < 11; b++) {
-                            const barH = 20 + Math.abs(Math.sin(animTick * 2.4 + b * 0.6)) * 55;
-                            ctx.fillRect(20 + b * 17, h - barH - 12, 10, barH);
-                        }
-                    } else if (c.scene === 'breathe') {
-                        const radius = 38 + Math.sin(animTick * 1.1) * 18;
-                        ctx.beginPath();
-                        ctx.arc(w / 2, h / 2, radius, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(255,255,255,0.22)';
-                        ctx.fill();
-                        ctx.strokeStyle = 'rgba(255,255,255,0.75)';
-                        ctx.lineWidth = 3;
-                        ctx.stroke();
-                    } else if (c.scene === 'orbit') {
-                        for (let k = 0; k < 4; k++) {
-                            const ang = animTick * 1.4 + (k * Math.PI) / 2;
-                            const ox = w / 2 + Math.cos(ang) * 58;
-                            const oy = h / 2 + Math.sin(ang) * 42;
-                            ctx.beginPath();
-                            ctx.arc(ox, oy, 7, 0, Math.PI * 2);
-                            ctx.fillStyle = 'rgba(255,255,255,0.75)';
-                            ctx.fill();
-                        }
-                    } else if (c.scene === 'matrix') {
-                        ctx.fillStyle = 'rgba(255,255,255,0.45)';
-                        ctx.font = 'bold 13px monospace';
-                        for (let col = 0; col < 8; col++) {
-                            const py = ((animTick * 38 + col * 37) % (h + 20));
-                            ctx.fillText(col % 2 === 0 ? '101' : '010', 18 + col * 25, py);
-                        }
-                    } else {
-                        for (let p = 0; p < 10; p++) {
-                            const px = (p * 47 + Math.sin(animTick + p) * 15) % w;
-                            const py = h - ((animTick * 24 + p * 29) % h);
-                            ctx.beginPath();
-                            ctx.arc(px, py, 3 + (p % 3), 0, Math.PI * 2);
-                            ctx.fillStyle = 'rgba(255,255,255,0.55)';
-                            ctx.fill();
-                        }
-                    }
-                    ctx.restore();
-
-                    const bounceY = c.scene === 'bounce' ? Math.abs(Math.sin(animTick * 2.5)) * -14 : Math.sin(animTick * 1.5) * 5;
-                    ctx.font = '54px Segoe UI Emoji, Apple Color Emoji, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(c.icon, w / 2, h / 2 + 8 + bounceY);
-
-                    animFrameId = requestAnimationFrame(render);
-                }
-                render();
-            } catch (e) {}
-        }
-
-        function buildFunGrid() {
-            const grid = document.getElementById('fun-buttons-grid');
-            grid.innerHTML = funCards.map((c, i) =>
-                `<button type="button" class="fun-card-btn" id="fbtn-${i}" onclick="selectFunCard(${i}, true)">${c.icon} ${i + 1}. ${c.title.split(' ')[0]}</button>`
-            ).join('');
-            selectFunCard(0, false);
-            startMotionScene();
-        }
-
-        function selectFunCard(index, withAudio) {
-            activeCardIndex = index;
-            document.querySelectorAll('.fun-card-btn').forEach(b => b.classList.remove('selected'));
-            const activeBtn = document.getElementById(`fbtn-${index}`);
-            if (activeBtn) activeBtn.classList.add('selected');
-
-            const c = funCards[index];
-            document.getElementById('fun-tag').innerText = c.tag;
-            document.getElementById('fun-title').innerText = c.title;
-            document.getElementById('fun-desc').innerText = c.desc;
-            document.getElementById('fun-extra').innerText = "🔒 Click 'Show Bonus' to reveal & hear the extra!";
-
-            if (withAudio) {
-                playCardSound(c.sound);
-                setTimeout(() => speakText(`${c.title}. ${c.desc}`), 300);
+        function setManualGender(g) {
+            user.gender = g;
+            const badge = document.getElementById('auto-detect-badge');
+            if (g === 'boy') {
+                document.documentElement.setAttribute('data-theme', 'boy');
+                badge.innerText = "🌊 Selected: Boy (Blue Theme)";
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                badge.innerText = "🌸 Selected: Girl (Pink Theme)";
             }
         }
 
-        function speakCurrentCard() {
-            const c = funCards[activeCardIndex];
-            speakText(`${c.title}. ${c.desc}`);
+        function detectGender(name) {
+            const val = (name || '').toLowerCase().trim();
+            const badge = document.getElementById('auto-detect-badge');
+            if (!val) {
+                badge.innerText = "🤖 Type your name or pick Girl / Boy theme below";
+                return;
+            }
+            const boys = ['ali', 'ahmed', 'ahmad', 'bilal', 'hamza', 'usman', 'umer', 'zain', 'saad', 'abdullah', 'asghar', 'mustafa'];
+            const isBoy = boys.some(b => val.includes(b));
+            setManualGender(isBoy ? 'boy' : 'girl');
         }
 
-        function replayCurrentSound() {
-            playCardSound(funCards[activeCardIndex].sound);
-        }
+        function launchPortal() {
+            try {
+                const name = (document.getElementById('user-name-input').value || '').trim() || "Saba Anfaal";
+                const age = (document.getElementById('user-age-input').value || '').trim() || "20";
+                const level = document.getElementById('user-class-select').value || "BS / University";
+                const mood = document.getElementById('study-mood-select').value || "Super Focused 🚀";
 
-        function revealBonus() {
-            const extraText = funCards[activeCardIndex].extra;
-            document.getElementById('fun-extra').innerText = extraText;
-            playCardSound('sparkle');
-            speakText(extraText);
-        }
+                user = { ...user, name, age, level, mood };
 
-        function randomFunCard() {
-            const next = Math.floor(Math.random() * funCards.length);
-            selectFunCard(next, true);
+                try {
+                    const logs = JSON.parse(localStorage.getItem('hubVisitorsV2') || '[]');
+                    logs.unshift({ name, level, mood, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+                    localStorage.setItem('hubVisitorsV2', JSON.stringify(logs.slice(0, 40)));
+                    document.getElementById('visit-count').innerText = logs.length;
+                } catch (e) {
+                    document.getElementById('visit-count').innerText = '1';
+                }
+
+                if (user.gender === 'boy') {
+                    document.documentElement.setAttribute('data-theme', 'boy');
+                    document.getElementById('hub-title').innerText = '🌊 Blue Smart AI & Surprise Hub';
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    document.getElementById('hub-title').innerText = '🌸 Pink Smart AI & Surprise Hub';
+                }
+
+                document.getElementById('welcome-msg').innerText = `Welcome, ${name} (${level})!`;
+                document.getElementById('vibe-label').innerText = mood;
+
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+
+                buildFunGrid();
+                renderVisitors();
+                renderPosts();
+                playCardSound('gift');
+
+                if (mood.includes('Exam Tension')) openTab('exam', 1);
+                else if (mood.includes('Surprise & Fun')) openTab('fun', 3);
+                else openTab('qa', 0);
+            } catch (err) {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+            }
         }
 
         function toggleVisitors() {
@@ -1024,7 +959,6 @@
         }
 
         function resetProfile() {
-            try { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); } catch (e) {}
             document.getElementById('main-app').style.display = 'none';
             document.getElementById('welcome-screen').style.display = 'flex';
         }
@@ -1032,7 +966,7 @@
         function makeAnswer() {
             const q = document.getElementById('qa-question').value.trim();
             if (!q) return;
-            playCardSound('sparkle');
+            playCardSound('gift');
             document.getElementById('qa-output').innerHTML = `
                 <div class="post-card">
                     <strong>💡 ${esc(q)}</strong>
@@ -1060,7 +994,7 @@
         function makeCheatPoints() {
             const t = document.getElementById('cheat-topic').value.trim();
             if (!t) return;
-            playCardSound('sparkle');
+            playCardSound('gift');
             document.getElementById('cheat-output').innerHTML = `
                 <div class="post-card">
                     <strong>⚡ Fast Points: ${esc(t)}</strong>
@@ -1078,7 +1012,7 @@
                 localStorage.setItem('hubFunPosts', JSON.stringify(posts));
                 document.getElementById('post-title').value = '';
                 document.getElementById('post-body').value = '';
-                playCardSound('win');
+                playCardSound('celebration');
                 renderPosts();
             } catch (e) {}
         }
