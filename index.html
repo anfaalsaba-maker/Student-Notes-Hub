@@ -8,7 +8,7 @@
         :root {
             --primary: #db2777;
             --bg-color: #fdf2f8;
-            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: rgba(255, 255, 255, 0.94);
             --text-color: #831843;
             --text-light: #9d174d;
             --border-color: #f472b6;
@@ -19,7 +19,7 @@
         [data-theme="boy"] {
             --primary: #06b6d4;
             --bg-color: #030712;
-            --card-bg: rgba(15, 23, 42, 0.88);
+            --card-bg: rgba(15, 23, 42, 0.9);
             --text-color: #f8fafc;
             --text-light: #94a3b8;
             --border-color: #3b82f6;
@@ -130,6 +130,55 @@
             font-size: 0.95rem; cursor: pointer;
         }
 
+        /* Quiz Styling */
+        .topic-chips {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
+        }
+
+        .chip-btn {
+            padding: 6px 12px; border-radius: 999px;
+            border: 1.5px solid var(--border-color);
+            background: rgba(255,255,255,0.08); color: var(--text-color);
+            font-size: 0.82rem; font-weight: 700; cursor: pointer;
+        }
+
+        .chip-btn:hover { background: var(--primary); color: #fff; }
+
+        .quiz-arena {
+            border: 2px solid var(--border-color);
+            border-radius: 18px; padding: 20px; margin-top: 14px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .quiz-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.88rem; font-weight: 700; margin-bottom: 12px;
+            padding-bottom: 8px; border-bottom: 1px solid var(--border-color);
+        }
+
+        .quiz-q-text {
+            font-size: 1.12rem; font-weight: 800; margin-bottom: 14px; line-height: 1.45;
+        }
+
+        .quiz-options {
+            display: grid; gap: 10px;
+        }
+
+        .opt-btn {
+            text-align: left; padding: 12px 15px; border-radius: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg); color: var(--text-color);
+            font-size: 0.95rem; font-weight: 700; cursor: pointer;
+            transition: transform 0.15s, background 0.2s;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            background: var(--primary); color: #fff; transform: translateX(4px);
+        }
+
+        .opt-btn.correct { background: #10b981 !important; color: #fff !important; border-color: #10b981 !important; }
+        .opt-btn.wrong { background: #ef4444 !important; color: #fff !important; border-color: #ef4444 !important; }
+
         /* 15 Fun Cards Grid */
         .fun-grid {
             display: grid;
@@ -149,7 +198,6 @@
             background: var(--primary); color: #fff; transform: translateY(-2px);
         }
 
-        /* Animated Video-Style Showcase Box */
         .fun-showcase {
             border: 2px solid var(--border-color);
             border-radius: 20px; padding: 18px;
@@ -171,13 +219,11 @@
             background: #0f172a;
         }
 
-        .video-stage canvas {
-            width: 100%; height: 100%; display: block;
-        }
+        .video-stage canvas { width: 100%; height: 100%; display: block; }
 
         .live-pill {
             position: absolute; top: 8px; left: 8px;
-            background: rgba(0, 0, 0, 0.6); color: #fff;
+            background: rgba(0, 0, 0, 0.65); color: #fff;
             font-size: 0.7rem; font-weight: 700;
             padding: 3px 8px; border-radius: 999px;
             display: flex; align-items: center; gap: 5px;
@@ -189,10 +235,7 @@
             animation: blink 1s infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
 
         .fun-badge {
             display: inline-block; padding: 4px 10px; border-radius: 999px;
@@ -275,6 +318,7 @@
             <span>📊 Visits: <strong id="visit-count">0</strong></span>
             <span>✨ Vibe: <strong id="vibe-label">-</strong></span>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="mini-btn sound-on" id="voice-toggle-btn" onclick="toggleVoiceAuto()">🗣️ Auto Voice: ON</button>
                 <button class="mini-btn secondary" id="ambient-btn" onclick="toggleAmbientChill()">🌧️ Chill Audio: OFF</button>
                 <button class="mini-btn" onclick="toggleVisitors()">👥 Visitors Log</button>
             </div>
@@ -291,8 +335,8 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="openTab('qa', 0)">💡 AI Q&A</button>
             <button class="tab-btn" onclick="openTab('exam', 1)">⚡ Exam Speed Mode</button>
-            <button class="tab-btn" onclick="openTab('quiz', 2)">🎮 Quiz</button>
-            <button class="tab-btn" onclick="openTab('fun', 3)">🎬 Fun Zone (Motion + Sound)</button>
+            <button class="tab-btn" onclick="openTab('quiz', 2)">🎮 Topic Quiz</button>
+            <button class="tab-btn" onclick="openTab('fun', 3)">🎬 Fun Zone (Voice + Sound)</button>
             <button class="tab-btn" onclick="resetProfile()" style="background:#64748b; color:#fff; border-color:#64748b;">🔄 Switch</button>
         </div>
 
@@ -322,37 +366,50 @@
             </div>
         </div>
 
-        <!-- TAB 3: QUIZ -->
+        <!-- TAB 3: CUSTOM TOPIC AUTO-NEXT QUIZ -->
         <div id="quiz-tab" class="tab-content">
-            <div class="card" style="text-align:center;">
-                <h2>🎮 Quick Challenge</h2>
-                <p><strong>Question:</strong> Does a Stack work on LIFO (Last-In, First-Out)?</p>
-                <button class="mini-btn" onclick="playCardSound('win'); alert('✅ Correct! Stack is LIFO.')">True (Stack)</button>
-                <button class="mini-btn secondary" onclick="playCardSound('boing'); alert('❌ Try again! Queue is FIFO.')">False (Queue)</button>
+            <div class="card">
+                <h2>🎮 Custom Topic Quiz (Auto Next Questions)</h2>
+                <p style="font-size:0.9rem; color:var(--text-light); margin-top:0;">Likho ke kis cheez ka quiz solve karna hai — ek sawal solve hote hi agla sawal khud aa jayega!</p>
+
+                <div class="topic-chips">
+                    <button class="chip-btn" onclick="quickPickTopic('C++ Programming')">💻 C++ Programming</button>
+                    <button class="chip-btn" onclick="quickPickTopic('Data Science')">📊 Data Science</button>
+                    <button class="chip-btn" onclick="quickPickTopic('Artificial Intelligence')">🤖 Artificial Intelligence</button>
+                    <button class="chip-btn" onclick="quickPickTopic('Statistics & Probability')">📈 Statistics</button>
+                    <button class="chip-btn" onclick="quickPickTopic('Calculus & Math')">➗ Calculus & Math</button>
+                    <button class="chip-btn" onclick="quickPickTopic('English & Communication')">📝 English</button>
+                </div>
+
+                <input type="text" id="quiz-topic-input" placeholder="Type any subject/topic (e.g. C++, Data Science, AI, General Knowledge)...">
+                <button class="main-btn" onclick="startCustomQuiz()">🚀 Start Quiz on This Topic</button>
+
+                <div id="quiz-arena-box" style="display:none;"></div>
             </div>
         </div>
 
-        <!-- TAB 4: 15 FUN CARDS WITH LIVE MOTION SCENE & SOUND -->
+        <!-- TAB 4: 15 FUN CARDS WITH VOICE + SOUND + MOTION -->
         <div id="fun-tab" class="tab-content">
             <div class="card">
-                <h2>🎬 15 Animated Fun Cards (Live Visual Motion + Sound)</h2>
-                <p style="font-size:0.9rem; color:var(--text-light);">Har card ke saath chalta-phirta motion scene aur uske mood ki sound bajegi!</p>
+                <h2>🎬 15 Talking & Animated Fun Cards (Voice + Sound + Motion)</h2>
+                <p style="font-size:0.9rem; color:var(--text-light);">Ab card sirf likha hua nahi dikhega — click karte hi awaaz khud bol kar sunayegi, sound bajegi aur live scene chalega!</p>
 
                 <div class="fun-grid" id="fun-buttons-grid"></div>
 
                 <div class="fun-showcase" id="fun-showcase">
                     <div class="video-stage">
-                        <span class="live-pill"><span class="live-dot"></span> LIVE SCENE</span>
+                        <span class="live-pill"><span class="live-dot"></span> LIVE AUDIO + VIDEO</span>
                         <canvas id="motion-canvas" width="220" height="170"></canvas>
                     </div>
                     <div>
                         <span class="fun-badge" id="fun-tag">FUN CARD #1</span>
                         <h3 class="fun-title" id="fun-title">Tap a card to play!</h3>
-                        <p class="fun-desc" id="fun-desc">Live animated visual + custom sound effect for every card.</p>
+                        <p class="fun-desc" id="fun-desc">Voice narration + music sound + animated visual.</p>
                         <div class="fun-extra-box" id="fun-extra">✨ Bonus / Interactive Box</div>
                         <div class="mini-actions">
-                            <button class="mini-btn sound-on" onclick="replayCurrentSound()">🔊 Play Card Sound</button>
-                            <button class="mini-btn" onclick="revealBonus()">👀 Show Answer / Bonus</button>
+                            <button class="mini-btn sound-on" onclick="speakCurrentCard()">🗣️ Read Aloud Again</button>
+                            <button class="mini-btn" onclick="replayCurrentSound()">🎵 Music Effect</button>
+                            <button class="mini-btn" onclick="revealBonus()">👀 Show Bonus</button>
                             <button class="mini-btn secondary" onclick="randomFunCard()">🎲 Next Random</button>
                         </div>
                     </div>
@@ -376,12 +433,12 @@
         let activeCardIndex = 0;
         let animFrameId = null;
         let animTick = 0;
+        let autoVoiceEnabled = true;
 
-        // Web Audio API Sound Engine (Zero external files needed!)
+        // Web Audio API Sound Engine
         let audioCtx = null;
         let ambientPlaying = false;
         let ambientNode = null;
-        let ambientGain = null;
 
         function getAudioCtx() {
             if (!audioCtx) {
@@ -413,45 +470,67 @@
                 const now = ctx.currentTime;
 
                 if (soundType === 'comedy') {
-                    // Playful bouncy comedy notes
                     playTone(330, 'triangle', now, 0.14, 0.16);
                     playTone(392, 'triangle', now + 0.13, 0.14, 0.16);
                     playTone(523, 'sine', now + 0.26, 0.25, 0.18);
                     playTone(659, 'triangle', now + 0.42, 0.3, 0.16);
                 } else if (soundType === 'mystery') {
-                    // Riddle / curious chime
                     playTone(440, 'sine', now, 0.25, 0.14);
                     playTone(466, 'sine', now + 0.2, 0.25, 0.14);
                     playTone(587, 'triangle', now + 0.4, 0.45, 0.15);
                 } else if (soundType === 'chill') {
-                    // Warm soft coffee/lofi chord
                     playTone(261.6, 'sine', now, 0.8, 0.1);
                     playTone(329.6, 'sine', now + 0.08, 0.8, 0.09);
                     playTone(392.0, 'sine', now + 0.16, 0.9, 0.09);
                     playTone(493.8, 'sine', now + 0.24, 1.0, 0.08);
                 } else if (soundType === 'sparkle') {
-                    // Magical ascending arpeggio
                     [523, 659, 784, 1046, 1318].forEach((f, i) => {
                         playTone(f, 'sine', now + i * 0.08, 0.28, 0.12);
                     });
                 } else if (soundType === 'retro') {
-                    // Coder / arcade beep
                     playTone(587, 'square', now, 0.1, 0.08);
                     playTone(880, 'square', now + 0.11, 0.18, 0.08);
                 } else if (soundType === 'breathe') {
-                    // Deep calm swell
                     playTone(220, 'sine', now, 1.1, 0.12);
                     playTone(330, 'sine', now + 0.2, 1.0, 0.09);
                 } else if (soundType === 'win') {
-                    // Victory fanfare
                     playTone(523, 'triangle', now, 0.15, 0.16);
                     playTone(659, 'triangle', now + 0.14, 0.15, 0.16);
                     playTone(784, 'triangle', now + 0.28, 0.15, 0.16);
                     playTone(1046, 'triangle', now + 0.42, 0.45, 0.18);
                 } else {
-                    playTone(480, 'sine', now, 0.25, 0.13);
+                    playTone(300, 'sawtooth', now, 0.18, 0.1);
+                    playTone(220, 'sawtooth', now + 0.15, 0.22, 0.1);
                 }
             } catch (e) {}
+        }
+
+        // Voice Narration (Speaks card text aloud so user doesn't just read!)
+        function speakText(text) {
+            try {
+                if (!('speechSynthesis' in window)) return;
+                window.speechSynthesis.cancel();
+                const clean = text.replace(/[\u{1F300}-\u{1FAFF}]/gu, '');
+                const utter = new SpeechSynthesisUtterance(clean);
+                utter.rate = 1.0;
+                utter.pitch = 1.08;
+                window.speechSynthesis.speak(utter);
+            } catch (e) {}
+        }
+
+        function toggleVoiceAuto() {
+            autoVoiceEnabled = !autoVoiceEnabled;
+            const btn = document.getElementById('voice-toggle-btn');
+            if (autoVoiceEnabled) {
+                btn.innerText = "🗣️ Auto Voice: ON";
+                btn.classList.add('sound-on');
+                btn.classList.remove('secondary');
+            } else {
+                btn.innerText = "🔇 Auto Voice: OFF";
+                btn.classList.remove('sound-on');
+                btn.classList.add('secondary');
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
         }
 
         function toggleAmbientChill() {
@@ -483,12 +562,12 @@
                 filter.type = 'lowpass';
                 filter.frequency.value = 420;
 
-                ambientGain = ctx.createGain();
-                ambientGain.gain.value = 0.12;
+                const gain = ctx.createGain();
+                gain.gain.value = 0.12;
 
                 ambientNode.connect(filter);
-                filter.connect(ambientGain);
-                ambientGain.connect(ctx.destination);
+                filter.connect(gain);
+                gain.connect(ctx.destination);
                 ambientNode.start(0);
 
                 ambientPlaying = true;
@@ -497,297 +576,190 @@
             } catch (e) {}
         }
 
-        const funCards = [
-            { tag: "COMEDY #1", title: "Exam Hall Logic 😂", desc: "Teacher: 'Why is your answer sheet empty?' Student: 'Ma'am, I left space for your imagination!'", extra: "Bonus Tip: Even 3 neat bullet points beat a blank line!", c1: "#f59e0b", c2: "#ef4444", icon: "😂", sound: "comedy", scene: "bounce" },
-            { tag: "RIDDLE #2", title: "Brain Teaser 🧩", desc: "I have cities, but no houses; mountains, but no trees; and water, but no fish. What am I?", extra: "Answer: A Map! 🗺️", c1: "#8b5cf6", c2: "#ec4899", icon: "🧩", sound: "mystery", scene: "orbit" },
-            { tag: "COFFEE #3", title: "Chai & Coffee Break ☕", desc: "Step away from the screen for 5 minutes, sip warm tea/coffee, and relax your shoulders.", extra: "Mini Challenge: Drink one full glass of water right now!", c1: "#d97706", c2: "#78350f", icon: "☕", sound: "chill", scene: "steam" },
-            { tag: "SHAYARI #4", title: "Student Vibe ✨", desc: "Raat bhar jagne ka wada kiya tha, takiye ne dekha aur neend aa gayi!", extra: "Bonus Note: Focused daytime study beats late-night exhaustion.", c1: "#ec4899", c2: "#6366f1", icon: "✨", sound: "sparkle", scene: "stars" },
-            { tag: "FACT #5", title: "Cool Brain Fact 🧠", desc: "Your brain creates around 12–25 watts of electrical power—enough to light a small LED bulb!", extra: "Bonus Fact: Writing short notes by hand boosts recall.", c1: "#06b6d4", c2: "#3b82f6", icon: "🧠", sound: "sparkle", scene: "waves" },
-            { tag: "CODER #6", title: "Programming Humor 💻", desc: "99 little bugs in the code, patch one down... 127 little bugs in the code!", extra: "Bonus Rule: Always check missing semicolons & brackets first!", c1: "#10b981", c2: "#0f766e", icon: "💻", sound: "retro", scene: "matrix" },
-            { tag: "RESET #7", title: "10-Second Calm Breath 🎯", desc: "Sit straight, roll your neck gently, and follow the glowing circle to breathe in and out.", extra: "Bonus Reward: You deserve a calm, unhurried pause.", c1: "#f97316", c2: "#e11d48", icon: "🎯", sound: "breathe", scene: "breathe" },
-            { tag: "MOVIE #8", title: "Emoji Movie Guess 🎬", desc: "Guess this classic movie: 🦁👑🌅", extra: "Answer: The Lion King! 🦁", c1: "#eab308", c2: "#ea580c", icon: "🎬", sound: "mystery", scene: "stars" },
-            { tag: "BOOST #9", title: "Confidence Booster 🌟", desc: "You're balancing studies, work, and goals—steady daily steps always move you forward.", extra: "Bonus Reminder: Quiet progress is still real progress.", c1: "#a855f7", c2: "#3b82f6", icon: "🌟", sound: "win", scene: "orbit" },
-            { tag: "AUDIO #10", title: "Lo-Fi Sound Waves 🎧", desc: "Listen to the soft audio wave and let background noise fade out for a few minutes.", extra: "Tip: Try turning on 'Chill Rain' in the top bar!", c1: "#14b8a6", c2: "#0284c7", icon: "🎧", sound: "chill", scene: "waves" },
-            { tag: "SWEET #11", title: "Sweet Treat Break 🍫", desc: "Grab a small piece of chocolate or sweet—a tiny treat makes a busy day feel lighter.", extra: "Bonus Fun: Share a joke or sweet with your bestie today!", c1: "#f43f5e", c2: "#9333ea", icon: "🍫", sound: "comedy", scene: "bounce" },
-            { tag: "TRIVIA #12", title: "Quick Word Riddle 📚", desc: "Which word becomes shorter when you add two letters to it?", extra: "Answer: 'Short' -> 'Shorter'! 😄", c1: "#3b82f6", c2: "#1d4ed8", icon: "📚", sound: "mystery", scene: "orbit" },
-            { tag: "NIGHT #13", title: "Starry Night Routine 🌙", desc: "Sleeping on time keeps your mind fresh for tomorrow instead of fighting fatigue.", extra: "Bonus Tip: Write tomorrow's top 2 priorities before sleeping.", c1: "#6366f1", c2: "#1e1b4b", icon: "🌙", sound: "chill", scene: "stars" },
-            { tag: "EYES #14", title: "20-20 Eye Relax 👀", desc: "Look away from your laptop screen at something far away for 15 seconds.", extra: "Bonus Tip: Blink slowly 5 times to refresh your eyes!", c1: "#22c55e", c2: "#15803d", icon: "👀", sound: "breathe", scene: "breathe" },
-            { tag: "FORTUNE #15", title: "Winner Vibe Card 🏆", desc: "Good things are lining up for you—stay curious, stay confident, and keep shining!", extra: "Bonus Cheer: You've got this! 🎉", c1: "#ec4899", c2: "#f59e0b", icon: "🏆", sound: "win", scene: "stars" }
-        ];
+        // ================= CUSTOM TOPIC AUTO-NEXT QUIZ =================
+        const quizBanks = {
+            cpp: [
+                { q: "Which operator is used to get the memory address of a variable in C++?", opts: ["& (Address-of)", "* (Pointer)", "->", "::"], ans: 0 },
+                { q: "Which data structure follows LIFO (Last-In, First-Out)?", opts: ["Queue", "Stack", "Linked List", "Array"], ans: 1 },
+                { q: "What is the correct file extension for a C++ source file?", opts: [".py", ".java", ".cpp", ".html"], ans: 2 },
+                { q: "Which loop is guaranteed to execute at least once in C++?", opts: ["for loop", "while loop", "do-while loop", "nested loop"], ans: 2 },
+                { q: "Which keyword is used to define a constant variable in C++?", opts: ["static", "const", "final", "fixed"], ans: 1 }
+            ],
+            datascience: [
+                { q: "What is the first step in a typical Data Science workflow?", opts: ["Model Deployment", "Data Collection & Cleaning", "Deep Learning", "UI Design"], ans: 1 },
+                { q: "Which Python library is most famous for DataFrames and tabular data?", opts: ["Pandas", "PyGame", "Flask", "Tkinter"], ans: 0 },
+                { q: "Which chart is best for showing trends over time?", opts: ["Pie Chart", "Line Chart", "Scatter Plot", "Radar Chart"], ans: 1 },
+                { q: "What does CSV stand for in datasets?", opts: ["Computer System Value", "Comma-Separated Values", "Central Data Variable", "Code Syntax View"], ans: 1 },
+                { q: "Supervised learning uses which type of training data?", opts: ["Unlabeled data", "Labeled data", "Random noise", "Empty tables"], ans: 1 }
+            ],
+            ai: [
+                { q: "Which search algorithm uses a heuristic function h(n) to estimate goal distance?", opts: ["Breadth-First Search", "Depth-First Search", "A* / Heuristic Search", "Linear Search"], ans: 2 },
+                { q: "In Beam Search with k = 2, how many best nodes are kept at each level?", opts: ["1 node", "2 nodes", "All nodes", "0 nodes"], ans: 1 },
+                { q: "What can get Hill Climbing stuck before reaching the global best solution?", opts: ["Local Maximum", "Fast CPU", "Extra RAM", "Sorting"], ans: 0 },
+                { q: "Which test checks if a machine can exhibit human-like intelligence?", opts: ["Unit Test", "Turing Test", "Stress Test", "Speed Test"], ans: 1 },
+                { q: "Which branch of AI enables computers to learn from data without explicit rules?", opts: ["Machine Learning", "HTML Styling", "File Compression", "Networking"], ans: 0 }
+            ],
+            stats: [
+                { q: "Which measure represents the middle value of a sorted dataset?", opts: ["Mean", "Median", "Mode", "Range"], ans: 1 },
+                { q: "What is the probability of getting Heads on a fair coin toss?", opts: ["0.25", "0.50", "0.75", "1.00"], ans: 1 },
+                { q: "Which value appears most frequently in a dataset?", opts: ["Mode", "Mean", "Variance", "Median"], ans: 0 },
+                { q: "Standard deviation is the square root of which measure?", opts: ["Mean", "Variance", "Median", "Probability"], ans: 1 },
+                { q: "The sum of probabilities of all possible outcomes equals:", opts: ["0", "0.5", "1", "100"], ans: 2 }
+            ],
+            math: [
+                { q: "What is the derivative of x² with respect to x?", opts: ["x", "2x", "x²", "2"], ans: 1 },
+                { q: "What is the value of sin(90°)?", opts: ["0", "0.5", "1", "-1"], ans: 2 },
+                { q: "The integral of 1 dx is:", opts: ["0", "1", "x + C", "x²"], ans: 2 },
+                { q: "What is the slope of a horizontal line?", opts: ["0", "1", "Undefined", "-1"], ans: 0 },
+                { q: "If f(x) = 3x + 2, what is f(4)?", opts: ["10", "12", "14", "16"], ans: 2 }
+            ],
+            english: [
+                { q: "Which of these is a formal way to begin a business email?", opts: ["Hey buddy,", "Dear Sir/Madam,", "Yo!", "What's up,"], ans: 1 },
+                { q: "Choose the correct spelling:", opts: ["Definately", "Definitely", "Definatly", "Definetly"], ans: 1 },
+                { q: "A concise summary at the start of a technical report is called:", opts: ["Appendix", "Executive Summary / Abstract", "Bibliography", "Footnote"], ans: 1 },
+                { q: "Which punctuation mark introduces a list?", opts: ["Colon (:)", "Question mark (?)", "Apostrophe (')", "Hyphen (-)"], ans: 0 },
+                { q: "Active voice is generally preferred in technical writing because it is:", opts: ["Longer", "Clearer and more direct", "More confusing", "Slower"], ans: 1 }
+            ]
+        };
 
-        // Live Video-Style Canvas Animation Loop
-        function startMotionScene() {
-            if (animFrameId) cancelAnimationFrame(animFrameId);
-            const canvas = document.getElementById('motion-canvas');
-            const ctx = canvas.getContext('2d');
+        let activeQuizList = [];
+        let quizIndex = 0;
+        let quizScore = 0;
+        let currentTopicName = "";
 
-            function render() {
-                animTick += 0.04;
-                const c = funCards[activeCardIndex];
-                const w = canvas.width;
-                const h = canvas.height;
+        function quickPickTopic(topic) {
+            document.getElementById('quiz-topic-input').value = topic;
+            startCustomQuiz();
+        }
 
-                // Animated gradient background
-                const grad = ctx.createLinearGradient(0, 0, w, h);
-                grad.addColorStop(0, c.c1);
-                grad.addColorStop(1, c.c2);
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, w, h);
+        function buildQuestionsForTopic(topic) {
+            const t = topic.toLowerCase();
+            if (t.includes('c++') || t.includes('cpp') || t.includes('program') || t.includes('cs201')) return quizBanks.cpp;
+            if (t.includes('data') || t.includes('python') || t.includes('cs442')) return quizBanks.datascience;
+            if (t.includes('ai') || t.includes('artificial') || t.includes('cs607') || t.includes('search')) return quizBanks.ai;
+            if (t.includes('stat') || t.includes('prob') || t.includes('sta301')) return quizBanks.stats;
+            if (t.includes('math') || t.includes('calc') || t.includes('mth101')) return quizBanks.math;
+            if (t.includes('eng') || t.includes('comm') || t.includes('grammar')) return quizBanks.english;
 
-                // Scene-specific live animation
-                ctx.save();
-                if (c.scene === 'steam') {
-                    // Rising steam waves above coffee
-                    ctx.strokeStyle = 'rgba(255,255,255,0.55)';
-                    ctx.lineWidth = 3;
-                    for (let s = 0; s < 3; s++) {
-                        ctx.beginPath();
-                        for (let y = 0; y < 45; y += 3) {
-                            const x = 85 + s * 25 + Math.sin(animTick * 2 + y * 0.12 + s) * 7;
-                            const py = 65 - y;
-                            if (y === 0) ctx.moveTo(x, py);
-                            else ctx.lineTo(x, py);
-                        }
-                        ctx.stroke();
-                    }
-                } else if (c.scene === 'waves') {
-                    // Equalizer audio bars
-                    ctx.fillStyle = 'rgba(255,255,255,0.4)';
-                    for (let b = 0; b < 11; b++) {
-                        const barH = 20 + Math.abs(Math.sin(animTick * 2.4 + b * 0.6)) * 55;
-                        ctx.fillRect(20 + b * 17, h - barH - 12, 10, barH);
-                    }
-                } else if (c.scene === 'breathe') {
-                    // Expanding & contracting calm ring
-                    const radius = 38 + Math.sin(animTick * 1.1) * 18;
-                    ctx.beginPath();
-                    ctx.arc(w / 2, h / 2, radius, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(255,255,255,0.22)';
-                    ctx.fill();
-                    ctx.strokeStyle = 'rgba(255,255,255,0.75)';
-                    ctx.lineWidth = 3;
-                    ctx.stroke();
-                } else if (c.scene === 'orbit') {
-                    // Orbiting glowing dots
-                    for (let k = 0; k < 4; k++) {
-                        const ang = animTick * 1.4 + (k * Math.PI) / 2;
-                        const ox = w / 2 + Math.cos(ang) * 58;
-                        const oy = h / 2 + Math.sin(ang) * 42;
-                        ctx.beginPath();
-                        ctx.arc(ox, oy, 7, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(255,255,255,0.75)';
-                        ctx.fill();
-                    }
-                } else if (c.scene === 'matrix') {
-                    // Falling code bits
-                    ctx.fillStyle = 'rgba(255,255,255,0.45)';
-                    ctx.font = 'bold 13px monospace';
-                    for (let col = 0; col < 8; col++) {
-                        const py = ((animTick * 38 + col * 37) % (h + 20));
-                        ctx.fillText(col % 2 === 0 ? '101' : '010', 18 + col * 25, py);
-                    }
-                } else {
-                    // Floating twinkling stars / particles
-                    for (let p = 0; p < 10; p++) {
-                        const px = (p * 47 + Math.sin(animTick + p) * 15) % w;
-                        const py = h - ((animTick * 24 + p * 29) % h);
-                        ctx.beginPath();
-                        ctx.arc(px, py, 3 + (p % 3), 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(255,255,255,0.55)';
-                        ctx.fill();
-                    }
+            // Dynamic custom questions generated for ANY user-entered topic!
+            const cleanTopic = topic.trim();
+            return [
+                {
+                    q: `Question 1 (${cleanTopic}): What is the best first step when learning ${cleanTopic}?`,
+                    opts: [`Understand core definitions & basic concepts of ${cleanTopic}`, "Skip fundamentals completely", "Memorize random words without meaning", "Avoid practicing examples"],
+                    ans: 0
+                },
+                {
+                    q: `Question 2 (${cleanTopic}): Which study method builds the strongest grip on ${cleanTopic}?`,
+                    opts: ["Passive reading once", "Solving practical examples & self-testing", "Ignoring key formulas/rules", "Cramming 5 minutes before exam"],
+                    ans: 1
+                },
+                {
+                    q: `Question 3 (${cleanTopic}): How should you organize revision notes for ${cleanTopic}?`,
+                    opts: ["Long unorganized paragraphs", "Short bullet points, definitions & worked examples", "No headings at all", "Only cover page"],
+                    ans: 1
+                },
+                {
+                    q: `Question 4 (${cleanTopic}): When facing a tough problem in ${cleanTopic}, what works best?`,
+                    opts: ["Break it into smaller sub-steps", "Give up immediately", "Guess blindly every time", "Skip the entire chapter"],
+                    ans: 0
+                },
+                {
+                    q: `Question 5 (${cleanTopic}): What proves you have mastered a concept in ${cleanTopic}?`,
+                    opts: ["You can explain it clearly in simple words", "You only read the title", "You closed the book early", "You avoided all quizzes"],
+                    ans: 0
                 }
-                ctx.restore();
-
-                // Center animated emoji icon
-                const bounceY = c.scene === 'bounce' ? Math.abs(Math.sin(animTick * 2.5)) * -14 : Math.sin(animTick * 1.5) * 5;
-                ctx.font = '54px Segoe UI Emoji, Apple Color Emoji, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(c.icon, w / 2, h / 2 + 8 + bounceY);
-
-                animFrameId = requestAnimationFrame(render);
-            }
-            render();
+            ];
         }
 
-        function buildFunGrid() {
-            const grid = document.getElementById('fun-buttons-grid');
-            grid.innerHTML = funCards.map((c, i) =>
-                `<button class="fun-card-btn" id="fbtn-${i}" onclick="selectFunCard(${i}, true)">${c.icon} ${i + 1}. ${c.title.split(' ')[0]}</button>`
-            ).join('');
-            selectFunCard(0, false);
-            startMotionScene();
-        }
-
-        function selectFunCard(index, withSound) {
-            activeCardIndex = index;
-            document.querySelectorAll('.fun-card-btn').forEach(b => b.classList.remove('selected'));
-            const activeBtn = document.getElementById(`fbtn-${index}`);
-            if (activeBtn) activeBtn.classList.add('selected');
-
-            const c = funCards[index];
-            document.getElementById('fun-tag').innerText = c.tag;
-            document.getElementById('fun-title').innerText = c.title;
-            document.getElementById('fun-desc').innerText = c.desc;
-            document.getElementById('fun-extra').innerText = "🔒 Click 'Show Answer / Bonus' to reveal the extra!";
-            if (withSound) playCardSound(c.sound);
-        }
-
-        function replayCurrentSound() {
-            playCardSound(funCards[activeCardIndex].sound);
-        }
-
-        function revealBonus() {
-            playCardSound('sparkle');
-            document.getElementById('fun-extra').innerText = funCards[activeCardIndex].extra;
-        }
-
-        function randomFunCard() {
-            const next = Math.floor(Math.random() * funCards.length);
-            selectFunCard(next, true);
-        }
-
-        function detectGender(name) {
-            const val = name.toLowerCase().trim();
-            const badge = document.getElementById('auto-detect-badge');
-            if (!val) {
-                badge.innerText = "🤖 Type your name for Girl/Boy theme...";
+        function startCustomQuiz() {
+            const rawTopic = document.getElementById('quiz-topic-input').value.trim();
+            if (!rawTopic) {
+                alert("⚠️ Pehle likhein ke kis topic ka quiz solve karna hai!");
                 return;
             }
-            const boys = ['ali', 'ahmed', 'ahmad', 'bilal', 'hamza', 'usman', 'umer', 'zain', 'saad', 'abdullah', 'asghar', 'mustafa'];
-            const isBoy = boys.some(b => val.includes(b));
-            user.gender = isBoy ? 'boy' : 'girl';
-            if (isBoy) {
-                document.documentElement.setAttribute('data-theme', 'boy');
-                badge.innerText = "⚡ Boy Zone (Blue Theme)";
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-                badge.innerText = "🌸 Girl Zone (Pink Theme)";
+            currentTopicName = rawTopic;
+            activeQuizList = buildQuestionsForTopic(rawTopic);
+            quizIndex = 0;
+            quizScore = 0;
+            playCardSound('sparkle');
+            renderCurrentQuizQuestion();
+        }
+
+        function renderCurrentQuizQuestion() {
+            const box = document.getElementById('quiz-arena-box');
+            box.style.display = 'block';
+
+            if (quizIndex >= activeQuizList.length) {
+                playCardSound('win');
+                box.innerHTML = `
+                    <div class="quiz-arena" style="text-align:center;">
+                        <h3 style="color:var(--primary); margin-top:0;">🏆 Quiz Completed: ${esc(currentTopicName)}</h3>
+                        <p style="font-size:1.2rem; font-weight:800;">Your Score: ${quizScore} / ${activeQuizList.length}</p>
+                        <p style="color:var(--text-light);">Zabardast! Aap dobara khel sakti hain ya koi naya topic likh sakti hain.</p>
+                        <button class="mini-btn" onclick="startCustomQuiz()">🔄 Play Again</button>
+                    </div>
+                `;
+                return;
             }
+
+            const item = activeQuizList[quizIndex];
+            box.innerHTML = `
+                <div class="quiz-arena">
+                    <div class="quiz-meta">
+                        <span>📘 Topic: ${esc(currentTopicName)}</span>
+                        <span>Question ${quizIndex + 1} of ${activeQuizList.length} • Score: ${quizScore}</span>
+                    </div>
+                    <div class="quiz-q-text">${esc(item.q)}</div>
+                    <div class="quiz-options">
+                        ${item.opts.map((opt, idx) => `
+                            <button class="opt-btn" id="qopt-${idx}" onclick="handleQuizAnswer(${idx})">
+                                ${String.fromCharCode(65 + idx)}. ${esc(opt)}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="quiz-auto-msg" style="margin-top:12px; font-weight:700; font-size:0.9rem;"></div>
+                </div>
+            `;
         }
 
-        function launchPortal() {
-            const name = document.getElementById('user-name-input').value.trim() || "Student";
-            const age = document.getElementById('user-age-input').value.trim() || "20";
-            const level = document.getElementById('user-class-select').value || "Student";
-            const mood = document.getElementById('study-mood-select').value;
+        function handleQuizAnswer(chosenIdx) {
+            const item = activeQuizList[quizIndex];
+            const buttons = document.querySelectorAll('.opt-btn');
+            buttons.forEach(b => b.disabled = true);
 
-            user = { ...user, name, age, level, mood };
+            const msg = document.getElementById('quiz-auto-msg');
+            if (chosenIdx === item.ans) {
+                quizScore++;
+                buttons[chosenIdx].classList.add('correct');
+                playCardSound('win');
+                msg.style.color = '#10b981';
+                msg.innerText = "✅ Correct! Agla sawal aa raha hai...";
+            } else {
+                buttons[chosenIdx].classList.add('wrong');
+                buttons[item.ans].classList.add('correct');
+                playCardSound('wrong');
+                msg.style.color = '#ef4444';
+                msg.innerText = "❌ Wrong! Sahi jawab green hai — agla sawal aa raha hai...";
+            }
 
-            const logs = JSON.parse(localStorage.getItem('hubVisitorsV2') || '[]');
-            logs.unshift({ name, level, mood, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
-            localStorage.setItem('hubVisitorsV2', JSON.stringify(logs.slice(0, 40)));
-
-            document.getElementById('welcome-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            document.getElementById('hub-title').innerText = user.gender === 'boy' ? '⚡ Blue Smart AI & Fun Hub' : '🌸 Pink Smart AI & Fun Hub';
-            document.getElementById('welcome-msg').innerText = `Welcome, ${name} (${level})!`;
-            document.getElementById('visit-count').innerText = logs.length;
-            document.getElementById('vibe-label').innerText = mood;
-
-            buildFunGrid();
-            renderVisitors();
-            renderPosts();
-            playCardSound('sparkle');
-
-            if (mood.includes('Exam Tension')) openTab('exam', 1);
-            else if (mood.includes('Fun & Entertainment')) openTab('fun', 3);
-            else openTab('qa', 0);
+            setTimeout(() => {
+                quizIndex++;
+                renderCurrentQuizQuestion();
+            }, 1400);
         }
 
-        function toggleVisitors() {
-            const box = document.getElementById('visitor-box');
-            box.style.display = box.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function clearVisitors() {
-            localStorage.removeItem('hubVisitorsV2');
-            document.getElementById('visit-count').innerText = '0';
-            renderVisitors();
-        }
-
-        function renderVisitors() {
-            const logs = JSON.parse(localStorage.getItem('hubVisitorsV2') || '[]');
-            const list = document.getElementById('visitor-list');
-            list.innerHTML = logs.length
-                ? logs.map(v => `<div class="visitor-row"><span>👤 <strong>${esc(v.name)}</strong> (${esc(v.level)})</span><span>${esc(v.mood)} • ${esc(v.time)}</span></div>`).join('')
-                : '<p style="opacity:0.7;">No visitors yet.</p>';
-        }
-
-        function openTab(name, idx) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn')[idx].classList.add('active');
-            document.getElementById(`${name}-tab`).classList.add('active');
-        }
-
-        function resetProfile() {
-            location.reload();
-        }
-
-        function makeAnswer() {
-            const q = document.getElementById('qa-question').value.trim();
-            if (!q) return;
-            playCardSound('sparkle');
-            document.getElementById('qa-output').innerHTML = `
-                <div class="post-card">
-                    <strong>💡 ${esc(q)}</strong>
-                    <p style="margin:8px 0 4px;"><strong>Summary:</strong> Core idea of ${esc(q)} for ${esc(user.level)}.</p>
-                    <p style="margin:0;"><strong>Key Points:</strong> 1) Definition  2) Main concept  3) Practical example.</p>
-                </div>`;
-        }
-
-        function startTimer() {
-            if (timerId) return;
-            timerId = setInterval(() => {
-                if (secLeft <= 0) { clearInterval(timerId); timerId = null; playCardSound('win'); alert("⏰ 5 minutes done!"); return; }
-                secLeft--;
-                const m = String(Math.floor(secLeft / 60)).padStart(2, '0');
-                const s = String(secLeft % 60).padStart(2, '0');
-                document.getElementById('timer-text').innerText = `${m}:${s}`;
-            }, 1000);
-        }
-
-        function resetTimer() {
-            clearInterval(timerId); timerId = null; secLeft = 300;
-            document.getElementById('timer-text').innerText = "05:00";
-        }
-
-        function makeCheatPoints() {
-            const t = document.getElementById('cheat-topic').value.trim();
-            if (!t) return;
-            playCardSound('sparkle');
-            document.getElementById('cheat-output').innerHTML = `
-                <div class="post-card">
-                    <strong>⚡ Fast Points: ${esc(t)}</strong>
-                    <p style="margin:6px 0 0;">• Write a crisp 2-line definition first.<br>• List 3 key features/steps.<br>• Add one quick example for full clarity.</p>
-                </div>`;
-        }
-
-        function addPost() {
-            const title = document.getElementById('post-title').value.trim();
-            const body = document.getElementById('post-body').value.trim();
-            if (!title || !body) return;
-            const posts = JSON.parse(localStorage.getItem('hubFunPosts') || '[]');
-            posts.unshift({ title, body, by: user.name });
-            localStorage.setItem('hubFunPosts', JSON.stringify(posts));
-            document.getElementById('post-title').value = '';
-            document.getElementById('post-body').value = '';
-            playCardSound('win');
-            renderPosts();
-        }
-
-        function renderPosts() {
-            const posts = JSON.parse(localStorage.getItem('hubFunPosts') || '[]');
-            document.getElementById('user-posts').innerHTML = posts.map(p =>
-                `<div class="post-card"><strong>${esc(p.title)}</strong><p style="margin:6px 0;">${esc(p.body)}</p><small>By ${esc(p.by)}</small></div>`
-            ).join('');
-        }
-
-        function esc(s) {
-            return String(s).replace(/[&<>'"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[m]));
-        }
-    </script>
-</body>
-</html>
+        // ================= 15 FUN CARDS WITH VOICE + SOUND + MOTION =================
+        const funCards = [
+            { tag: "COMEDY #1", title: "Exam Hall Logic 😂", desc: "Teacher: Why is your answer sheet empty? Student: Ma'am, I left space for your imagination!", extra: "Bonus Tip: Even 3 neat bullet points beat a blank line!", c1: "#f59e0b", c2: "#ef4444", icon: "😂", sound: "comedy", scene: "bounce" },
+            { tag: "RIDDLE #2", title: "Brain Teaser 🧩", desc: "I have cities, but no houses; mountains, but no trees; and water, but no fish. What am I?", extra: "Answer: A Map! 🗺️", c1: "#8b5cf6", c2: "#ec4899", icon: "🧩", sound: "mystery", scene: "orbit" },
+            { tag: "COFFEE #3", title: "Chai & Coffee Break ☕", desc: "Step away from the screen for 5 minutes, sip warm tea or coffee, and relax your shoulders.", extra: "Mini Challenge: Drink one full glass of water right now!", c1: "#d97706", c2: "#78350f", icon: "☕", sound: "chill", scene: "steam" },
+            { tag: "SHAYARI #4", title: "Student Vibe ✨", desc: "Raat bhar jagne ka wada kiya tha, takiye ne dekha aur neend aa gayi!", extra: "Bonus Note: Focused daytime study beats late-night exhaustion.", c1: "#ec4899", c2: "#6366f1", icon: "✨", sound: "sparkle", scene: "stars" },
+            { tag: "FACT #5", title: "Cool Brain Fact 🧠", desc: "Your brain creates around 12 to 25 watts of electrical power, enough to light a small LED bulb!", extra: "Bonus Fact: Writing short notes by hand boosts recall.", c1: "#06b6d4", c2: "#3b82f6", icon: "🧠", sound: "sparkle", scene: "waves" },
+            { tag: "CODER #6", title: "Programming Humor 💻", desc: "99 little bugs in the code, take one down, patch it around... 127 little bugs in the code!", extra: "Bonus Rule: Always check missing semicolons and brackets first!", c1: "#10b981", c2: "#0f766e", icon: "💻", sound: "retro", scene: "matrix" },
+            { tag: "RESET #7", title: "10-Second Calm Breath 🎯", desc: "Sit straight, roll your neck gently, and follow the glowing circle to breathe in and out.", extra: "Bonus Reward: You deserve a calm, unhurried pause.", c1: "#f97316", c2: "#e11d48", icon: "🎯", sound: "breathe", scene: "breathe" },
+            { tag: "MOVIE #8", title: "Emoji Movie Guess 🎬", desc: "Guess this classic movie: Lion, Crown, Sunrise!", extra: "Answer: The Lion King! 🦁", c1: "#eab308", c2: "#ea580c", icon: "🎬", sound: "mystery", scene: "stars" },
+            { tag: "BOOST #9", title: "Confidence Booster 🌟", desc: "You are balancing studies, work, and goals. Steady daily steps always move you forward.", extra: "Bonus Reminder: Quiet progress is still real progress.", c1: "#a855f7", c2: "#3b82f6", icon: "🌟", sound: "win", scene: "orbit" },
+            { tag: "AUDIO #10", title: "Lo-Fi Sound Waves 🎧", desc: "Listen to the soft audio wave and let background noise fade out for a few minutes.", extra: "Tip: Turn on Chill Rain in the top bar for soothing rain sound!", c1: "#14b8a6", c2: "#0284c7", icon: "🎧", sound: "chill", scene: "waves" },
+            { tag: "SWEET #11", title: "Sweet Treat Break 🍫", desc: "Grab a small piece of chocolate or sweet. A tiny treat makes a busy day feel lighter.", extra: "Bonus Fun: Share a joke or sweet with your bestie today!", c1: "#f43f5e", c2: "#9333ea", icon: "🍫", sound: "comedy", scene: "bounce" },
+            { tag: "TRIVIA #12", title: "Quick Word Riddle 📚", desc: "Which word becomes shorter when you add two letters to it?", extra: "Answer: Short becomes Shorter! 😄", c1: "#3b82f6", c2: "#1d4ed8",
