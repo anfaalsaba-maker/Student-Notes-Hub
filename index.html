@@ -3,410 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart AI Q&A & Surprise Hub</title>
+    <title>Smart AI & Gift Wish Hub</title>
     <style>
         :root {
             --primary: #db2777;
             --bg-color: #fdf2f8;
-            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: #ffffff;
             --text-color: #831843;
             --text-light: #9d174d;
             --border-color: #f472b6;
             --btn-gradient: linear-gradient(135deg, #db2777 0%, #be185d 100%);
-            --shadow: 0 10px 28px -6px rgba(219, 39, 119, 0.18);
         }
-
         [data-theme="boy"] {
             --primary: #06b6d4;
             --bg-color: #030712;
-            --card-bg: rgba(15, 23, 42, 0.92);
+            --card-bg: #0f172a;
             --text-color: #f8fafc;
             --text-light: #94a3b8;
             --border-color: #3b82f6;
             --btn-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
-            --shadow: 0 10px 28px -6px rgba(6, 182, 212, 0.25);
         }
-
         * { box-sizing: border-box; }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 18px;
+            background: var(--bg-color);
             color: var(--text-color);
-            transition: background-color 0.35s, color 0.35s;
+            margin: 0;
+            padding: 16px;
         }
+        .container { max-width: 980px; margin: 0 auto; }
 
-        .container { max-width: 1020px; margin: 0 auto; }
-
-        /* Welcome Screen */
         #welcome-screen {
             position: fixed; inset: 0;
-            background: rgba(3, 7, 18, 0.92);
-            backdrop-filter: blur(8px);
+            background: rgba(3, 7, 18, 0.94);
             display: flex; justify-content: center; align-items: center;
             z-index: 9999; padding: 15px;
         }
-
         .welcome-card {
             background: #0f172a;
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            padding: 26px; border-radius: 22px;
-            text-align: center; max-width: 440px; width: 100%;
-            color: #f8fafc;
+            border: 2px solid #3b82f6;
+            padding: 24px; border-radius: 22px;
+            text-align: center; max-width: 430px; width: 100%;
+            color: #fff;
         }
-
-        .welcome-card h2 { color: #06b6d4; margin: 0 0 8px; }
+        .welcome-card h2 { color: #38bdf8; margin: 0 0 6px; }
         .welcome-card p { color: #94a3b8; font-size: 0.9rem; margin: 0 0 14px; }
-
         .welcome-card input, .welcome-card select {
             width: 100%; padding: 10px 12px; border-radius: 12px;
-            border: 1.5px solid rgba(59, 130, 246, 0.35);
-            margin-bottom: 11px; font-size: 0.95rem;
-            background: #1e293b; color: #ffffff; outline: none;
+            border: 1.5px solid #3b82f6; margin-bottom: 10px;
+            font-size: 0.95rem; background: #1e293b; color: #fff; outline: none;
         }
-
         #auto-detect-badge {
             padding: 8px; border-radius: 10px; font-size: 0.85rem;
             font-weight: 700; margin-bottom: 12px;
-            background: #1e293b; color: #94a3b8;
+            background: #1e293b; color: #f472b6;
         }
-
-        .gender-pick-row {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-            margin-bottom: 12px;
-        }
-
+        .gender-pick-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .pick-btn {
             padding: 10px; border: none; border-radius: 11px;
             font-weight: 700; font-size: 0.9rem; cursor: pointer; color: #fff;
         }
-
         .pick-girl { background: #e11d48; }
         .pick-boy { background: #0284c7; }
-
         .enter-btn {
-            width: 100%; padding: 12px; border: none; border-radius: 12px;
+            width: 100%; padding: 13px; border: none; border-radius: 12px;
             background: linear-gradient(135deg, #10b981, #059669);
-            color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer;
+            color: #fff; font-weight: 800; font-size: 1rem; cursor: pointer;
         }
 
-        header { text-align: center; margin-bottom: 16px; }
-        header h1 { margin: 0 0 4px; color: var(--primary); font-size: 1.9rem; }
-        header p { margin: 0; color: var(--text-light); font-weight: 600; font-size: 0.92rem; }
+        header { text-align: center; margin-bottom: 14px; }
+        header h1 { margin: 0 0 4px; color: var(--primary); font-size: 1.8rem; }
+        header p { margin: 0; color: var(--text-light); font-weight: 600; }
 
-        .top-bar {
-            background: var(--card-bg); border: 2px solid var(--border-color);
-            padding: 12px 18px; border-radius: 14px; margin-bottom: 16px;
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 10px; font-weight: 700; box-shadow: var(--shadow);
-        }
-
-        .tabs {
-            display: flex; justify-content: center; gap: 8px;
-            margin-bottom: 18px; flex-wrap: wrap;
-        }
-
+        .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
         .tab-btn {
             padding: 10px 15px; border-radius: 12px;
             border: 2px solid var(--border-color);
             background: var(--card-bg); color: var(--text-color);
-            font-weight: 700; font-size: 0.88rem; cursor: pointer;
+            font-weight: 700; cursor: pointer;
         }
-
-        .tab-btn.active {
-            background: var(--primary); color: #fff; border-color: var(--primary);
-        }
-
+        .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         .card {
             background: var(--card-bg); border: 2px solid var(--border-color);
-            border-radius: 20px; padding: 20px; margin-bottom: 18px; box-shadow: var(--shadow);
+            border-radius: 20px; padding: 20px; margin-bottom: 16px;
         }
-
-        .card h2 { margin: 0 0 10px; color: var(--primary); font-size: 1.25rem; }
+        .card h2 { margin: 0 0 10px; color: var(--primary); }
 
         input[type="text"], textarea {
             width: 100%; padding: 10px 12px; border-radius: 12px;
-            border: 2px solid var(--border-color); background: rgba(255,255,255,0.08);
-            color: var(--text-color); font-size: 0.95rem; outline: none; margin-bottom: 10px;
+            border: 2px solid var(--border-color); background: transparent;
+            color: var(--text-color); font-size: 0.95rem; margin-bottom: 10px;
         }
-
-        textarea { min-height: 70px; resize: vertical; }
-
         .main-btn {
-            width: 100%; padding: 11px 16px; border: none; border-radius: 12px;
-            background: var(--btn-gradient); color: #fff; font-weight: 700;
-            font-size: 0.95rem; cursor: pointer;
+            width: 100%; padding: 11px; border: none; border-radius: 12px;
+            background: var(--btn-gradient); color: #fff; font-weight: 700; cursor: pointer;
         }
 
-        /* Quiz Styling */
-        .topic-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-        .chip-btn {
-            padding: 6px 12px; border-radius: 999px;
-            border: 1.5px solid var(--border-color);
-            background: rgba(255,255,255,0.08); color: var(--text-color);
-            font-size: 0.82rem; font-weight: 700; cursor: pointer;
+        .fun-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 10px; margin-top: 12px;
         }
-        .chip-btn:hover { background: var(--primary); color: #fff; }
-
-        .quiz-arena {
-            border: 2px solid var(--border-color);
-            border-radius: 18px; padding: 20px; margin-top: 14px;
-            background: rgba(255,255,255,0.05);
-        }
-        .quiz-meta {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.88rem; font-weight: 700; margin-bottom: 12px;
-            padding-bottom: 8px; border-bottom: 1px solid var(--border-color);
-            flex-wrap: wrap; gap: 6px;
-        }
-        .quiz-q-text { font-size: 1.12rem; font-weight: 800; margin-bottom: 14px; line-height: 1.45; }
-        .quiz-options { display: grid; gap: 10px; }
-        .opt-btn {
-            text-align: left; padding: 12px 15px; border-radius: 12px;
+        .fun-card-btn {
+            padding: 14px 10px; border-radius: 14px;
             border: 2px solid var(--border-color);
             background: var(--card-bg); color: var(--text-color);
-            font-size: 0.95rem; font-weight: 700; cursor: pointer;
+            font-weight: 800; font-size: 0.9rem; cursor: pointer;
         }
-        .opt-btn:hover:not(:disabled) { background: var(--primary); color: #fff; }
-        .opt-btn.correct { background: #10b981 !important; color: #fff !important; border-color: #10b981 !important; }
-        .opt-btn.wrong { background: #ef4444 !important; color: #fff !important; border-color: #ef4444 !important; }
+        .fun-card-btn:hover { background: var(--primary); color: #fff; }
 
-        /* Gift Cards Grid */
-        .fun-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-            gap: 10px; margin: 14px 0 8px;
-        }
-
-        .fun-card-btn {
-            padding: 13px 10px; border-radius: 14px;
-            border: 2px solid var(--border-color);
-            background: rgba(255,255,255,0.07); color: var(--text-color);
-            font-weight: 700; font-size: 0.88rem; cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-        }
-
-        .fun-card-btn:hover {
-            background: var(--primary); color: #fff; transform: translateY(-2px);
-        }
-
-        /* FULL-SCREEN CENTERED SURPRISE OVERLAY */
+        /* Full Screen Gift Stage */
         #full-gift-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9990;
-            background: radial-gradient(circle at top, #1e1b4b, #090d16 70%);
-            color: #ffffff;
-            overflow-y: auto;
-            padding: 20px;
+            display: none; position: fixed; inset: 0; z-index: 9998;
+            background: radial-gradient(circle at top, #1e1b4b, #090d16 75%);
+            color: #fff; overflow-y: auto; padding: 20px;
         }
-
-        .overlay-topbar {
-            max-width: 760px;
-            margin: 0 auto 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .overlay-topbar { max-width: 720px; margin: 0 auto 12px; display: flex; justify-content: space-between; gap: 8px; }
         .back-hub-btn {
-            padding: 9px 16px;
-            border-radius: 999px;
+            padding: 9px 16px; border-radius: 999px;
             border: 1.5px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.88rem;
-            cursor: pointer;
+            background: rgba(255,255,255,0.12); color: #fff;
+            font-weight: 700; cursor: pointer;
         }
-
-        .back-hub-btn:hover { background: rgba(255,255,255,0.22); }
-
         .center-gift-wrap {
             min-height: calc(100vh - 90px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            max-width: 660px;
-            margin: 0 auto;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; max-width: 640px; margin: 0 auto;
         }
-
-        .center-canvas-box {
-            position: relative;
-            width: 280px;
-            height: 205px;
-            border-radius: 22px;
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.28);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.55);
-            margin-bottom: 16px;
+        .gift-hero-box {
+            width: 240px; height: 170px; border-radius: 22px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            font-size: 4.2rem; margin-bottom: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+            animation: floatBox 2.2s ease-in-out infinite;
         }
-
-        .center-canvas-box canvas { width: 100%; height: 100%; display: block; }
-
+        @keyframes floatBox {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
         .activity-panel {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 14px;
-            backdrop-filter: blur(8px);
+            width: 100%; background: rgba(255,255,255,0.09);
+            border: 1.5px solid rgba(255,255,255,0.22);
+            border-radius: 20px; padding: 18px; margin-bottom: 14px;
         }
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        @media (max-width: 520px) { .choice-grid { grid-template-columns: 1fr; } }
+        .puzzle-opt-btn {
+            padding: 11px; border-radius: 12px;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            background: #0f172a; color: #fff; font-weight: 700; cursor: pointer;
+        }
+        .puzzle-opt-btn:hover { background: #ec4899; border-color: #ec4899; }
 
-        .activity-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #fde047;
-            margin: 0 0 8px;
+        .ring-slot {
+            width: 64px; height: 64px; border-radius: 50%;
+            border: 3px dashed #fde047; margin: 8px auto 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.7rem; background: rgba(15,23,42,0.75);
         }
-
-        .activity-hint {
-            font-size: 0.9rem;
-            color: #e2e8f0;
-            margin: 0 0 12px;
-        }
-
-        /* Ring / Diamond Alignment Track */
-        .ring-arena {
-            position: relative;
-            width: 100%;
-            max-width: 340px;
-            height: 82px;
-            margin: 8px auto 12px;
-            border-radius: 999px;
-            background: rgba(15, 23, 42, 0.75);
-            border: 2px solid rgba(56, 189, 248, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .target-ring-slot {
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            border: 3px dashed #fde047;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            box-shadow: 0 0 18px rgba(253, 224, 71, 0.35);
-        }
-
-        .ring-slider {
-            width: 100%;
-            max-width: 340px;
-            accent-color: #38bdf8;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
+        .ring-slider { width: 100%; max-width: 320px; accent-color: #38bdf8; cursor: pointer; margin-bottom: 10px; }
 
         .action-pill-btn {
-            padding: 10px 18px;
-            border-radius: 999px;
-            border: none;
+            padding: 10px 18px; border-radius: 999px; border: none;
             background: linear-gradient(135deg, #f59e0b, #ec4899);
-            color: #fff;
-            font-weight: 800;
-            font-size: 0.92rem;
-            cursor: pointer;
-            transition: transform 0.2s;
+            color: #fff; font-weight: 800; cursor: pointer;
         }
-
-        .action-pill-btn:hover:not(:disabled) { transform: scale(1.04); }
-        .action-pill-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
         .unbox-main-btn {
-            padding: 13px 26px;
-            border-radius: 999px;
-            border: none;
+            padding: 13px 26px; border-radius: 999px; border: none;
             background: linear-gradient(135deg, #10b981, #06b6d4);
-            color: #fff;
-            font-weight: 900;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            color: #fff; font-weight: 900; font-size: 1rem; cursor: pointer;
         }
+        .unbox-main-btn:disabled { background: #475569; opacity: 0.55; cursor: not-allowed; }
 
-        .unbox-main-btn:disabled {
-            background: #475569;
-            box-shadow: none;
-            opacity: 0.55;
-            cursor: not-allowed;
-        }
-
-        /* Personalized Wish Card Reveal */
         .wish-card-box {
-            display: none;
-            width: 100%;
-            margin-top: 14px;
-            padding: 22px;
+            display: none; width: 100%; margin-top: 12px; padding: 22px;
             border-radius: 22px;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.24), rgba(59, 130, 246, 0.22));
+            background: linear-gradient(135deg, rgba(236,72,153,0.32), rgba(59,130,246,0.25));
             border: 2px solid #f472b6;
-            box-shadow: 0 16px 40px rgba(236, 72, 153, 0.28);
-            animation: wishPop 0.4s ease;
         }
 
-        @keyframes wishPop {
-            0% { transform: scale(0.88); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .opt-btn {
+            display: block; width: 100%; text-align: left; padding: 11px 14px;
+            margin-bottom: 8px; border-radius: 12px;
+            border: 2px solid var(--border-color); background: var(--card-bg);
+            color: var(--text-color); font-weight: 700; cursor: pointer;
         }
-
-        .wish-recipient {
-            font-size: 0.88rem;
-            font-weight: 800;
-            color: #fde047;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .wish-title {
-            font-size: 1.45rem;
-            font-weight: 900;
-            margin: 0 0 8px;
-            color: #ffffff;
-        }
-
-        .wish-message {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #f8fafc;
-            margin: 0 0 14px;
-        }
-
         .mini-btn {
             padding: 8px 14px; border-radius: 10px; border: none;
-            background: var(--primary); color: #fff; font-weight: 700;
-            font-size: 0.84rem; cursor: pointer;
+            background: var(--primary); color: #fff; font-weight: 700; cursor: pointer;
         }
-        .mini-btn.secondary { background: #475569; }
-        .mini-btn.sound-on { background: #10b981; }
-
-        .post-card {
-            background: var(--card-bg); border: 2px solid var(--border-color);
-            border-radius: 16px; padding: 16px; margin-top: 12px;
-        }
-
-        .visitor-row {
-            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
-            padding: 8px 12px; border-radius: 10px; margin-bottom: 6px;
-            border: 1px solid var(--border-color); font-size: 0.86rem;
-        }
-
-        .timer-box { text-align: center; padding: 14px; border: 2px solid var(--border-color); border-radius: 14px; margin-bottom: 14px; }
-        .timer-num { font-size: 1.9rem; font-weight: 800; color: #ef4444; margin: 6px 0; }
     </style>
 </head>
 <body>
@@ -416,28 +206,27 @@
         <div class="welcome-card">
             <h2>✨ AI Smart Student Portal</h2>
             <p>Enter your details & pick your vibe:</p>
-            <input type="text" id="user-name-input" placeholder="Enter your full name..." oninput="detectGender(this.value)">
-            <input type="number" id="user-age-input" placeholder="Enter your age..." min="5" max="99">
+            <input type="text" id="user-name-input" value="Saba Anfaal" placeholder="Enter your full name..." oninput="detectGender(this.value)">
+            <input type="number" id="user-age-input" value="20" placeholder="Enter your age...">
             <select id="user-class-select">
-                <option value="">-- Select Class / Level --</option>
+                <option value="BS / University">BS / University</option>
                 <option value="School / Primary">School / Primary</option>
                 <option value="Matric / Inter">Matric / Inter</option>
-                <option value="BS / University">BS / University</option>
             </select>
             <select id="study-mood-select">
+                <option value="Surprise & Fun 🎁">🎁 Surprise & Fun</option>
                 <option value="Super Focused 🚀">🚀 Super Focused</option>
                 <option value="Exam Tension 🤯">🤯 Exam Tension</option>
-                <option value="Surprise & Fun 🎁">🎁 Surprise & Fun</option>
             </select>
 
-            <div id="auto-detect-badge">🤖 Type your name or pick Girl / Boy theme below</div>
+            <div id="auto-detect-badge">🌸 Selected: Girl (Pink Theme)</div>
 
             <div class="gender-pick-row">
                 <button type="button" class="pick-btn pick-girl" onclick="setManualGender('girl')">🌸 Girl (Pink)</button>
                 <button type="button" class="pick-btn pick-boy" onclick="setManualGender('boy')">🌊 Boy (Blue)</button>
             </div>
 
-            <button type="button" class="enter-btn" id="enter-hub-btn" onclick="launchPortal()">🚀 Enter Hub</button>
+            <button type="button" class="enter-btn" onclick="launchPortal(); document.getElementById('welcome-screen').style.display='none'; document.getElementById('main-app').style.display='block';">🚀 Enter Hub</button>
         </div>
     </div>
 
@@ -445,94 +234,158 @@
     <div class="container" id="main-app" style="display:none;">
         <header>
             <h1 id="hub-title">🌸 Pink Smart AI & Surprise Hub</h1>
-            <p id="welcome-msg">Welcome!</p>
+            <p id="welcome-msg">Welcome, Saba Anfaal!</p>
         </header>
 
-        <div class="top-bar">
-            <span>📊 Visits: <strong id="visit-count">0</strong></span>
-            <span>✨ Vibe: <strong id="vibe-label">-</strong></span>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button type="button" class="mini-btn secondary" id="ambient-btn" onclick="toggleAmbientChill()">🌧️ Chill Sound: OFF</button>
-                <button type="button" class="mini-btn" onclick="toggleVisitors()">👥 Visitors Log</button>
-            </div>
-        </div>
-
-        <div class="card" id="visitor-box" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <strong>👥 Visitors Log</strong>
-                <button type="button" class="mini-btn secondary" onclick="clearVisitors()">Reset Log</button>
-            </div>
-            <div id="visitor-list"></div>
-        </div>
-
         <div class="tabs">
-            <button type="button" class="tab-btn active" onclick="openTab('qa', 0)">💡 AI Q&A</button>
-            <button type="button" class="tab-btn" onclick="openTab('exam', 1)">⚡ Exam Speed Mode</button>
-            <button type="button" class="tab-btn" onclick="openTab('quiz', 2)">🎮 Topic Quiz</button>
-            <button type="button" class="tab-btn" onclick="openTab('fun', 3)">🎁 Gift & Surprise Zone</button>
+            <button type="button" class="tab-btn active" onclick="openTab('fun', 0)">🎁 Gift & Wish Zone</button>
+            <button type="button" class="tab-btn" onclick="openTab('quiz', 1)">🎮 Topic Quiz</button>
+            <button type="button" class="tab-btn" onclick="openTab('qa', 2)">💡 AI Q&A</button>
             <button type="button" class="tab-btn" onclick="resetProfile()" style="background:#64748b; color:#fff; border-color:#64748b;">🔄 Switch</button>
         </div>
 
-        <!-- TAB 1: Q&A -->
-        <div id="qa-tab" class="tab-content active">
+        <!-- TAB 1: GIFT BOXES -->
+        <div id="fun-tab" class="tab-content active">
             <div class="card">
-                <h2>✨ Quick Study Q&A</h2>
-                <input type="text" id="qa-question" placeholder="Enter topic or question (e.g. Data Science, C++)">
-                <button type="button" class="main-btn" onclick="makeAnswer()">Generate Structured Answer</button>
-                <div id="qa-output"></div>
+                <h2>🎁 Activity → Unbox Gift → Personalized Wish</h2>
+                <p style="margin-top:0;">Kisi bhi wish/gift card par click karein — screen clean hogi, center mein gift ayega, pehle activity solve hogi, phir unbox hoga aur aapke naam ki wish show hogi!</p>
+                <div class="fun-grid" id="fun-buttons-grid"></div>
             </div>
         </div>
 
-        <!-- TAB 2: EXAM SPEED MODE -->
-        <div id="exam-tab" class="tab-content">
-            <div class="card">
-                <h2>⚡ Exam Tension Speed Mode</h2>
-                <div class="timer-box">
-                    <div>5-Minute Rapid Sprint</div>
-                    <div class="timer-num" id="timer-text">05:00</div>
-                    <button type="button" class="mini-btn" onclick="startTimer()">Start</button>
-                    <button type="button" class="mini-btn secondary" onclick="resetTimer()">Reset</button>
-                </div>
-                <input type="text" id="cheat-topic" placeholder="Type topic for fast exam points...">
-                <button type="button" class="main-btn" onclick="makeCheatPoints()">Get Fast Exam Points</button>
-                <div id="cheat-output"></div>
-            </div>
-        </div>
-
-        <!-- TAB 3: CUSTOM TOPIC AUTO-NEXT QUIZ -->
+        <!-- TAB 2: CUSTOM TOPIC QUIZ -->
         <div id="quiz-tab" class="tab-content">
             <div class="card">
                 <h2>🎮 Custom Topic Quiz (Auto Next Questions)</h2>
-                <p style="font-size:0.9rem; color:var(--text-light); margin-top:0;">Likho ke kis cheez ka quiz solve karna hai — ek sawal solve hote hi agla sawal khud aa jayega!</p>
-
-                <div class="topic-chips">
-                    <button type="button" class="chip-btn" onclick="quickPickTopic('C++ Programming')">💻 C++ Programming</button>
-                    <button type="button" class="chip-btn" onclick="quickPickTopic('Data Science')">📊 Data Science</button>
-                    <button type="button" class="chip-btn" onclick="quickPickTopic('Artificial Intelligence')">🤖 Artificial Intelligence</button>
-                    <button type="button" class="chip-btn" onclick="quickPickTopic('Statistics & Probability')">📈 Statistics</button>
-                    <button type="button" class="chip-btn" onclick="quickPickTopic('Calculus & Math')">➗ Calculus & Math</button>
-                    <button type="button" class="chip-btn" onclick="quickPickTopic('English & Communication')">📝 English</button>
-                </div>
-
-                <input type="text" id="quiz-topic-input" placeholder="Type any subject/topic (e.g. C++, Data Science, AI)...">
-                <button type="button" class="main-btn" onclick="startCustomQuiz()">🚀 Start Quiz on This Topic</button>
-
-                <div id="quiz-arena-box" style="display:none;"></div>
+                <input type="text" id="quiz-topic-input" placeholder="Type topic (e.g. C++, Data Science, AI)...">
+                <button type="button" class="main-btn" onclick="startCustomQuiz()">🚀 Start Quiz</button>
+                <div id="quiz-arena-box" style="margin-top:14px;"></div>
             </div>
         </div>
 
-        <!-- TAB 4: GIFT BOXES LIST -->
-        <div id="fun-tab" class="tab-content">
+        <!-- TAB 3: QUICK Q&A -->
+        <div id="qa-tab" class="tab-content">
             <div class="card">
-                <h2>🎁 Interactive Gift Boxes (Activity + Wish Card)</h2>
-                <p style="font-size:0.9rem; color:var(--text-light); margin-top:0;">Kisi bhi Gift Box par click karein — screen clean hogi, center mein gift ayega, pehle card ki activity hogi aur phir aapke naam ki wish card khulegi!</p>
+                <h2>💡 Quick Study Q&A</h2>
+                <input type="text" id="qa-question" placeholder="Enter topic or question...">
+                <button type="button" class="main-btn" onclick="makeAnswer()">Get Answer</button>
+                <div id="qa-output" style="margin-top:12px;"></div>
+            </div>
+        </div>
+    </div>
 
-                <div class="fun-grid" id="fun-buttons-grid"></div>
+    <!-- FULL SCREEN GIFT STAGE -->
+    <div id="full-gift-overlay">
+        <div class="overlay-topbar">
+            <button type="button" class="back-hub-btn" onclick="closeFullGiftStage()">← Back to Gifts</button>
+            <button type="button" class="back-hub-btn" onclick="openRandomInStage()">🎲 Next Gift</button>
+        </div>
+
+        <div class="center-gift-wrap">
+            <div class="gift-hero-box" id="gift-hero-box">🎁</div>
+
+            <div class="activity-panel" id="activity-panel">
+                <h3 style="color:#fde047; margin:0 0 6px;" id="activity-title">Activity</h3>
+                <p style="margin:0 0 10px;" id="activity-hint">Solve this before unboxing!</p>
+                <div id="activity-controls"></div>
+                <div id="activity-feedback" style="margin-top:10px; font-weight:700;"></div>
             </div>
 
-            <div class="card">
-                <h2>✍️ Drop a Fun Wish / Surprise Note</h2>
-                <input type="text" id="post-title" placeholder="Title (e.g. Celebration Wish / Note)...">
-                <textarea id="post-body" placeholder="Write a fun wish or surprise message..."></textarea>
-                <button type="button" class="main-btn" onclick="addPost()">Post Surprise Note</button>
-                <div id="user-posts"></div>
+            <button type="button" class="unbox-main-btn" id="unbox-btn" onclick="unboxCurrentGift()" disabled>
+                🔒 Complete Activity First to Unbox
+            </button>
+
+            <div class="wish-card-box" id="wish-card-box">
+                <div style="color:#fde047; font-weight:800; margin-bottom:6px;" id="wish-recipient">WISH FOR YOU</div>
+                <h2 style="margin:0 0 8px; color:#fff;" id="wish-title">Wish Title</h2>
+                <p style="line-height:1.6; margin:0 0 14px;" id="wish-message">Wish message</p>
+                <button type="button" class="mini-btn" onclick="openRandomInStage()">🎁 Open Another Gift</button>
+                <button type="button" class="mini-btn" style="background:#475569;" onclick="closeFullGiftStage()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var user = { name: 'Saba Anfaal', gender: 'girl', level: 'BS / University' };
+        var activeCardIndex = 0;
+        var activitySolved = false;
+        var tapCount = 0;
+        var diamondPos = 15;
+
+        var surpriseCards = [
+            {
+                btn: "☕ 1. Coffee Treat",
+                icon: "☕", prizeIcon: "🥐",
+                bg: "linear-gradient(135deg, #d97706, #78350f)",
+                mode: "tap", goal: 3, btnText: "🥄 Stir Coffee",
+                activityQ: "Coffee Treat Activity: Cup mein coffee & milk mila kar 3 baar stir karein!",
+                wishTitle: "Cozy Coffee Break Wish ☕",
+                wishMsg: "May your day stay warm, refreshing, and stress-free just like a fresh cup of coffee!"
+            },
+            {
+                btn: "🍫 2. Sweet Surprise",
+                icon: "🍫", prizeIcon: "🍬",
+                bg: "linear-gradient(135deg, #f43f5e, #9333ea)",
+                mode: "choice",
+                activityQ: "Sweet Surprise Activity: Study break mein sweet smile ke liye kaun sa option best hai?",
+                options: ["Chocolate / Mithai Treat", "Raw Onion", "Cardboard", "Bitter Neem"],
+                correctIdx: 0,
+                wishTitle: "Sweet Treat Wish 🍫",
+                wishMsg: "Wishing you sweetness, happy surprises, and proud moments in everything you do!"
+            },
+            {
+                btn: "💎 3. Diamond Vibe",
+                icon: "💎", prizeIcon: "💍",
+                bg: "linear-gradient(135deg, #38bdf8, #6366f1)",
+                mode: "ring",
+                activityQ: "Diamond Vibe Activity: Wish dekhne se pehle Diamond ko sahi Ring (center ~50%) mein fix karein!",
+                wishTitle: "Brilliant Diamond Wish 💎",
+                wishMsg: "Just like a diamond shines bright in its setting, wishing you clarity, strength, and shining success!"
+            },
+            {
+                btn: "🎂 4. Celebration Wish",
+                icon: "🎂", prizeIcon: "🎉",
+                bg: "linear-gradient(135deg, #f59e0b, #ec4899)",
+                mode: "tap", goal: 3, btnText: "🕯️ Light Spark",
+                activityQ: "Celebration Activity: 3 celebration sparks on karein taake wish box unlock ho!",
+                wishTitle: "Grand Celebration Wish! 🎈",
+                wishMsg: "Wishing you joyful celebrations, bright milestones, and endless reasons to smile!"
+            },
+            {
+                btn: "🎁 5. Mystery Gift",
+                icon: "🎁", prizeIcon: "👑",
+                bg: "linear-gradient(135deg, #ec4899, #8b5cf6)",
+                mode: "choice",
+                activityQ: "Mystery Gift Activity: Box unlock karne ke liye sahi step chunein:",
+                options: ["Solve clue & unbox gift!", "Band chhod do", "Lock laga do", "Light band kar do"],
+                correctIdx: 0,
+                wishTitle: "Golden Mystery Wish ✨",
+                wishMsg: "Wishing you exciting surprises, calm focus, and wonderful news ahead!"
+            },
+            {
+                btn: "🌟 6. Lucky Star",
+                icon: "🌟", prizeIcon: "🌠",
+                bg: "linear-gradient(135deg, #06b6d4, #3b82f6)",
+                mode: "tap", goal: 3, btnText: "🌠 Catch Star",
+                activityQ: "Lucky Star Activity: 3 shooting stars catch karein aur apni wish unlock karein!",
+                wishTitle: "Shooting Star Wish 🌟",
+                wishMsg: "May your wishes turn into reality and bring peace and happiness to your life!"
+            }
+        ];
+
+        function setManualGender(g) {
+            user.gender = g;
+            var badge = document.getElementById('auto-detect-badge');
+            if (g === 'boy') {
+                document.documentElement.setAttribute('data-theme', 'boy');
+                badge.innerText = "🌊 Selected: Boy (Blue Theme)";
+                badge.style.color = "#38bdf8";
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                badge.innerText = "🌸 Selected: Girl (Pink Theme)";
+                badge.style.color = "#f472b6";
+            }
+        }
+
+        function detectGender(name) {
+            var val = (name || '').toLowerCase();
