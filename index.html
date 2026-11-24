@@ -1,1028 +1,993 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waooo ✨ Bestie & Self-Care Sanctuary</title>
-    <style>
-        :root {
-            --bg-grad: radial-gradient(circle at top left, #ffe4e6 0%, #fce7f3 45%, #f3e8ff 100%);
-            --glass-bg: rgba(255, 255, 255, 0.72);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --primary: #db2777;
-            --secondary: #9333ea;
-            --text-main: #4a044e;
-            --text-sub: #831843;
-            --glow: 0 18px 45px -10px rgba(219, 39, 119, 0.24);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peace Offering Sanctuary • Making Bestie Smile Again</title>
+  <style>
+    :root {
+      --bg1: #fff0f6;
+      --bg2: #f3ecff;
+      --card: rgba(255, 255, 255, 0.88);
+      --text: #28193d;
+      --muted: #6f5c8a;
+      --accent: #e11d74;
+      --accent2: #7c3aed;
+      --ring: rgba(225, 29, 116, 0.22);
+      --border: rgba(124, 58, 237, 0.14);
+      --shadow: 0 18px 45px rgba(72, 28, 118, 0.12);
+    }
 
-        [data-side="selfcare"] {
-            --bg-grad: radial-gradient(circle at top left, #e0f2fe 0%, #e0e7ff 45%, #fae8ff 100%);
-            --glass-bg: rgba(255, 255, 255, 0.76);
-            --glass-border: rgba(255, 255, 255, 0.92);
-            --primary: #4f46e5;
-            --secondary: #06b6d4;
-            --text-main: #1e1b4b;
-            --text-sub: #3730a3;
-            --glow: 0 18px 45px -10px rgba(79, 70, 229, 0.24);
-        }
+    body[data-theme="midnight"] {
+      --bg1: #120b24;
+      --bg2: #1f123d;
+      --card: rgba(31, 20, 61, 0.88);
+      --text: #f8f4ff;
+      --muted: #c2b2e0;
+      --accent: #f472b6;
+      --accent2: #a78bfa;
+      --ring: rgba(244, 114, 182, 0.25);
+      --border: rgba(167, 139, 250, 0.2);
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+    }
 
-        * { box-sizing: border-box; }
+    body[data-theme="matcha"] {
+      --bg1: #eefaf3;
+      --bg2: #fdf6e7;
+      --card: rgba(255, 255, 255, 0.9);
+      --text: #183427;
+      --muted: #4f6f60;
+      --accent: #16a34a;
+      --accent2: #0d9488;
+      --ring: rgba(22, 163, 74, 0.22);
+      --border: rgba(13, 148, 136, 0.16);
+      --shadow: 0 18px 45px rgba(20, 83, 45, 0.1);
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-grad);
-            color: var(--text-main);
-            margin: 0;
-            padding: 16px;
-            min-height: 100vh;
-            transition: background 0.6s ease, color 0.4s ease;
-            overflow-x: hidden;
-        }
+    body[data-theme="sunset"] {
+      --bg1: #fff3e6;
+      --bg2: #ffe6ee;
+      --card: rgba(255, 255, 255, 0.9);
+      --text: #3b1c14;
+      --muted: #835448;
+      --accent: #ea580c;
+      --accent2: #db2777;
+      --ring: rgba(234, 88, 12, 0.22);
+      --border: rgba(234, 88, 12, 0.16);
+      --shadow: 0 18px 45px rgba(124, 45, 18, 0.12);
+    }
 
-        /* Ambient Orbs & Confetti Canvas */
-        .ambient-layer {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; }
 
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(55px);
-            opacity: 0.45;
-            animation: floatOrb 10s ease-in-out infinite alternate;
-        }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, var(--bg1), var(--bg2));
+      color: var(--text);
+      padding: 20px;
+      transition: background 0.35s ease, color 0.35s ease;
+      overflow-x: hidden;
+    }
 
-        .orb-1 { width: 260px; height: 260px; background: #f472b6; top: -50px; left: -40px; }
-        .orb-2 { width: 290px; height: 290px; background: #c084fc; bottom: -60px; right: -40px; animation-delay: 2s; }
-        .orb-3 { width: 210px; height: 210px; background: #67e8f9; top: 40%; left: 55%; animation-delay: 4s; }
+    .container { max-width: 1040px; margin: 0 auto; position: relative; z-index: 2; }
 
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(25px, -25px) scale(1.12); }
-        }
+    .topbar {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;
+      margin-bottom: 18px; background: var(--card); border: 1px solid var(--border);
+      padding: 12px 16px; border-radius: 20px; box-shadow: var(--shadow); backdrop-filter: blur(12px);
+    }
 
-        #confetti-canvas {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 10000;
-        }
+    .pill-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 920px;
-            margin: 0 auto;
-        }
+    button {
+      cursor: pointer; border: none; border-radius: 14px; padding: 10px 15px;
+      font-weight: 600; font-size: 0.92rem; transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      color: var(--text); background: rgba(124, 58, 237, 0.1);
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 18px var(--ring); }
+    button:active { transform: scale(0.98); }
 
-        /* Unlock Screen */
-        #unlock-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 9990;
-            background: linear-gradient(135deg, #fdf2f8 0%, #ede9fe 55%, #e0f2fe 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 18px;
-        }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
 
-        .unlock-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            border: 2px solid rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            padding: 30px 24px;
-            max-width: 430px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(147, 51, 234, 0.2);
-        }
+    .btn-active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
 
-        .unlock-card h2 {
-            margin: 0 0 6px;
-            font-size: 1.65rem;
-            background: linear-gradient(135deg, #db2777, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .portal-card {
+      max-width: 560px; margin: 45px auto; text-align: center;
+      background: var(--card); border: 1px solid var(--border); border-radius: 28px;
+      padding: 36px 28px; box-shadow: var(--shadow); backdrop-filter: blur(14px);
+    }
+    .portal-card h1 { font-size: 1.95rem; margin-bottom: 8px; }
+    .portal-card p { color: var(--muted); margin-bottom: 20px; }
 
-        .name-input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 16px;
-            border: 2px solid #f9a8d4;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            text-align: center;
-            margin: 12px 0 14px;
-            outline: none;
-            color: #4a044e;
-            font-weight: 700;
-        }
+    input[type="text"], textarea {
+      width: 100%; border: 1.5px solid var(--border); border-radius: 14px;
+      padding: 12px 14px; font-size: 0.96rem; background: rgba(255, 255, 255, 0.65);
+      color: #1e1330; outline: none; margin-bottom: 12px;
+    }
+    body[data-theme="midnight"] input[type="text"],
+    body[data-theme="midnight"] textarea {
+      background: rgba(18, 11, 36, 0.75); color: #f8f4ff;
+    }
+    input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--ring); }
 
-        .secret-icons-row {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            margin: 14px 0;
-        }
+    .magic-icons { display: flex; justify-content: center; gap: 16px; margin: 18px 0; }
+    .magic-btn {
+      width: 72px; height: 72px; border-radius: 22px; font-size: 1.9rem;
+      display: grid; place-items: center; border: 2px dashed var(--accent2);
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .magic-btn.unlocked {
+      border-style: solid; background: linear-gradient(135deg, rgba(225, 29, 116, 0.16), rgba(124, 58, 237, 0.16));
+      box-shadow: 0 10px 24px var(--ring);
+    }
 
-        .secret-tap-btn {
-            width: 68px;
-            height: 68px;
-            border-radius: 22px;
-            border: 2px solid #f472b6;
-            background: #ffffff;
-            font-size: 1.85rem;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.12);
-        }
+    .hidden { display: none !important; }
 
-        .secret-tap-btn:hover { transform: translateY(-4px) scale(1.06); }
-        .secret-tap-btn.tapped {
-            background: linear-gradient(135deg, #db2777, #9333ea);
-            color: #fff;
-            border-color: transparent;
-            transform: scale(0.95);
-            box-shadow: 0 0 22px rgba(219, 39, 119, 0.45);
-        }
+    .hero {
+      background: var(--card); border: 1px solid var(--border); border-radius: 26px;
+      padding: 22px 24px; box-shadow: var(--shadow); margin-bottom: 20px;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px;
+    }
 
-        .skip-unlock-btn {
-            margin-top: 10px;
-            background: transparent;
-            border: none;
-            color: #831843;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: underline;
-            cursor: pointer;
-        }
+    .side-switch { display: flex; gap: 10px; flex-wrap: wrap; }
 
-        /* Header & Switcher */
-        header { text-align: center; margin-bottom: 16px; }
-        header h1 {
-            margin: 0 0 4px;
-            font-size: 1.95rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        header p { margin: 0; color: var(--text-sub); font-weight: 600; font-size: 0.94rem; }
+    .section-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+      padding: 22px; box-shadow: var(--shadow); margin-bottom: 20px;
+    }
+    .section-title { font-size: 1.25rem; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .section-sub { color: var(--muted); font-size: 0.92rem; margin-bottom: 16px; }
 
-        .side-switcher {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(14px);
-            padding: 8px;
-            border-radius: 22px;
-            border: 2px solid var(--glass-border);
-            box-shadow: var(--glow);
-            margin-bottom: 16px;
-        }
+    /* Mood / Narazgi Meter */
+    .meter-wrap {
+      width: 100%; height: 16px; border-radius: 999px;
+      background: rgba(124, 58, 237, 0.12); overflow: hidden; margin-top: 8px;
+    }
+    .meter-fill {
+      height: 100%; width: 25%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.35s ease;
+    }
 
-        .side-btn {
-            padding: 13px 12px;
-            border-radius: 16px;
-            border: none;
-            font-weight: 800;
-            font-size: 0.95rem;
-            cursor: pointer;
-            background: transparent;
-            color: var(--text-sub);
-            transition: all 0.25s ease;
-        }
+    .polaroid-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .polaroid {
+      background: #fff; color: #222; padding: 12px 12px 18px; border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08); text-align: center;
+    }
+    .polaroid-slot {
+      height: 165px; border-radius: 10px; background: #f5effb;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      cursor: pointer; overflow: hidden; border: 1.5px dashed #c4b5fd; margin-bottom: 10px;
+    }
+    .polaroid-slot img { width: 100%; height: 100%; object-fit: cover; }
 
-        .side-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #ffffff;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
-        }
+    .gift-tabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .gift-tab {
+      padding: 14px; border-radius: 18px; text-align: center;
+      border: 1.5px solid var(--border); background: rgba(255, 255, 255, 0.45);
+    }
+    .gift-tab.done { border-color: #16a34a; background: rgba(22, 163, 74, 0.12); }
 
-        .top-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 18px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(14px);
-            padding: 11px 16px;
-            border-radius: 18px;
-            border: 2px solid var(--glass-border);
-        }
+    .activity-box {
+      border: 1.5px solid var(--border); border-radius: 20px; padding: 18px;
+      background: rgba(255, 255, 255, 0.42);
+    }
+    body[data-theme="midnight"] .activity-box,
+    body[data-theme="midnight"] .gift-tab { background: rgba(18, 11, 36, 0.55); }
 
-        .pill-btn {
-            padding: 9px 15px;
-            border-radius: 999px;
-            border: none;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+    .option-btn {
+      width: 100%; text-align: left; margin-top: 9px; padding: 12px 14px;
+      border-radius: 14px; border: 1.5px solid var(--border); background: var(--card);
+    }
+    .option-btn.correct { border-color: #16a34a; background: rgba(22, 163, 74, 0.16); }
+    .option-btn.wrong { border-color: #dc2626; background: rgba(220, 38, 38, 0.14); }
 
-        .pill-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,0,0,0.15); }
+    .wish-reveal {
+      margin-top: 16px; padding: 18px; border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff;
+    }
 
-        .side-view { display: none; }
-        .side-view.active { display: block; animation: slideUp 0.35s ease; }
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .scratch-wrap { position: relative; width: 100%; max-width: 340px; height: 150px; border-radius: 18px; overflow: hidden; margin: 10px auto 0; border: 2px solid var(--accent); }
+    .scratch-under {
+      width: 100%; height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center; padding: 16px;
+      background: linear-gradient(135deg, #ffe4f1, #ede9fe); color: #2a1442; font-weight: 700;
+    }
+    canvas.scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; }
 
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(14px);
-            border: 2px solid var(--glass-border);
-            border-radius: 26px;
-            padding: 22px;
-            margin-bottom: 18px;
-            box-shadow: var(--glow);
-        }
+    .wheel-box { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .wheel-pointer { font-size: 1.6rem; line-height: 1; }
+    canvas#wheelCanvas { max-width: 240px; max-height: 240px; border-radius: 50%; box-shadow: 0 12px 26px var(--ring); }
 
-        .card h2 { margin: 0 0 6px; color: var(--primary); font-size: 1.28rem; }
-        .card-sub { margin: 0 0 14px; color: var(--text-sub); font-size: 0.9rem; }
+    .timeline-item {
+      border-left: 3px solid var(--accent); padding: 10px 14px; margin-bottom: 12px;
+      background: rgba(124, 58, 237, 0.06); border-radius: 0 14px 14px 0; cursor: pointer;
+    }
+    .note-item {
+      padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border);
+      margin-top: 10px; background: rgba(255, 255, 255, 0.45);
+    }
+    body[data-theme="midnight"] .note-item { background: rgba(18, 11, 36, 0.55); }
 
-        /* Polaroid Frames */
-        .polaroid-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
-            gap: 14px;
-        }
+    .vibe-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .affirmation-box {
+      padding: 18px; border-radius: 18px; border: 1.5px dashed var(--accent2);
+      text-align: center; cursor: pointer; font-size: 1.05rem;
+    }
+    .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .check-card {
+      padding: 14px; border-radius: 16px; border: 1.5px solid var(--border);
+      cursor: pointer; font-weight: 600;
+    }
+    .check-card.checked { border-color: #16a34a; background: rgba(22, 163, 74, 0.14); text-decoration: line-through; }
 
-        .polaroid {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-            transition: transform 0.25s ease;
-        }
+    #confettiCanvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 999;
+    }
 
-        .polaroid:hover { transform: translateY(-5px) rotate(-0.8deg); }
-
-        .photo-frame {
-            width: 100%;
-            height: 158px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #fdf2f8, #f3e8ff);
-            border: 2px dashed #f472b6;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 0.86rem;
-        }
-
-        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
-        .polaroid-caption { margin-top: 9px; font-weight: 800; font-size: 0.88rem; color: #311042; }
-
-        /* Gift Tiles */
-        .gift-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-            gap: 12px;
-        }
-
-        .gift-tile {
-            padding: 18px 12px;
-            border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.85);
-            background: rgba(255, 255, 255, 0.72);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .gift-tile:hover {
-            transform: translateY(-4px) scale(1.02);
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
-        }
-
-        .gift-tile-icon { font-size: 2.25rem; display: block; margin-bottom: 6px; }
-        .gift-tile-title { font-weight: 800; font-size: 0.92rem; }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 14px;
-            border: 2px solid rgba(244, 114, 182, 0.45);
-            background: rgba(255, 255, 255, 0.85);
-            font-size: 0.92rem;
-            margin-bottom: 8px;
-            outline: none;
-            font-family: inherit;
-            color: var(--text-main);
-        }
-
-        .note-item {
-            background: rgba(255, 255, 255, 0.82);
-            border-left: 5px solid var(--primary);
-            padding: 12px 15px;
-            border-radius: 14px;
-            margin-top: 10px;
-        }
-
-        /* Mood Chips & Self-Care */
-        .mood-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-        .mood-chip {
-            padding: 8px 14px;
-            border-radius: 999px;
-            border: 2px solid var(--primary);
-            background: rgba(255, 255, 255, 0.7);
-            color: var(--text-main);
-            font-weight: 800;
-            font-size: 0.84rem;
-            cursor: pointer;
-        }
-        .mood-chip.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-        }
-
-        .affirmation-card {
-            padding: 20px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.75);
-            border: 2px dashed var(--primary);
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .affirmation-card:hover { transform: scale(1.01); }
-
-        .check-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
-            gap: 10px;
-        }
-
-        .check-pill {
-            padding: 12px 14px;
-            border-radius: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.85);
-            background: rgba(255, 255, 255, 0.72);
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .check-pill.done {
-            background: #dcfce7;
-            border-color: #22c55e;
-            color: #166534;
-            text-decoration: line-through;
-        }
-
-        /* Modal */
-        #gift-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9995;
-            background: radial-gradient(circle at top, #3b0764, #090d16 82%);
-            color: #fff;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .modal-inner {
-            min-height: calc(100vh - 40px);
-            max-width: 560px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .modal-box-icon {
-            width: 175px;
-            height: 145px;
-            border-radius: 26px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 4.2rem;
-            margin-bottom: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.35);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            animation: bounceGift 2.2s ease-in-out infinite;
-        }
-
-        @keyframes bounceGift {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-9px); }
-        }
-
-        .modal-panel {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            border: 1.5px solid rgba(255, 255, 255, 0.25);
-            border-radius: 22px;
-            padding: 20px;
-            margin-bottom: 14px;
-        }
-
-        .opt-choice {
-            display: block;
-            width: 100%;
-            padding: 11px;
-            margin-top: 8px;
-            border-radius: 14px;
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            background: rgba(15, 23, 42, 0.85);
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .opt-choice:hover { background: #ec4899; border-color: #ec4899; }
-
-        .wish-reveal {
-            display: none;
-            width: 100%;
-            padding: 24px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.36), rgba(139, 92, 246, 0.32));
-            border: 2px solid #f472b6;
-            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.3);
-            animation: wishZoom 0.4s ease;
-        }
-
-        @keyframes wishZoom {
-            from { transform: scale(0.86); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-    </style>
+    .rating-stars span { font-size: 1.7rem; cursor: pointer; filter: grayscale(0.7); transition: transform 0.15s; display: inline-block; }
+    .rating-stars span.active, .rating-stars span:hover { filter: grayscale(0); transform: scale(1.2); }
+  </style>
 </head>
-<body>
+<body data-theme="rose">
+  <canvas id="confettiCanvas"></canvas>
 
-    <canvas id="confetti-canvas"></canvas>
-
-    <div class="ambient-layer">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+  <div class="container">
+    <div class="topbar">
+      <div class="pill-group">
+        <strong>🎨 Theme:</strong>
+        <button data-set-theme="rose" class="btn-active">Pastel Rose</button>
+        <button data-set-theme="midnight">Midnight</button>
+        <button data-set-theme="matcha">Matcha</button>
+        <button data-set-theme="sunset">Sunset</button>
+      </div>
+      <div class="pill-group">
+        <button id="soundToggle">🔊 Sound: ON</button>
+        <button id="sparkleBtn">✨ Sparkle Burst</button>
+      </div>
     </div>
 
-    <!-- UNLOCK SCREEN -->
-    <div id="unlock-screen">
-        <div class="unlock-card">
-            <h2>✨ Waooo Magic Portal ✨</h2>
-            <p style="color:#831843; font-size:0.92rem; margin:0;">Naam likhein aur teeno magic icons par tap kar ke duniya kholein:</p>
-            <input type="text" id="recipient-name" class="name-input" value="Saba Anfaal" placeholder="Enter your name...">
-            <div class="secret-icons-row">
-                <button type="button" class="secret-tap-btn" onclick="tapSecret(this)">🌸</button>
-                <button type="button" class="secret-tap-btn" onclick="tapSecret(this)">☕</button>
-                <button type="button" class="secret-tap-btn" onclick="tapSecret(this)">✨</button>
-            </div>
-            <div id="unlock-status" style="font-size:0.88rem; font-weight:800; color:#db2777;">0 / 3 magic icons unlocked</div>
-            <button type="button" class="skip-unlock-btn" onclick="enterSanctuary()">Enter directly →</button>
-        </div>
+    <!-- ENTRY SCREEN -->
+    <div id="portalScreen" class="portal-card">
+      <h1>🥺 Thori Si Naraz Bestie Ke Liye 🫶</h1>
+      <p>Narazgi door karne aur pyari si muskurahat wapas lanay ke liye charms unlock karein.</p>
+      <input type="text" id="userNameInput" value="Saba Anfaal" placeholder="Apna naam likhein..." />
+
+      <div class="magic-icons">
+        <button class="magic-btn" data-magic="0" title="Sorry Charm">🌸</button>
+        <button class="magic-btn" data-magic="1" title="Chai Treat Charm">☕</button>
+        <button class="magic-btn" data-magic="2" title="Smile Charm">🌟</button>
+      </div>
+
+      <p id="magicStatus">0 / 3 charms unlocked</p>
+      <button class="btn-primary" id="enterPortalBtn">Open Peace Sanctuary →</button>
     </div>
 
-    <!-- MAIN 2-SIDE PORTAL -->
-    <div class="container" id="main-portal" style="display:none;">
-        <header>
-            <h1 id="main-heading">💖 Bestie Scrapbook & Mood Sanctuary</h1>
-            <p id="sub-heading">Crafted specially for Saba Anfaal ✨</p>
-        </header>
+    <!-- MAIN SANCTUARY -->
+    <div id="mainApp" class="hidden">
+      <div class="hero">
+        <div>
+          <h2 id="welcomeHeading">Hey, Saba Anfaal 🥺🫶</h2>
+          <p class="section-sub" style="margin-bottom:0;">Narazgi Mananay Wala Special Scrapbook & Mood Space</p>
+        </div>
+        <div class="side-switch">
+          <button id="side1Btn" class="btn-active">📖 Side 1: Sulh & Scrapbook</button>
+          <button id="side2Btn">🌙 Side 2: Mood & Self-Care</button>
+          <button id="lockBtn">🔒 Lock</button>
+        </div>
+      </div>
 
-        <div class="side-switcher">
-            <button type="button" class="side-btn active" id="btn-side-bestie" onclick="switchSide('bestie')">💖 Side 1: Bestie Scrapbook</button>
-            <button type="button" class="side-btn" id="btn-side-selfcare" onclick="switchSide('selfcare')">🌙 Side 2: Mood & Self-Care</button>
+      <!-- Narazgi / Smile Meter -->
+      <div class="section-card">
+        <div class="section-title">😊 Smile & Sulh Meter</div>
+        <p id="smileMeterText" class="section-sub" style="margin-bottom:6px;">Narazgi kam karne ke liye gفٹس unbox karein — abhi Smile Meter: <strong>25%</strong></p>
+        <div class="meter-wrap">
+          <div class="meter-fill" id="smileMeterFill"></div>
+        </div>
+      </div>
+
+      <!-- SIDE 1 -->
+      <div id="side1View">
+        <div class="section-card">
+          <div class="section-title">📸 Polaroid Memory Wall</div>
+          <p class="section-sub">Kisi bhi frame par tap kar ke apni favorite photo lagayein.</p>
+          <div class="polaroid-grid">
+            <div class="polaroid">
+              <div class="polaroid-slot" data-slot="0"><span>📷 Tap to add photo</span></div>
+              <div>Sath Hamesha 🫶</div>
+            </div>
+            <div class="polaroid">
+              <div class="polaroid-slot" data-slot="1"><span>📷 Tap to add photo</span></div>
+              <div>Chai & Sulh Breaks ☕</div>
+            </div>
+            <div class="polaroid">
+              <div class="polaroid-slot" data-slot="2"><span>📷 Tap to add photo</span></div>
+              <div>Bestie Smile Back ✨</div>
+            </div>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" class="hidden" />
         </div>
 
-        <div class="top-controls">
-            <span style="font-weight:800; font-size:0.92rem;">🎀 Hey, <span id="display-name">Saba Anfaal</span> • <span id="live-mood-badge">Dreamy ✨</span></span>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button type="button" class="pill-btn" onclick="burstConfetti(90)">🎊 Sparkle Burst</button>
-                <button type="button" class="pill-btn" id="music-toggle-btn" onclick="toggleCalmAudio()">🎵 Soft Vibe: OFF</button>
-                <button type="button" class="pill-btn" style="background:#64748b;" onclick="lockAgain()">🔒 Lock</button>
-            </div>
+        <div class="section-card">
+          <div class="section-title">🎁 Sulh Gift Unboxer (Shuffled Options!)</div>
+          <p class="section-sub">Har gift ke options shuffle hotay hain—sahi jawab dein aur narazgi manane wala gift kholein!</p>
+          <div class="gift-tabs" id="giftTabs"></div>
+          <div class="activity-box" id="activityContainer"></div>
         </div>
 
-        <!-- SIDE 1: BESTIE SCRAPBOOK -->
-        <div id="side-bestie" class="side-view active">
-            <div class="card">
-                <h2>📸 Polaroid Memory Wall</h2>
-                <p class="card-sub">Kisi bhi frame par tap kar ke apni favorite photo lagayein — bilkul scrapbook style!</p>
-                <div class="polaroid-grid">
-                    <div class="polaroid" onclick="triggerPhoto(0)">
-                        <div class="photo-frame" id="frame-0">📷<br>Tap to add photo</div>
-                        <div class="polaroid-caption">Unstoppable Duo 💕</div>
-                        <input type="file" id="file-0" accept="image/*" style="display:none;" onchange="loadPhoto(event, 0)">
-                    </div>
-                    <div class="polaroid" onclick="triggerPhoto(1)">
-                        <div class="photo-frame" id="frame-1">☕<br>Tap to add photo</div>
-                        <div class="polaroid-caption">Chai & Gossip Breaks ✨</div>
-                        <input type="file" id="file-1" accept="image/*" style="display:none;" onchange="loadPhoto(event, 1)">
-                    </div>
-                    <div class="polaroid" onclick="triggerPhoto(2)">
-                        <div class="photo-frame" id="frame-2">🌸<br>Tap to add photo</div>
-                        <div class="polaroid-caption">Bestie Forever Vibes 🦋</div>
-                        <input type="file" id="file-2" accept="image/*" style="display:none;" onchange="loadPhoto(event, 2)">
-                    </div>
-                </div>
+        <div class="two-col">
+          <div class="section-card">
+            <div class="section-title">🪙 Sorry Scratch Card</div>
+            <p class="section-sub">Neeche silver layer ko scratch kar ke apni special treat dekhein!</p>
+            <div class="scratch-wrap">
+              <div class="scratch-under" id="scratchSecret">
+                <div>🥺 Dil Se Sorry & Treat!</div>
+                <div style="font-size:0.9rem; margin-top:6px;">Aaj ke liye narazgi maaf—ek garam chai/coffee aur sweet treat pakki!</div>
+              </div>
+              <canvas class="scratch-canvas" id="scratchCanvas" width="340" height="150"></canvas>
             </div>
+            <div style="text-align:center; margin-top:12px;">
+              <button id="resetScratchBtn">🔄 New Scratch Foil</button>
+            </div>
+          </div>
 
-            <div class="card">
-                <h2>🎁 Interactive Gift Unboxer (Activity → Wish)</h2>
-                <p class="card-sub">Har gift par pehle uski choti si activity solve hogi, phir confetti ke saath aapke naam ka wish card khulega!</p>
-                <div class="gift-grid" id="bestie-gifts-grid"></div>
+          <div class="section-card">
+            <div class="section-title">🎡 Peace & Treat Wheel</div>
+            <p class="section-sub">Wheel ghumayein aur aaj ka manane wala surprise lein!</p>
+            <div class="wheel-box">
+              <div class="wheel-pointer">▼</div>
+              <canvas id="wheelCanvas" width="240" height="240"></canvas>
+              <button class="btn-primary" id="spinWheelBtn">Spin the Wheel 🎡</button>
+              <div id="wheelResult" style="font-weight:700; text-align:center; min-height:24px;"></div>
             </div>
-
-            <div class="card">
-                <h2>💌 Secret Notes & Sweet Memories</h2>
-                <input type="text" id="bestie-note-title" placeholder="Note title (e.g. Late Night Laughs)...">
-                <textarea id="bestie-note-body" rows="2" placeholder="Write a special note or inside joke..."></textarea>
-                <button type="button" class="pill-btn" onclick="saveBestieNote()">💌 Save Note</button>
-                <div id="bestie-notes-list"></div>
-            </div>
+          </div>
         </div>
 
-        <!-- SIDE 2: MOOD & SELF-CARE -->
-        <div id="side-selfcare" class="side-view">
-            <div class="card">
-                <h2>🌈 Pick Your Today's Vibe</h2>
-                <p class="card-sub">Apna mood chunein aur neeche affirmation card par tap kar ke naya paigham dekhein:</p>
-                <div class="mood-row">
-                    <button type="button" class="mood-chip active" onclick="setMood(this, 'Dreamy ✨')">✨ Dreamy</button>
-                    <button type="button" class="mood-chip" onclick="setMood(this, 'Cozy ☕')">☕ Cozy</button>
-                    <button type="button" class="mood-chip" onclick="setMood(this, 'Peaceful 🌙')">🌙 Peaceful</button>
-                    <button type="button" class="mood-chip" onclick="setMood(this, 'Glowing 🌸')">🌸 Glowing</button>
-                </div>
-                <div class="affirmation-card" onclick="nextAffirmation()">
-                    <div style="font-size:2.1rem; margin-bottom:6px;">🌷</div>
-                    <div id="affirmation-text" style="font-weight:800; font-size:1.06rem; line-height:1.55;">
-                        "May Allah bless your heart with peace, ease in your journey, and endless reasons to smile."
-                    </div>
-                    <div style="margin-top:8px; font-size:0.82rem; opacity:0.75;">(Tap card for next affirmation / dua ✨)</div>
-                </div>
+        <div class="two-col">
+          <div class="section-card">
+            <div class="section-title">🕰️ Our Memory Timeline</div>
+            <p class="section-sub">Kisi bhi moment par click kar ke full story dekhein.</p>
+            <div class="timeline-item" data-story="Narazgi choti si hoti hai, lekin hamari dosti aur baatein hamesha bari aur sachchi hoti hain.">
+              <strong>☕ Chai & Sulh Talks</strong>
+              <p class="section-sub" style="margin:4px 0 0;">Tap to read memory...</p>
             </div>
+            <div class="timeline-item" data-story="Snacks, hansi-mazaq aur chote chote surprises ne har baar din ko roshan kiya hai.">
+              <strong>🎁 Treats & Laughs</strong>
+              <p class="section-sub" style="margin:4px 0 0;">Tap to read memory...</p>
+            </div>
+            <div class="timeline-item" data-story="Har mushkil ya busy waqt mein saath aur dil se fikar hamesha rahi hai.">
+              <strong>🌟 Together Through Everything</strong>
+              <p class="section-sub" style="margin:4px 0 0;">Tap to read memory...</p>
+            </div>
+            <div id="timelineStoryBox" class="note-item" style="display:none;"></div>
+          </div>
 
-            <div class="card">
-                <h2>🌿 Daily Glow & Self-Care Checklist</h2>
-                <p class="card-sub">Jo kaam aaj poore ho jayein un par tap kar ke tick lagayein:</p>
-                <div class="check-grid" id="selfcare-checklist"></div>
+          <div class="section-card">
+            <div class="section-title">🫙 Sorry & Wish Jar + Notes</div>
+            <p class="section-sub">Apna note save karein, jar se pyara message nikalein, ya copy karein.</p>
+            <input type="text" id="noteTitle" placeholder="Note title (e.g. Sorry / Dil Ki Baat)" />
+            <textarea id="noteBody" rows="2" placeholder="Yahan apna pyara note ya message likhein..."></textarea>
+            <div class="pill-group" style="margin-bottom:10px;">
+              <button class="btn-primary" id="saveNoteBtn">💾 Save Note</button>
+              <button id="jarBtn">🫙 Open Wish Jar</button>
+              <button id="copyNotesBtn">📋 Copy All</button>
             </div>
-
-            <div class="card">
-                <h2>🎁 Self-Care Mini Treats</h2>
-                <p class="card-sub">Apne aap ko ek pyara sa self-care gift unbox karein:</p>
-                <div class="gift-grid" id="selfcare-gifts-grid"></div>
+            <div id="jarOutput" class="note-item" style="display:none;"></div>
+            <div id="notesList">
+              <div class="note-item">
+                <strong>Ab Maan Bhi Jao 🥺🫶</strong>
+                <p style="font-size:0.9rem; margin-top:4px;">Tumhari pyari muskurahat ke bina sab kuch adhoora lagta hai.</p>
+              </div>
             </div>
+          </div>
         </div>
+
+        <div class="section-card" id="vaultCard">
+          <div class="section-title">💌 Final Sulh Letter & Rating</div>
+          <p id="vaultStatus" class="section-sub">4 mein se <strong id="unlockedCount">0</strong> gifts unbox hue. Sab unlock honay par special sulh letter khulay ga (ya preview button dabao)!</p>
+          <button id="previewVaultBtn">🔓 Open Sulh Letter</button>
+          <div id="vaultLetter" class="wish-reveal hidden" style="margin-top:14px;">
+            <h3>🥺✨ Dil Se Sulh Wala Letter ✨🫶</h3>
+            <p style="margin-top:8px; line-height:1.55;">
+              Agar kahin koi galti ya baat buri lagi ho toh dil se sorry! Dosti mein choti si narazgi aati hai, lekin pyaar aur izzat hamesha sab se ooper rehti hai. Ab ek pyari si smile do aur baat khatam!
+            </p>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-weight:600; margin-bottom:6px;">Narazgi manane wale is 10/10 version ko kitni rating dogi?</p>
+            <div class="rating-stars" id="ratingStars">
+              <span data-val="2">⭐</span>
+              <span data-val="4">⭐</span>
+              <span data-val="6">⭐</span>
+              <span data-val="8">⭐</span>
+              <span data-val="10">⭐</span>
+            </div>
+            <p id="ratingText" class="section-sub" style="margin-top:6px;">Stars par tap karein...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDE 2 -->
+      <div id="side2View" class="hidden">
+        <div class="section-card">
+          <div class="section-title">🌈 Pick Your Today's Vibe</div>
+          <p class="section-sub">Apna mood chunein aur neeche card par tap kar ke naya paigham dekhein.</p>
+          <div class="vibe-chips" id="vibeChips">
+            <button class="btn-active" data-vibe="Soft Sulh">🥺 Soft Sulh</button>
+            <button data-vibe="Cozy">☕ Cozy</button>
+            <button data-vibe="Peaceful">🌙 Peaceful</button>
+            <button data-vibe="Smiling">😊 Smiling</button>
+          </div>
+          <div class="affirmation-box" id="affirmationBox">
+            <div id="affirmationText">“May Allah bless your heart with peace, ease in your journey, and endless reasons to smile.”</div>
+            <small style="color:var(--muted); display:block; margin-top:8px;">(Tap card for next message / dua ✨)</small>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">🌿 Daily Glow & Sulh Checklist</div>
+          <p class="section-sub">Jo kaam aaj poore ho jayein un par tap kar ke tick lagayein.</p>
+          <div class="checklist-grid" id="checklistGrid">
+            <div class="check-card">💧 Drink plenty of water today</div>
+            <div class="check-card">☕ Enjoy a warm chai / snack break</div>
+            <div class="check-card">😊 Drop the narazgi & smile</div>
+            <div class="check-card">🤲 Shukr & heart-warming dua</div>
+            <div class="check-card">🛌 Restful & calm sleep</div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-title">🌙 Self-Care & Peace Mini Treats (Shuffled Options!)</div>
+          <p class="section-sub">Apne aap ko ek pyara sa calm treat unbox karein.</p>
+          <div class="gift-tabs" id="careTabs"></div>
+          <div class="activity-box" id="careActivityContainer"></div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- GIFT ACTIVITY & WISH MODAL -->
-    <div id="gift-modal">
-        <div class="modal-inner">
-            <div class="modal-box-icon" id="modal-icon">🎁</div>
+  <script>
+    let soundEnabled = true;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(freq = 580, duration = 0.12) {
+      if (!soundEnabled) return;
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
 
-            <div class="modal-panel" id="modal-activity-panel">
-                <h3 style="color:#fde047; margin:0 0 8px;" id="modal-act-title">Activity</h3>
-                <p style="margin:0 0 10px;" id="modal-act-q">Solve this to unwrap!</p>
-                <div id="modal-act-options"></div>
-                <div id="modal-act-feedback" style="margin-top:10px; font-weight:700;"></div>
-            </div>
+    const confettiCanvas = document.getElementById("confettiCanvas");
+    const cCtx = confettiCanvas.getContext("2d");
+    let particles = [];
+    function resizeConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeConfetti);
+    resizeConfetti();
 
-            <button type="button" class="pill-btn" id="modal-unbox-btn" style="padding:13px 26px; font-size:1rem; opacity:0.5;" disabled onclick="revealGiftWish()">
-                🔒 Complete Activity to Unbox
-            </button>
+    function launchConfetti(count = 75) {
+      playTone(740, 0.16);
+      const colors = ["#ff4da6", "#7c3aed", "#f59e0b", "#10b981", "#38bdf8"];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * confettiCanvas.width,
+          y: -15 - Math.random() * 60,
+          r: 4 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 4,
+          vy: 2 + Math.random() * 4.5,
+          rot: Math.random() * 360,
+          vr: (Math.random() - 0.5) * 8
+        });
+      }
+    }
 
-            <div class="wish-reveal" id="modal-wish-box">
-                <div style="color:#fde047; font-weight:800; letter-spacing:0.5px; margin-bottom:6px;" id="modal-wish-for">SPECIAL WISH</div>
-                <h2 style="margin:0 0 8px; color:#fff;" id="modal-wish-title">Wish Title</h2>
-                <p style="line-height:1.65; margin:0 0 16px; color:#fdf4ff;" id="modal-wish-msg">Wish message</p>
-                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                    <button type="button" class="pill-btn" onclick="copyCurrentWish()">📋 Copy Wish</button>
-                    <button type="button" class="pill-btn" style="background:rgba(255,255,255,0.2);" onclick="closeGiftModal()">Done ✨</button>
-                </div>
-                <div id="copy-toast" style="margin-top:8px; font-size:0.84rem; color:#fde047; font-weight:700;"></div>
-            </div>
+    function renderConfetti() {
+      cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      particles = particles.filter((p) => p.y < confettiCanvas.height + 20);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        cCtx.save();
+        cCtx.translate(p.x, p.y);
+        cCtx.rotate((p.rot * Math.PI) / 180);
+        cCtx.fillStyle = p.color;
+        cCtx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.7);
+        cCtx.restore();
+      }
+      requestAnimationFrame(renderConfetti);
+    }
+    renderConfetti();
+
+    document.querySelectorAll("[data-set-theme]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        playTone(520, 0.08);
+        const theme = btn.dataset.setTheme;
+        document.body.setAttribute("data-theme", theme);
+        document.querySelectorAll("[data-set-theme]").forEach((b) => b.classList.remove("btn-active"));
+        btn.classList.add("btn-active");
+      });
+    });
+
+    document.getElementById("soundToggle").addEventListener("click", (e) => {
+      soundEnabled = !soundEnabled;
+      e.target.textContent = soundEnabled ? "🔊 Sound: ON" : "🔇 Sound: OFF";
+      if (soundEnabled) playTone(660, 0.1);
+    });
+
+    document.getElementById("sparkleBtn").addEventListener("click", () => launchConfetti(85));
+
+    const unlockedMagic = new Set();
+    document.querySelectorAll(".magic-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        playTone(620 + Number(btn.dataset.magic) * 90, 0.1);
+        unlockedMagic.add(btn.dataset.magic);
+        btn.classList.add("unlocked");
+        document.getElementById("magicStatus").textContent = `${unlockedMagic.size} / 3 charms unlocked`;
+        if (unlockedMagic.size === 3) launchConfetti(50);
+      });
+    });
+
+    function enterSanctuary() {
+      playTone(780, 0.14);
+      const name = document.getElementById("userNameInput").value.trim() || "Saba Anfaal";
+      document.getElementById("welcomeHeading").textContent = `Hey, ${name} 🥺🫶`;
+      document.getElementById("portalScreen").classList.add("hidden");
+      document.getElementById("mainApp").classList.remove("hidden");
+      launchConfetti(60);
+    }
+
+    document.getElementById("enterPortalBtn").addEventListener("click", enterSanctuary);
+    document.getElementById("lockBtn").addEventListener("click", () => {
+      playTone(400, 0.12);
+      document.getElementById("mainApp").classList.add("hidden");
+      document.getElementById("portalScreen").classList.remove("hidden");
+    });
+
+    document.getElementById("side1Btn").addEventListener("click", () => {
+      playTone(550, 0.09);
+      document.getElementById("side1Btn").classList.add("btn-active");
+      document.getElementById("side2Btn").classList.remove("btn-active");
+      document.getElementById("side1View").classList.remove("hidden");
+      document.getElementById("side2View").classList.add("hidden");
+    });
+
+    document.getElementById("side2Btn").addEventListener("click", () => {
+      playTone(610, 0.09);
+      document.getElementById("side2Btn").classList.add("btn-active");
+      document.getElementById("side1Btn").classList.remove("btn-active");
+      document.getElementById("side2View").classList.remove("hidden");
+      document.getElementById("side1View").classList.add("hidden");
+    });
+
+    let activeSlot = null;
+    const photoInput = document.getElementById("photoInput");
+    document.querySelectorAll(".polaroid-slot").forEach((slot) => {
+      slot.addEventListener("click", () => {
+        activeSlot = slot;
+        photoInput.click();
+      });
+    });
+    photoInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file || !activeSlot) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        activeSlot.innerHTML = `<img src="${ev.target.result}" alt="Memory" />`;
+        launchConfetti(35);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    const giftItems = [
+      {
+        id: "chai",
+        icon: "☕",
+        label: "Sulh Chai Treat",
+        question: "Narazgi pighlane ka sabse pyara ilaj kya hai?",
+        options: [
+          { text: "Aur zyada gussa karna", correct: false },
+          { text: "Garam chai/coffee ke sath dil ki baat", correct: true },
+          { text: "Bina baat kiye rehna", correct: false }
+        ],
+        wishTitle: "Peace-Offering Chai Treat ☕🥺",
+        wishMsg: "Ek pyari si chai ya coffee aur dil se sorry—ab thori si muskurahat toh banti hai!"
+      },
+      {
+        id: "sweet",
+        icon: "🍫",
+        label: "Sweet Maafi Box",
+        question: "Dil ka bojh halka karne ke liye kya acha lagta hai?",
+        options: [
+          { text: "Boring lecture", correct: false },
+          { text: "Khaali haath wapsi", correct: false },
+          { text: "Favorite chocolate / sweet treat & maaf kar dena", correct: true }
+        ],
+        wishTitle: "Sweetest Maafi Box 🍫🫶",
+        wishMsg: "Sweet treat ke sath yeh pyara sa paigham: narazgi choro aur wapas wahi purani masti shuru karo!"
+      },
+      {
+        id: "diamond",
+        icon: "💎",
+        label: "Diamond Dosti Pass",
+        question: "Hamari dosti ki asli taqat kis mein hai?",
+        options: [
+          { text: "Choti baat par door janay mein", correct: false },
+          { text: "Samajh, izzat aur maaf karne ke dil mein", correct: true },
+          { text: "Khamoshi barhanay mein", correct: false }
+        ],
+        wishTitle: "Unbreakable Bestie Bond 💎✨",
+        wishMsg: "Choti si narazgi hamari dosti se bari nahi—tumhari khushi aur sukoon hamesha qeemti hai!"
+      },
+      {
+        id: "celebration",
+        icon: "🎉",
+        label: "Smile Return Wish",
+        question: "Jab bestie maan jaye toh sabse acha kya hota hai?",
+        options: [
+          { text: "Khamoshi chhayi rehti hai", correct: false },
+          { text: "Dil udaas rehta hai", correct: false },
+          { text: "Mahol mein wapas khushi aur hasi aa jati hai!", correct: true }
+        ],
+        wishTitle: "Welcome Back Smile 🎉😊",
+        wishMsg: "Tumhari muskurahat se din roshan hota hai—shukriya ke tum ne maaf kar diya!"
+      }
+    ];
+
+    const careItems = [
+      {
+        id: "moon",
+        icon: "🌙",
+        label: "Calm Heart Box",
+        question: "Gussa aur fikar kam karne ka behtareen tareeqa kya hai?",
+        options: [
+          { text: "Dil mein girah rakhna", correct: false },
+          { text: "Khud ko thakana", correct: false },
+          { text: "Gehri saans, shukr aur sukoon bhari aaram", correct: true }
+        ],
+        wishTitle: "Calm Heart Wish 🌙",
+        wishMsg: "Apne dil ko sukoon do, gehri saans lo, aur har cheez ko aasani se lo."
+      },
+      {
+        id: "bloom",
+        icon: "🦋",
+        label: "Soft Glow Card",
+        question: "Khud ko fresh aur happy rakhne ke liye kya zaroori hai?",
+        options: [
+          { text: "Har waqt pareshan rehna", correct: false },
+          { text: "Apni khushi bhool jana", correct: false },
+          { text: "Self-care, pyaar aur choti khushiyon par shukr", correct: true }
+        ],
+        wishTitle: "Soft Glow Wish 🦋",
+        wishMsg: "Tumhara sukoon aur muskurahat hi tumhari sabse bari khoobsurti hai."
+      }
+    ];
+
+    const solvedGifts = new Set();
+
+    function updateSmileMeter() {
+      const count = giftItems.filter((g) => solvedGifts.has(g.id)).length;
+      const pct = Math.min(100, 25 + count * 19);
+      document.getElementById("smileMeterFill").style.width = `${pct}%`;
+      document.getElementById("smileMeterText").innerHTML =
+        count === giftItems.length
+          ? `Narazgi khatam! Smile Meter: <strong>100% — Bestie Maan Gayi! 😊🫶</strong>`
+          : `Narazgi kam karne ke liye gفٹس unbox karein — abhi Smile Meter: <strong>${pct}%</strong>`;
+    }
+
+    function renderQuizSystem(items, tabsEl, containerEl, isGift = true) {
+      tabsEl.innerHTML = "";
+      items.forEach((item, idx) => {
+        const btn = document.createElement("button");
+        btn.className = `gift-tab ${solvedGifts.has(item.id) ? "done" : ""}`;
+        btn.innerHTML = `<div style="font-size:1.5rem;">${item.icon}</div><div>${item.label}</div>`;
+        btn.addEventListener("click", () => {
+          playTone(540 + idx * 50, 0.09);
+          loadActivity(item, containerEl, isGift);
+        });
+        tabsEl.appendChild(btn);
+      });
+      loadActivity(items[0], containerEl, isGift);
+    }
+
+    function loadActivity(item, containerEl, isGift) {
+      const shuffledOpts = shuffleArray(item.options);
+      let answeredCorrectly = solvedGifts.has(item.id);
+
+      containerEl.innerHTML = `
+        <h3>${item.icon} ${item.label} — Activity</h3>
+        <p style="margin-top:6px; font-weight:600;">${item.question}</p>
+        <div id="optsWrap"></div>
+        <p id="feedbackMsg" style="margin-top:10px; font-weight:600;"></p>
+        <div id="wishBox" class="${answeredCorrectly ? "wish-reveal" : "wish-reveal hidden"}">
+          <h4>✨ ${item.wishTitle}</h4>
+          <p style="margin-top:6px;">${item.wishMsg}</p>
         </div>
-    </div>
+      `;
 
-    <script>
-        var recipientName = "Saba Anfaal";
-        var currentMood = "Dreamy ✨";
-        var tappedCount = 0;
-        var activeGift = null;
-        var giftSolved = false;
-        var lastWishFullText = "";
-        var audioCtx = null;
-        var isMusicOn = false;
-        var musicInterval = null;
+      const optsWrap = containerEl.querySelector("#optsWrap");
+      const feedback = containerEl.querySelector("#feedbackMsg");
+      const wishBox = containerEl.querySelector("#wishBox");
 
-        var bestieGifts = [
-            {
-                icon: "☕", prize: "🥐", bg: "linear-gradient(135deg, #d97706, #92400e)",
-                title: "Coffee & Chai Treat",
-                q: "Coffee Activity: Ek cozy chai ya coffee break ko yaadgar kya banata hai?",
-                opts: ["Dil ki baatein & pyari hasi", "Phone mein gum rehna", "Tension lena"],
-                ans: 0,
-                wishTitle: "Cozy Chai & Bestie Treat Wish ☕",
-                wishMsg: "Wishing you warm cups of comfort, bright moments, and endless smiles whenever you take a break!"
-            },
-            {
-                icon: "🍫", prize: "🍬", bg: "linear-gradient(135deg, #e11d48, #9333ea)",
-                title: "Sweet Surprise Box",
-                q: "Sweet Activity: Achanak aane wali kaun si cheez din ko meetha kar deti hai?",
-                opts: ["Favorite chocolate / mithai & good news", "Boring kaam", "Thakan"],
-                ans: 0,
-                wishTitle: "Sweetest Surprise Wish 🍫",
-                wishMsg: "May sweet surprises, joyful moments, and proud achievements keep coming your way!"
-            },
-            {
-                icon: "💎", prize: "💍", bg: "linear-gradient(135deg, #0284c7, #6366f1)",
-                title: "Diamond Vibe Pass",
-                q: "Diamond Activity: Diamond ki asli chamak kis cheez se nazar aati hai?",
-                opts: ["Clarity, cut aur roshni se", "Dhool mein chupane se", "Andhere mein rakhne se"],
-                ans: 0,
-                wishTitle: "Shining Diamond Wish 💎",
-                wishMsg: "Just like a diamond sparkles bright, wishing you confidence, grace, and shining success!"
-            },
-            {
-                icon: "🎂", prize: "🎉", bg: "linear-gradient(135deg, #f59e0b, #ec4899)",
-                title: "Celebration Wish",
-                q: "Celebration Activity: Har choti ya badi khushi par kya karna chahiye?",
-                opts: ["Dil khol kar shukr aur celebrate!", "Khushi chupana", "Pareshan hona"],
-                ans: 0,
-                wishTitle: "Waooo Celebration Wish! 🎈",
-                wishMsg: "Here is to big milestones, happy memories, and a heart full of joy!"
-            }
-        ];
+      shuffledOpts.forEach((opt) => {
+        const optBtn = document.createElement("button");
+        optBtn.className = "option-btn";
+        optBtn.textContent = opt.text;
+        optBtn.addEventListener("click", () => {
+          if (opt.correct) {
+            optBtn.classList.add("correct");
+            feedback.textContent = "✅ Sahi jawab! Gift unbox ho gaya—narazgi thori aur kam hui!";
+            wishBox.classList.remove("hidden");
+            solvedGifts.add(item.id);
+            updateVaultCount();
+            updateSmileMeter();
+            launchConfetti(55);
+            if (isGift) renderQuizSystem(giftItems, document.getElementById("giftTabs"), document.getElementById("activityContainer"), true);
+            else renderQuizSystem(careItems, document.getElementById("careTabs"), document.getElementById("careActivityContainer"), false);
+          } else {
+            playTone(260, 0.14);
+            optBtn.classList.add("wrong");
+            feedback.textContent = "🥺 Ek aur option try karo!";
+          }
+        });
+        optsWrap.appendChild(optBtn);
+      });
+    }
 
-        var selfCareGifts = [
-            {
-                icon: "🌙", prize: "☁️", bg: "linear-gradient(135deg, #312e81, #4f46e5)",
-                title: "Moonlight Calm Box",
-                q: "Moonlight Activity: Dil ko sukoon dene ke liye kya behtar hai?",
-                opts: ["Gehri saans, shukr aur pur-sukoon aaram", "Be-wajah fikar", "Neend kharab karna"],
-                ans: 0,
-                wishTitle: "Peaceful Moonlight Wish 🌙",
-                wishMsg: "Wishing you calm nights, restful peace, and a fresh, glowing tomorrow!"
-            },
-            {
-                icon: "🦋", prize: "🌸", bg: "linear-gradient(135deg, #ec4899, #8b5cf6)",
-                title: "Glow & Bloom Card",
-                q: "Bloom Activity: Khud ko aage badhane ka sabse pyara tareeqa kya hai?",
-                opts: ["Self-love, consistency aur muskuraahat", "Khud ko kam samajhna", "Himmat haarna"],
-                ans: 0,
-                wishTitle: "Bloom & Glow Wish 🦋",
-                wishMsg: "Keep blooming beautifully—every step you take is bringing you closer to your best self!"
-            }
-        ];
+    function updateVaultCount() {
+      const count = giftItems.filter((g) => solvedGifts.has(g.id)).length;
+      document.getElementById("unlockedCount").textContent = count;
+      if (count === giftItems.length) {
+        document.getElementById("vaultLetter").classList.remove("hidden");
+      }
+    }
 
-        var affirmations = [
-            "\"May Allah bless your heart with peace, ease in your journey, and endless reasons to smile.\"",
-            "\"Take a deep breath—you are doing wonderfully well, one calm step at a time. 🌸\"",
-            "\"Har achi koshish zaya nahi jaati; keep shining with grace and confidence. ✨\"",
-            "\"Drink some water, relax your shoulders, and celebrate your little wins today! 💕\""
-        ];
-        var affIndex = 0;
+    updateSmileMeter();
+    renderQuizSystem(giftItems, document.getElementById("giftTabs"), document.getElementById("activityContainer"), true);
+    renderQuizSystem(careItems, document.getElementById("careTabs"), document.getElementById("careActivityContainer"), false);
 
-        var selfCareItems = [
-            "💧 Drink plenty of water today",
-            "🧴 Skincare & fresh glow break",
-            "📵 15-min peaceful screen break",
-            "🤲 Shukr & heart-warming dua",
-            "😴 Restful & calm sleep"
-        ];
+    const sCanvas = document.getElementById("scratchCanvas");
+    const sCtx = sCanvas.getContext("2d");
+    let scratching = false;
 
-        /* Confetti Engine */
-        var confCanvas = document.getElementById('confetti-canvas');
-        var confCtx = confCanvas.getContext('2d');
-        var confParticles = [];
-        var confAnimRunning = false;
+    function initScratch() {
+      sCtx.globalCompositeOperation = "source-over";
+      const grad = sCtx.createLinearGradient(0, 0, sCanvas.width, sCanvas.height);
+      grad.addColorStop(0, "#cbd5e1");
+      grad.addColorStop(0.5, "#f1f5f9");
+      grad.addColorStop(1, "#94a3b8");
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, sCanvas.width, sCanvas.height);
+      sCtx.fillStyle = "#334155";
+      sCtx.font = "bold 16px sans-serif";
+      sCtx.textAlign = "center";
+      sCtx.fillText("✨ Scratch Here to Reveal ✨", sCanvas.width / 2, sCanvas.height / 2 + 6);
+    }
+    initScratch();
 
-        function resizeConfCanvas() {
-            confCanvas.width = window.innerWidth;
-            confCanvas.height = window.innerHeight;
+    function scratchAt(clientX, clientY) {
+      const rect = sCanvas.getBoundingClientRect();
+      const x = ((clientX - rect.left) / rect.width) * sCanvas.width;
+      const y = ((clientY - rect.top) / rect.height) * sCanvas.height;
+      sCtx.globalCompositeOperation = "destination-out";
+      sCtx.beginPath();
+      sCtx.arc(x, y, 20, 0, Math.PI * 2);
+      sCtx.fill();
+    }
+
+    sCanvas.addEventListener("mousedown", () => (scratching = true));
+    window.addEventListener("mouseup", () => (scratching = false));
+    sCanvas.addEventListener("mousemove", (e) => scratching && scratchAt(e.clientX, e.clientY));
+    sCanvas.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      scratchAt(t.clientX, t.clientY);
+    }, { passive: false });
+    document.getElementById("resetScratchBtn").addEventListener("click", () => {
+      playTone(500, 0.08);
+      initScratch();
+    });
+
+    const wheelCanvas = document.getElementById("wheelCanvas");
+    const wCtx = wheelCanvas.getContext("2d");
+    const wheelSlices = [
+      "☕ Sulh Chai",
+      "🍫 Sweet Treat",
+      "🥺 Big Sorry",
+      "😊 Smile Back",
+      "💆 Calm Rest",
+      "🎉 Dosti Zindabad"
+    ];
+    const sliceColors = ["#f472b6", "#a78bfa", "#fb923c", "#34d399", "#60a5fa", "#facc15"];
+    let wheelAngle = 0;
+
+    function drawWheel() {
+      const cx = wheelCanvas.width / 2;
+      const cy = wheelCanvas.height / 2;
+      const r = cx - 4;
+      const step = (Math.PI * 2) / wheelSlices.length;
+      wCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+
+      wheelSlices.forEach((label, i) => {
+        const start = wheelAngle + i * step;
+        const end = start + step;
+        wCtx.beginPath();
+        wCtx.moveTo(cx, cy);
+        wCtx.arc(cx, cy, r, start, end);
+        wCtx.fillStyle = sliceColors[i];
+        wCtx.fill();
+        wCtx.save();
+        wCtx.translate(cx, cy);
+        wCtx.rotate(start + step / 2);
+        wCtx.fillStyle = "#1a102b";
+        wCtx.font = "bold 12px sans-serif";
+        wCtx.fillText(label, r * 0.34, 4);
+        wCtx.restore();
+      });
+    }
+    drawWheel();
+
+    document.getElementById("spinWheelBtn").addEventListener("click", () => {
+      playTone(680, 0.14);
+      const extraSpin = (Math.PI * 2) * (4 + Math.random() * 3);
+      const target = wheelAngle + extraSpin;
+      const startTime = performance.now();
+      const duration = 1400;
+
+      function animateSpin(now) {
+        const p = Math.min((now - startTime) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        wheelAngle = wheelAngle + (target - wheelAngle) * ease * 0.22;
+        if (p === 1) wheelAngle = target;
+        drawWheel();
+        if (p < 1) {
+          requestAnimationFrame(animateSpin);
+        } else {
+          const step = (Math.PI * 2) / wheelSlices.length;
+          const normalized = ((Math.PI * 1.5 - wheelAngle) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+          const idx = Math.floor(normalized / step) % wheelSlices.length;
+          document.getElementById("wheelResult").textContent = `🎁 Sulh Wheel: ${wheelSlices[idx]}!`;
+          launchConfetti(45);
         }
-        window.addEventListener('resize', resizeConfCanvas);
-        resizeConfCanvas();
+      }
+      requestAnimationFrame(animateSpin);
+    });
 
-        function burstConfetti(count) {
-            var colors = ['#f472b6', '#c084fc', '#38bdf8', '#fde047', '#4ade80', '#fb7185'];
-            for (var i = 0; i < count; i++) {
-                confParticles.push({
-                    x: confCanvas.width / 2 + (Math.random() - 0.5) * 180,
-                    y: confCanvas.height * 0.42,
-                    vx: (Math.random() - 0.5) * 12,
-                    vy: -Math.random() * 11 - 3,
-                    w: 7 + Math.random() * 6,
-                    h: 5 + Math.random() * 5,
-                    color: colors[i % colors.length],
-                    rot: Math.random() * 360,
-                    vRot: (Math.random() - 0.5) * 10,
-                    alpha: 1
-                });
-            }
-            if (!confAnimRunning) {
-                confAnimRunning = true;
-                runConfettiLoop();
-            }
-        }
+    document.querySelectorAll(".timeline-item").forEach((item) => {
+      item.addEventListener("click", () => {
+        playTone(590, 0.08);
+        const box = document.getElementById("timelineStoryBox");
+        box.style.display = "block";
+        box.textContent = item.dataset.story;
+      });
+    });
 
-        function runConfettiLoop() {
-            confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
-            for (var i = confParticles.length - 1; i >= 0; i--) {
-                var p = confParticles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.28;
-                p.rot += p.vRot;
-                p.alpha -= 0.011;
-                if (p.alpha <= 0 || p.y > confCanvas.height + 20) {
-                    confParticles.splice(i, 1);
-                    continue;
-                }
-                confCtx.save();
-                confCtx.globalAlpha = Math.max(0, p.alpha);
-                confCtx.translate(p.x, p.y);
-                confCtx.rotate(p.rot * Math.PI / 180);
-                confCtx.fillStyle = p.color;
-                confCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-                confCtx.restore();
-            }
-            if (confParticles.length > 0) {
-                requestAnimationFrame(runConfettiLoop);
-            } else {
-                confAnimRunning = false;
-            }
-        }
+    const jarWishes = [
+      "🫙 Dil se sorry—ab thori si muskurahat dikha bhi do!",
+      "🫙 Narazgi choro, ek pyari si chai aur gup-shup ka waqt hai!",
+      "🫙 Tumhari khushi aur smile sab se aage hai!"
+    ];
+    let jarIdx = 0;
+    document.getElementById("jarBtn").addEventListener("click", () => {
+      playTone(650, 0.1);
+      const out = document.getElementById("jarOutput");
+      out.style.display = "block";
+      out.textContent = jarWishes[jarIdx % jarWishes.length];
+      jarIdx++;
+    });
 
-        function tapSecret(btn) {
-            if (btn.classList.contains('tapped')) return;
-            btn.classList.add('tapped');
-            tappedCount++;
-            document.getElementById('unlock-status').innerText = tappedCount + " / 3 magic icons unlocked";
-            burstConfetti(28);
-            if (tappedCount >= 3) {
-                setTimeout(enterSanctuary, 400);
-            }
-        }
+    document.getElementById("saveNoteBtn").addEventListener("click", () => {
+      const title = document.getElementById("noteTitle").value.trim() || "Sulh Note";
+      const body = document.getElementById("noteBody").value.trim();
+      if (!body) return;
+      playTone(720, 0.1);
+      const div = document.createElement("div");
+      div.className = "note-item";
+      div.innerHTML = `<strong>${title}</strong><p style="font-size:0.9rem; margin-top:4px;">${body}</p>`;
+      document.getElementById("notesList").prepend(div);
+      document.getElementById("noteTitle").value = "";
+      document.getElementById("noteBody").value = "";
+      launchConfetti(25);
+    });
 
-        function enterSanctuary() {
-            var val = document.getElementById('recipient-name').value.trim();
-            recipientName = val || "Saba Anfaal";
-            document.getElementById('display-name').innerText = recipientName;
-            document.getElementById('sub-heading').innerText = "Crafted specially for " + recipientName + " ✨";
-            document.getElementById('unlock-screen').style.display = 'none';
-            document.getElementById('main-portal').style.display = 'block';
-            renderGifts();
-            renderChecklist();
-            renderNotes();
-            burstConfetti(75);
-        }
+    document.getElementById("copyNotesBtn").addEventListener("click", () => {
+      const text = Array.from(document.querySelectorAll("#notesList .note-item"))
+        .map((el) => el.innerText.trim())
+        .join("\n---\n");
+      navigator.clipboard?.writeText(text);
+      playTone(760, 0.1);
+      alert("Saare notes copy ho gaye!");
+    });
 
-        function lockAgain() {
-            tappedCount = 0;
-            var btns = document.querySelectorAll('.secret-tap-btn');
-            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('tapped');
-            document.getElementById('unlock-status').innerText = "0 / 3 magic icons unlocked";
-            document.getElementById('main-portal').style.display = 'none';
-            document.getElementById('unlock-screen').style.display = 'flex';
-        }
+    document.getElementById("previewVaultBtn").addEventListener("click", () => {
+      document.getElementById("vaultLetter").classList.toggle("hidden");
+      launchConfetti(50);
+    });
 
-        function switchSide(side) {
-            document.getElementById('btn-side-bestie').classList.remove('active');
-            document.getElementById('btn-side-selfcare').classList.remove('active');
-            document.getElementById('side-bestie').classList.remove('active');
-            document.getElementById('side-selfcare').classList.remove('active');
+    document.querySelectorAll("#ratingStars span").forEach((star) => {
+      star.addEventListener("click", () => {
+        const val = Number(star.dataset.val);
+        document.querySelectorAll("#ratingStars span").forEach((s) => {
+          s.classList.toggle("active", Number(s.dataset.val) <= val);
+        });
+        document.getElementById("ratingText").textContent = `Aapne isay ${val} / 10 diya! 💖`;
+        if (val >= 8) launchConfetti(65);
+      });
+    });
 
-            if (side === 'selfcare') {
-                document.documentElement.setAttribute('data-side', 'selfcare');
-                document.getElementById('btn-side-selfcare').classList.add('active');
-                document.getElementById('side-selfcare').classList.add('active');
-            } else {
-                document.documentElement.removeAttribute('data-side');
-                document.getElementById('btn-side-bestie').classList.add('active');
-                document.getElementById('side-bestie').classList.add('active');
-            }
-        }
+    const affirmationsByVibe = {
+      "Soft Sulh": [
+        "“Dil se sorry—ab choti si narazgi ko choro aur ek pyari si smile do.”",
+        "“Dosti mein narazgi aati hai, lekin pyaar hamesha jeet jata hai.”"
+      ],
+      Cozy: [
+        "“Take a deep breath—you are doing wonderfully well, one calm step at a time.”",
+        "“Ek garam cup aur thora sukoon sab kuch behtar bana deta hai.”"
+      ],
+      Peaceful: [
+        "“May Allah bless your heart with peace, ease in your journey, and endless reasons to smile.”",
+        "“Dil ka itminan sab se bari daulat hai.”"
+      ],
+      Smiling: [
+        "“Tumhari muskurahat sab se pyari aur asli hai!”",
+        "“Choti choti khushiyon par shukr aur dil khol kar muskurana!”"
+      ]
+    };
 
-        function setMood(el, moodLabel) {
-            var chips = document.querySelectorAll('.mood-chip');
-            for (var i = 0; i < chips.length; i++) chips[i].classList.remove('active');
-            el.classList.add('active');
-            currentMood = moodLabel;
-            document.getElementById('live-mood-badge').innerText = moodLabel;
-            nextAffirmation();
-        }
+    let currentVibe = "Soft Sulh";
+    let affIdx = 0;
 
-        function triggerPhoto(idx) {
-            document.getElementById('file-' + idx).click();
-        }
+    document.querySelectorAll("#vibeChips button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        playTone(560, 0.08);
+        document.querySelectorAll("#vibeChips button").forEach((b) => b.classList.remove("btn-active"));
+        btn.classList.add("btn-active");
+        currentVibe = btn.dataset.vibe;
+        affIdx = 0;
+        document.getElementById("affirmationText").textContent = affirmationsByVibe[currentVibe][0];
+      });
+    });
 
-        function loadPhoto(event, idx) {
-            var file = event.target.files[0];
-            if (!file) return;
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('frame-' + idx).innerHTML = '<img src="' + e.target.result + '" alt="Memory">';
-                burstConfetti(35);
-            };
-            reader.readAsDataURL(file);
-        }
+    document.getElementById("affirmationBox").addEventListener("click", () => {
+      playTone(640, 0.08);
+      const list = affirmationsByVibe[currentVibe];
+      affIdx = (affIdx + 1) % list.length;
+      document.getElementById("affirmationText").textContent = list[affIdx];
+    });
 
-        function renderGifts() {
-            var bGrid = document.getElementById('bestie-gifts-grid');
-            var bHtml = "";
-            for (var i = 0; i < bestieGifts.length; i++) {
-                bHtml += '<div class="gift-tile" onclick="openGiftModal(\'bestie\', ' + i + ')">' +
-                    '<span class="gift-tile-icon">' + bestieGifts[i].icon + '</span>' +
-                    '<span class="gift-tile-title">' + bestieGifts[i].title + '</span></div>';
-            }
-            bGrid.innerHTML = bHtml;
-
-            var sGrid = document.getElementById('selfcare-gifts-grid');
-            var sHtml = "";
-            for (var j = 0; j < selfCareGifts.length; j++) {
-                sHtml += '<div class="gift-tile" onclick="openGiftModal(\'selfcare\', ' + j + ')">' +
-                    '<span class="gift-tile-icon">' + selfCareGifts[j].icon + '</span>' +
-                    '<span class="gift-tile-title">' + selfCareGifts[j].title + '</span></div>';
-            }
-            sGrid.innerHTML = sHtml;
-        }
-
-        function openGiftModal(type, index) {
-            activeGift = type === 'bestie' ? bestieGifts[index] : selfCareGifts[index];
-            giftSolved = false;
-            document.getElementById('copy-toast').innerText = "";
-
-            document.getElementById('gift-modal').style.display = 'block';
-            document.getElementById('modal-activity-panel').style.display = 'block';
-            document.getElementById('modal-wish-box').style.display = 'none';
-
-            var boxIcon = document.getElementById('modal-icon');
-            boxIcon.innerText = activeGift.icon;
-            boxIcon.style.background = activeGift.bg;
-
-            var unboxBtn = document.getElementById('modal-unbox-btn');
-            unboxBtn.style.display = 'inline-block';
-            unboxBtn.disabled = true;
-            unboxBtn.style.opacity = "0.5";
-            unboxBtn.innerText = "🔒 Complete Activity to Unbox";
-
-            document.getElementById('modal-act-title').innerText = activeGift.title + " — Activity";
-            document.getElementById('modal-act-q').innerText = activeGift.q;
-            document.getElementById('modal-act-feedback').innerText = "";
-
-            var optsHtml = "";
-            for (var i = 0; i < activeGift.opts.length; i++) {
-                optsHtml += '<button type="button" class="opt-choice" onclick="checkModalActivity(' + i + ')">' + activeGift.opts[i] + '</button>';
-            }
-            document.getElementById('modal-act-options').innerHTML = optsHtml;
-        }
-
-        function checkModalActivity(idx) {
-            var fb = document.getElementById('modal-act-feedback');
-            if (idx === activeGift.ans) {
-                giftSolved = true;
-                fb.style.color = "#4ade80";
-                fb.innerText = "✅ Waooo! Activity solved — ab Unbox Gift par tap karein!";
-                var unboxBtn = document.getElementById('modal-unbox-btn');
-                unboxBtn.disabled = false;
-                unboxBtn.style.opacity = "1";
-                unboxBtn.innerText = "🎁 Unbox Gift for " + recipientName;
-            } else {
-                fb.style.color = "#fb7185";
-                fb.innerText = "❌ Try again! Sahi option chunein.";
-            }
-        }
-
-        function revealGiftWish() {
-            if (!giftSolved || !activeGift) return;
-            document.getElementById('modal-icon').innerText = activeGift.prize;
-            document.getElementById('modal-activity-panel').style.display = 'none';
-            document.getElementById('modal-unbox-btn').style.display = 'none';
-
-            var wishBox = document.getElementById('modal-wish-box');
-            wishBox.style.display = 'block';
-            document.getElementById('modal-wish-for').innerText = "✨ SPECIAL WISH FOR " + recipientName.toUpperCase() + " ✨";
-            document.getElementById('modal-wish-title').innerText = activeGift.wishTitle;
-            var msg = "Dear " + recipientName + " (" + currentMood + "), " + activeGift.wishMsg;
-            document.getElementById('modal-wish-msg').innerText = msg;
-            lastWishFullText = activeGift.wishTitle + "\n" + msg;
-            burstConfetti(110);
-        }
-
-        function copyCurrentWish() {
-            if (!lastWishFullText) return;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(lastWishFullText).then(function() {
-                    document.getElementById('copy-toast').innerText = "✅ Wish copied!";
-                }).catch(function() {
-                    document.getElementById('copy-toast').innerText = "✨ Wish ready!";
-                });
-            } else {
-                document.getElementById('copy-toast').innerText = "✨ Wish ready!";
-            }
-        }
-
-        function closeGiftModal() {
-            document.getElementById('gift-modal').style.display = 'none';
-        }
-
-        function nextAffirmation() {
-            affIndex = (affIndex + 1) % affirmations.length;
-            document.getElementById('affirmation-text').innerText = affirmations[affIndex];
-        }
-
-        function renderChecklist() {
-            var box = document.getElementById('selfcare-checklist');
-            var html = "";
-            for (var i = 0; i < selfCareItems.length; i++) {
-                html += '<div class="check-pill" onclick="this.classList.toggle(\'done\')">' + selfCareItems[i] + '</div>';
-            }
-            box.innerHTML = html;
-        }
-
-        function saveBestieNote() {
-            var t = document.getElementById('bestie-note-title').value.trim();
-            var b = document.getElementById('bestie-note-body').value.trim();
-            if (!t || !b) return;
-            try {
-                var notes = JSON.parse(localStorage.getItem('bestieScrapNotesV2') || '[]');
-                notes.unshift({ t: t, b: b });
-                localStorage.setItem('bestieScrapNotesV2', JSON.stringify(notes));
-            } catch (e) {}
-            document.getElementById('bestie-note-title').value = '';
-            document.getElementById('bestie-note-body').value = '';
-            renderNotes();
-            burstConfetti(30);
-        }
-
-        function renderNotes() {
-            var list = document.getElementById('bestie-notes-list');
-            try {
-                var notes = JSON.parse(localStorage.getItem('bestieScrapNotesV2') || '[]');
-                var html = "";
-                for (var i = 0; i < notes.length; i++) {
-                    html += '<div class="note-item"><strong>' + notes[i].t + '</strong><p style="margin:4px 0 0;">' + notes[i].b + '</p></div>';
-                }
-                list.innerHTML = html;
-            } catch (e) {}
-        }
-
-        function toggleCalmAudio() {
-            var btn = document.getElementById('music-toggle-btn');
-            if (isMusicOn) {
-                clearInterval(musicInterval);
-                isMusicOn = false;
-                btn.innerText = "🎵 Soft Vibe: OFF";
-                return;
-            }
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                var notes = [261.6, 329.6, 392.0, 523.2];
-                var step = 0;
-                isMusicOn = true;
-                btn.innerText = "🎵 Soft Vibe: ON";
-                musicInterval = setInterval(function() {
-                    if (!isMusicOn) return;
-                    var osc = audioCtx.createOscillator();
-                    var gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.value = notes[step % notes.length];
-                    gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.1);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.1);
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 1.15);
-                    step++;
-                }, 1200);
-            } catch (e) {}
-        }
-    </script>
+    document.querySelectorAll(".check-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        playTone(690, 0.08);
+        card.classList.toggle("checked");
+        if (card.classList.contains("checked")) launchConfetti(20);
+      });
+    });
+  </script>
 </body>
 </html>
