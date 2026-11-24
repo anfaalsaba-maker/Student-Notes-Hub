@@ -3,389 +3,1026 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart AI & Gift Wish Hub</title>
+    <title>Waooo ✨ Bestie & Self-Care Sanctuary</title>
     <style>
         :root {
+            --bg-grad: radial-gradient(circle at top left, #ffe4e6 0%, #fce7f3 45%, #f3e8ff 100%);
+            --glass-bg: rgba(255, 255, 255, 0.72);
+            --glass-border: rgba(255, 255, 255, 0.9);
             --primary: #db2777;
-            --bg-color: #fdf2f8;
-            --card-bg: #ffffff;
-            --text-color: #831843;
-            --text-light: #9d174d;
-            --border-color: #f472b6;
-            --btn-gradient: linear-gradient(135deg, #db2777 0%, #be185d 100%);
+            --secondary: #9333ea;
+            --text-main: #4a044e;
+            --text-sub: #831843;
+            --glow: 0 18px 45px -10px rgba(219, 39, 119, 0.24);
         }
-        [data-theme="boy"] {
-            --primary: #06b6d4;
-            --bg-color: #030712;
-            --card-bg: #0f172a;
-            --text-color: #f8fafc;
-            --text-light: #94a3b8;
-            --border-color: #3b82f6;
-            --btn-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+
+        [data-side="selfcare"] {
+            --bg-grad: radial-gradient(circle at top left, #e0f2fe 0%, #e0e7ff 45%, #fae8ff 100%);
+            --glass-bg: rgba(255, 255, 255, 0.76);
+            --glass-border: rgba(255, 255, 255, 0.92);
+            --primary: #4f46e5;
+            --secondary: #06b6d4;
+            --text-main: #1e1b4b;
+            --text-sub: #3730a3;
+            --glow: 0 18px 45px -10px rgba(79, 70, 229, 0.24);
         }
+
         * { box-sizing: border-box; }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
+            background: var(--bg-grad);
+            color: var(--text-main);
             margin: 0;
             padding: 16px;
+            min-height: 100vh;
+            transition: background 0.6s ease, color 0.4s ease;
+            overflow-x: hidden;
         }
-        .container { max-width: 980px; margin: 0 auto; }
 
-        #welcome-screen {
-            position: fixed; inset: 0;
-            background: rgba(3, 7, 18, 0.94);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 9999; padding: 15px;
+        /* Ambient Orbs & Confetti Canvas */
+        .ambient-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
-        .welcome-card {
-            background: #0f172a;
-            border: 2px solid #3b82f6;
-            padding: 24px; border-radius: 22px;
-            text-align: center; max-width: 430px; width: 100%;
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(55px);
+            opacity: 0.45;
+            animation: floatOrb 10s ease-in-out infinite alternate;
+        }
+
+        .orb-1 { width: 260px; height: 260px; background: #f472b6; top: -50px; left: -40px; }
+        .orb-2 { width: 290px; height: 290px; background: #c084fc; bottom: -60px; right: -40px; animation-delay: 2s; }
+        .orb-3 { width: 210px; height: 210px; background: #67e8f9; top: 40%; left: 55%; animation-delay: 4s; }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(25px, -25px) scale(1.12); }
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        /* Unlock Screen */
+        #unlock-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9990;
+            background: linear-gradient(135deg, #fdf2f8 0%, #ede9fe 55%, #e0f2fe 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px;
+        }
+
+        .unlock-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 30px 24px;
+            max-width: 430px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(147, 51, 234, 0.2);
+        }
+
+        .unlock-card h2 {
+            margin: 0 0 6px;
+            font-size: 1.65rem;
+            background: linear-gradient(135deg, #db2777, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 16px;
+            border: 2px solid #f9a8d4;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            text-align: center;
+            margin: 12px 0 14px;
+            outline: none;
+            color: #4a044e;
+            font-weight: 700;
+        }
+
+        .secret-icons-row {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin: 14px 0;
+        }
+
+        .secret-tap-btn {
+            width: 68px;
+            height: 68px;
+            border-radius: 22px;
+            border: 2px solid #f472b6;
+            background: #ffffff;
+            font-size: 1.85rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.12);
+        }
+
+        .secret-tap-btn:hover { transform: translateY(-4px) scale(1.06); }
+        .secret-tap-btn.tapped {
+            background: linear-gradient(135deg, #db2777, #9333ea);
             color: #fff;
-        }
-        .welcome-card h2 { color: #38bdf8; margin: 0 0 6px; }
-        .welcome-card p { color: #94a3b8; font-size: 0.9rem; margin: 0 0 14px; }
-        .welcome-card input, .welcome-card select {
-            width: 100%; padding: 10px 12px; border-radius: 12px;
-            border: 1.5px solid #3b82f6; margin-bottom: 10px;
-            font-size: 0.95rem; background: #1e293b; color: #fff; outline: none;
-        }
-        #auto-detect-badge {
-            padding: 8px; border-radius: 10px; font-size: 0.85rem;
-            font-weight: 700; margin-bottom: 12px;
-            background: #1e293b; color: #f472b6;
-        }
-        .gender-pick-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .pick-btn {
-            padding: 10px; border: none; border-radius: 11px;
-            font-weight: 700; font-size: 0.9rem; cursor: pointer; color: #fff;
-        }
-        .pick-girl { background: #e11d48; }
-        .pick-boy { background: #0284c7; }
-        .enter-btn {
-            width: 100%; padding: 13px; border: none; border-radius: 12px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #fff; font-weight: 800; font-size: 1rem; cursor: pointer;
+            border-color: transparent;
+            transform: scale(0.95);
+            box-shadow: 0 0 22px rgba(219, 39, 119, 0.45);
         }
 
-        header { text-align: center; margin-bottom: 14px; }
-        header h1 { margin: 0 0 4px; color: var(--primary); font-size: 1.8rem; }
-        header p { margin: 0; color: var(--text-light); font-weight: 600; }
-
-        .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-        .tab-btn {
-            padding: 10px 15px; border-radius: 12px;
-            border: 2px solid var(--border-color);
-            background: var(--card-bg); color: var(--text-color);
-            font-weight: 700; cursor: pointer;
+        .skip-unlock-btn {
+            margin-top: 10px;
+            background: transparent;
+            border: none;
+            color: #831843;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
         }
-        .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+
+        /* Header & Switcher */
+        header { text-align: center; margin-bottom: 16px; }
+        header h1 {
+            margin: 0 0 4px;
+            font-size: 1.95rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header p { margin: 0; color: var(--text-sub); font-weight: 600; font-size: 0.94rem; }
+
+        .side-switcher {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            padding: 8px;
+            border-radius: 22px;
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--glow);
+            margin-bottom: 16px;
+        }
+
+        .side-btn {
+            padding: 13px 12px;
+            border-radius: 16px;
+            border: none;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: transparent;
+            color: var(--text-sub);
+            transition: all 0.25s ease;
+        }
+
+        .side-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #ffffff;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+        }
+
+        .top-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            padding: 11px 16px;
+            border-radius: 18px;
+            border: 2px solid var(--glass-border);
+        }
+
+        .pill-btn {
+            padding: 9px 15px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .pill-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,0,0,0.15); }
+
+        .side-view { display: none; }
+        .side-view.active { display: block; animation: slideUp 0.35s ease; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .card {
-            background: var(--card-bg); border: 2px solid var(--border-color);
-            border-radius: 20px; padding: 20px; margin-bottom: 16px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            border: 2px solid var(--glass-border);
+            border-radius: 26px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: var(--glow);
         }
-        .card h2 { margin: 0 0 10px; color: var(--primary); }
+
+        .card h2 { margin: 0 0 6px; color: var(--primary); font-size: 1.28rem; }
+        .card-sub { margin: 0 0 14px; color: var(--text-sub); font-size: 0.9rem; }
+
+        /* Polaroid Frames */
+        .polaroid-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+            gap: 14px;
+        }
+
+        .polaroid {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease;
+        }
+
+        .polaroid:hover { transform: translateY(-5px) rotate(-0.8deg); }
+
+        .photo-frame {
+            width: 100%;
+            height: 158px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #fdf2f8, #f3e8ff);
+            border: 2px dashed #f472b6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.86rem;
+        }
+
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .polaroid-caption { margin-top: 9px; font-weight: 800; font-size: 0.88rem; color: #311042; }
+
+        /* Gift Tiles */
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+            gap: 12px;
+        }
+
+        .gift-tile {
+            padding: 18px 12px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.72);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .gift-tile:hover {
+            transform: translateY(-4px) scale(1.02);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+        }
+
+        .gift-tile-icon { font-size: 2.25rem; display: block; margin-bottom: 6px; }
+        .gift-tile-title { font-weight: 800; font-size: 0.92rem; }
 
         input[type="text"], textarea {
-            width: 100%; padding: 10px 12px; border-radius: 12px;
-            border: 2px solid var(--border-color); background: transparent;
-            color: var(--text-color); font-size: 0.95rem; margin-bottom: 10px;
-        }
-        .main-btn {
-            width: 100%; padding: 11px; border: none; border-radius: 12px;
-            background: var(--btn-gradient); color: #fff; font-weight: 700; cursor: pointer;
-        }
-
-        .fun-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-            gap: 10px; margin-top: 12px;
-        }
-        .fun-card-btn {
-            padding: 14px 10px; border-radius: 14px;
-            border: 2px solid var(--border-color);
-            background: var(--card-bg); color: var(--text-color);
-            font-weight: 800; font-size: 0.9rem; cursor: pointer;
-        }
-        .fun-card-btn:hover { background: var(--primary); color: #fff; }
-
-        /* Full Screen Gift Stage */
-        #full-gift-overlay {
-            display: none; position: fixed; inset: 0; z-index: 9998;
-            background: radial-gradient(circle at top, #1e1b4b, #090d16 75%);
-            color: #fff; overflow-y: auto; padding: 20px;
-        }
-        .overlay-topbar { max-width: 720px; margin: 0 auto 12px; display: flex; justify-content: space-between; gap: 8px; }
-        .back-hub-btn {
-            padding: 9px 16px; border-radius: 999px;
-            border: 1.5px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.12); color: #fff;
-            font-weight: 700; cursor: pointer;
-        }
-        .center-gift-wrap {
-            min-height: calc(100vh - 90px);
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center; max-width: 640px; margin: 0 auto;
-        }
-        .gift-hero-box {
-            width: 240px; height: 170px; border-radius: 22px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            font-size: 4.2rem; margin-bottom: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
-            box-shadow: 0 18px 40px rgba(0,0,0,0.5);
-            animation: floatBox 2.2s ease-in-out infinite;
-        }
-        @keyframes floatBox {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-        .activity-panel {
-            width: 100%; background: rgba(255,255,255,0.09);
-            border: 1.5px solid rgba(255,255,255,0.22);
-            border-radius: 20px; padding: 18px; margin-bottom: 14px;
-        }
-        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-        @media (max-width: 520px) { .choice-grid { grid-template-columns: 1fr; } }
-        .puzzle-opt-btn {
-            padding: 11px; border-radius: 12px;
-            border: 1.5px solid rgba(255,255,255,0.3);
-            background: #0f172a; color: #fff; font-weight: 700; cursor: pointer;
-        }
-        .puzzle-opt-btn:hover { background: #ec4899; border-color: #ec4899; }
-
-        .ring-slot {
-            width: 64px; height: 64px; border-radius: 50%;
-            border: 3px dashed #fde047; margin: 8px auto 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.7rem; background: rgba(15,23,42,0.75);
-        }
-        .ring-slider { width: 100%; max-width: 320px; accent-color: #38bdf8; cursor: pointer; margin-bottom: 10px; }
-
-        .action-pill-btn {
-            padding: 10px 18px; border-radius: 999px; border: none;
-            background: linear-gradient(135deg, #f59e0b, #ec4899);
-            color: #fff; font-weight: 800; cursor: pointer;
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 14px;
+            border: 2px solid rgba(244, 114, 182, 0.45);
+            background: rgba(255, 255, 255, 0.85);
+            font-size: 0.92rem;
+            margin-bottom: 8px;
+            outline: none;
+            font-family: inherit;
+            color: var(--text-main);
         }
 
-        .unbox-main-btn {
-            padding: 13px 26px; border-radius: 999px; border: none;
-            background: linear-gradient(135deg, #10b981, #06b6d4);
-            color: #fff; font-weight: 900; font-size: 1rem; cursor: pointer;
+        .note-item {
+            background: rgba(255, 255, 255, 0.82);
+            border-left: 5px solid var(--primary);
+            padding: 12px 15px;
+            border-radius: 14px;
+            margin-top: 10px;
         }
-        .unbox-main-btn:disabled { background: #475569; opacity: 0.55; cursor: not-allowed; }
 
-        .wish-card-box {
-            display: none; width: 100%; margin-top: 12px; padding: 22px;
+        /* Mood Chips & Self-Care */
+        .mood-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        .mood-chip {
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 2px solid var(--primary);
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--text-main);
+            font-weight: 800;
+            font-size: 0.84rem;
+            cursor: pointer;
+        }
+        .mood-chip.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+        }
+
+        .affirmation-card {
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 2px dashed var(--primary);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .affirmation-card:hover { transform: scale(1.01); }
+
+        .check-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+            gap: 10px;
+        }
+
+        .check-pill {
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.72);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .check-pill.done {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #166534;
+            text-decoration: line-through;
+        }
+
+        /* Modal */
+        #gift-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9995;
+            background: radial-gradient(circle at top, #3b0764, #090d16 82%);
+            color: #fff;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-inner {
+            min-height: calc(100vh - 40px);
+            max-width: 560px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .modal-box-icon {
+            width: 175px;
+            height: 145px;
+            border-radius: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4.2rem;
+            margin-bottom: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: bounceGift 2.2s ease-in-out infinite;
+        }
+
+        @keyframes bounceGift {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-9px); }
+        }
+
+        .modal-panel {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
             border-radius: 22px;
-            background: linear-gradient(135deg, rgba(236,72,153,0.32), rgba(59,130,246,0.25));
-            border: 2px solid #f472b6;
+            padding: 20px;
+            margin-bottom: 14px;
         }
 
-        .opt-btn {
-            display: block; width: 100%; text-align: left; padding: 11px 14px;
-            margin-bottom: 8px; border-radius: 12px;
-            border: 2px solid var(--border-color); background: var(--card-bg);
-            color: var(--text-color); font-weight: 700; cursor: pointer;
+        .opt-choice {
+            display: block;
+            width: 100%;
+            padding: 11px;
+            margin-top: 8px;
+            border-radius: 14px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            background: rgba(15, 23, 42, 0.85);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
         }
-        .mini-btn {
-            padding: 8px 14px; border-radius: 10px; border: none;
-            background: var(--primary); color: #fff; font-weight: 700; cursor: pointer;
+
+        .opt-choice:hover { background: #ec4899; border-color: #ec4899; }
+
+        .wish-reveal {
+            display: none;
+            width: 100%;
+            padding: 24px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.36), rgba(139, 92, 246, 0.32));
+            border: 2px solid #f472b6;
+            box-shadow: 0 20px 50px rgba(236, 72, 153, 0.3);
+            animation: wishZoom 0.4s ease;
+        }
+
+        @keyframes wishZoom {
+            from { transform: scale(0.86); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <!-- WELCOME SCREEN -->
-    <div id="welcome-screen">
-        <div class="welcome-card">
-            <h2>✨ AI Smart Student Portal</h2>
-            <p>Enter your details & pick your vibe:</p>
-            <input type="text" id="user-name-input" value="Saba Anfaal" placeholder="Enter your full name..." oninput="detectGender(this.value)">
-            <input type="number" id="user-age-input" value="20" placeholder="Enter your age...">
-            <select id="user-class-select">
-                <option value="BS / University">BS / University</option>
-                <option value="School / Primary">School / Primary</option>
-                <option value="Matric / Inter">Matric / Inter</option>
-            </select>
-            <select id="study-mood-select">
-                <option value="Surprise & Fun 🎁">🎁 Surprise & Fun</option>
-                <option value="Super Focused 🚀">🚀 Super Focused</option>
-                <option value="Exam Tension 🤯">🤯 Exam Tension</option>
-            </select>
+    <canvas id="confetti-canvas"></canvas>
 
-            <div id="auto-detect-badge">🌸 Selected: Girl (Pink Theme)</div>
+    <div class="ambient-layer">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-            <div class="gender-pick-row">
-                <button type="button" class="pick-btn pick-girl" onclick="setManualGender('girl')">🌸 Girl (Pink)</button>
-                <button type="button" class="pick-btn pick-boy" onclick="setManualGender('boy')">🌊 Boy (Blue)</button>
+    <!-- UNLOCK SCREEN -->
+    <div id="unlock-screen">
+        <div class="unlock-card">
+            <h2>✨ Waooo Magic Portal ✨</h2>
+            <p style="color:#831843; font-size:0.92rem; margin:0;">Naam likhein aur teeno magic icons par tap kar ke duniya kholein:</p>
+            <input type="text" id="recipient-name" class="name-input" value="Saba Anfaal" placeholder="Enter your name...">
+            <div class="secret-icons-row">
+                <button type="button" class="secret-tap-btn" onclick="tapSecret(this)">🌸</button>
+                <button type="button" class="secret-tap-btn" onclick="tapSecret(this)">☕</button>
+                <button type="button" class="secret-tap-btn" onclick="tapSecret(this)">✨</button>
             </div>
-
-            <button type="button" class="enter-btn" onclick="launchPortal(); document.getElementById('welcome-screen').style.display='none'; document.getElementById('main-app').style.display='block';">🚀 Enter Hub</button>
+            <div id="unlock-status" style="font-size:0.88rem; font-weight:800; color:#db2777;">0 / 3 magic icons unlocked</div>
+            <button type="button" class="skip-unlock-btn" onclick="enterSanctuary()">Enter directly →</button>
         </div>
     </div>
 
-    <!-- MAIN APP -->
-    <div class="container" id="main-app" style="display:none;">
+    <!-- MAIN 2-SIDE PORTAL -->
+    <div class="container" id="main-portal" style="display:none;">
         <header>
-            <h1 id="hub-title">🌸 Pink Smart AI & Surprise Hub</h1>
-            <p id="welcome-msg">Welcome, Saba Anfaal!</p>
+            <h1 id="main-heading">💖 Bestie Scrapbook & Mood Sanctuary</h1>
+            <p id="sub-heading">Crafted specially for Saba Anfaal ✨</p>
         </header>
 
-        <div class="tabs">
-            <button type="button" class="tab-btn active" onclick="openTab('fun', 0)">🎁 Gift & Wish Zone</button>
-            <button type="button" class="tab-btn" onclick="openTab('quiz', 1)">🎮 Topic Quiz</button>
-            <button type="button" class="tab-btn" onclick="openTab('qa', 2)">💡 AI Q&A</button>
-            <button type="button" class="tab-btn" onclick="resetProfile()" style="background:#64748b; color:#fff; border-color:#64748b;">🔄 Switch</button>
+        <div class="side-switcher">
+            <button type="button" class="side-btn active" id="btn-side-bestie" onclick="switchSide('bestie')">💖 Side 1: Bestie Scrapbook</button>
+            <button type="button" class="side-btn" id="btn-side-selfcare" onclick="switchSide('selfcare')">🌙 Side 2: Mood & Self-Care</button>
         </div>
 
-        <!-- TAB 1: GIFT BOXES -->
-        <div id="fun-tab" class="tab-content active">
-            <div class="card">
-                <h2>🎁 Activity → Unbox Gift → Personalized Wish</h2>
-                <p style="margin-top:0;">Kisi bhi wish/gift card par click karein — screen clean hogi, center mein gift ayega, pehle activity solve hogi, phir unbox hoga aur aapke naam ki wish show hogi!</p>
-                <div class="fun-grid" id="fun-buttons-grid"></div>
+        <div class="top-controls">
+            <span style="font-weight:800; font-size:0.92rem;">🎀 Hey, <span id="display-name">Saba Anfaal</span> • <span id="live-mood-badge">Dreamy ✨</span></span>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" class="pill-btn" onclick="burstConfetti(90)">🎊 Sparkle Burst</button>
+                <button type="button" class="pill-btn" id="music-toggle-btn" onclick="toggleCalmAudio()">🎵 Soft Vibe: OFF</button>
+                <button type="button" class="pill-btn" style="background:#64748b;" onclick="lockAgain()">🔒 Lock</button>
             </div>
         </div>
 
-        <!-- TAB 2: CUSTOM TOPIC QUIZ -->
-        <div id="quiz-tab" class="tab-content">
+        <!-- SIDE 1: BESTIE SCRAPBOOK -->
+        <div id="side-bestie" class="side-view active">
             <div class="card">
-                <h2>🎮 Custom Topic Quiz (Auto Next Questions)</h2>
-                <input type="text" id="quiz-topic-input" placeholder="Type topic (e.g. C++, Data Science, AI)...">
-                <button type="button" class="main-btn" onclick="startCustomQuiz()">🚀 Start Quiz</button>
-                <div id="quiz-arena-box" style="margin-top:14px;"></div>
+                <h2>📸 Polaroid Memory Wall</h2>
+                <p class="card-sub">Kisi bhi frame par tap kar ke apni favorite photo lagayein — bilkul scrapbook style!</p>
+                <div class="polaroid-grid">
+                    <div class="polaroid" onclick="triggerPhoto(0)">
+                        <div class="photo-frame" id="frame-0">📷<br>Tap to add photo</div>
+                        <div class="polaroid-caption">Unstoppable Duo 💕</div>
+                        <input type="file" id="file-0" accept="image/*" style="display:none;" onchange="loadPhoto(event, 0)">
+                    </div>
+                    <div class="polaroid" onclick="triggerPhoto(1)">
+                        <div class="photo-frame" id="frame-1">☕<br>Tap to add photo</div>
+                        <div class="polaroid-caption">Chai & Gossip Breaks ✨</div>
+                        <input type="file" id="file-1" accept="image/*" style="display:none;" onchange="loadPhoto(event, 1)">
+                    </div>
+                    <div class="polaroid" onclick="triggerPhoto(2)">
+                        <div class="photo-frame" id="frame-2">🌸<br>Tap to add photo</div>
+                        <div class="polaroid-caption">Bestie Forever Vibes 🦋</div>
+                        <input type="file" id="file-2" accept="image/*" style="display:none;" onchange="loadPhoto(event, 2)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🎁 Interactive Gift Unboxer (Activity → Wish)</h2>
+                <p class="card-sub">Har gift par pehle uski choti si activity solve hogi, phir confetti ke saath aapke naam ka wish card khulega!</p>
+                <div class="gift-grid" id="bestie-gifts-grid"></div>
+            </div>
+
+            <div class="card">
+                <h2>💌 Secret Notes & Sweet Memories</h2>
+                <input type="text" id="bestie-note-title" placeholder="Note title (e.g. Late Night Laughs)...">
+                <textarea id="bestie-note-body" rows="2" placeholder="Write a special note or inside joke..."></textarea>
+                <button type="button" class="pill-btn" onclick="saveBestieNote()">💌 Save Note</button>
+                <div id="bestie-notes-list"></div>
             </div>
         </div>
 
-        <!-- TAB 3: QUICK Q&A -->
-        <div id="qa-tab" class="tab-content">
+        <!-- SIDE 2: MOOD & SELF-CARE -->
+        <div id="side-selfcare" class="side-view">
             <div class="card">
-                <h2>💡 Quick Study Q&A</h2>
-                <input type="text" id="qa-question" placeholder="Enter topic or question...">
-                <button type="button" class="main-btn" onclick="makeAnswer()">Get Answer</button>
-                <div id="qa-output" style="margin-top:12px;"></div>
+                <h2>🌈 Pick Your Today's Vibe</h2>
+                <p class="card-sub">Apna mood chunein aur neeche affirmation card par tap kar ke naya paigham dekhein:</p>
+                <div class="mood-row">
+                    <button type="button" class="mood-chip active" onclick="setMood(this, 'Dreamy ✨')">✨ Dreamy</button>
+                    <button type="button" class="mood-chip" onclick="setMood(this, 'Cozy ☕')">☕ Cozy</button>
+                    <button type="button" class="mood-chip" onclick="setMood(this, 'Peaceful 🌙')">🌙 Peaceful</button>
+                    <button type="button" class="mood-chip" onclick="setMood(this, 'Glowing 🌸')">🌸 Glowing</button>
+                </div>
+                <div class="affirmation-card" onclick="nextAffirmation()">
+                    <div style="font-size:2.1rem; margin-bottom:6px;">🌷</div>
+                    <div id="affirmation-text" style="font-weight:800; font-size:1.06rem; line-height:1.55;">
+                        "May Allah bless your heart with peace, ease in your journey, and endless reasons to smile."
+                    </div>
+                    <div style="margin-top:8px; font-size:0.82rem; opacity:0.75;">(Tap card for next affirmation / dua ✨)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌿 Daily Glow & Self-Care Checklist</h2>
+                <p class="card-sub">Jo kaam aaj poore ho jayein un par tap kar ke tick lagayein:</p>
+                <div class="check-grid" id="selfcare-checklist"></div>
+            </div>
+
+            <div class="card">
+                <h2>🎁 Self-Care Mini Treats</h2>
+                <p class="card-sub">Apne aap ko ek pyara sa self-care gift unbox karein:</p>
+                <div class="gift-grid" id="selfcare-gifts-grid"></div>
             </div>
         </div>
     </div>
 
-    <!-- FULL SCREEN GIFT STAGE -->
-    <div id="full-gift-overlay">
-        <div class="overlay-topbar">
-            <button type="button" class="back-hub-btn" onclick="closeFullGiftStage()">← Back to Gifts</button>
-            <button type="button" class="back-hub-btn" onclick="openRandomInStage()">🎲 Next Gift</button>
-        </div>
+    <!-- GIFT ACTIVITY & WISH MODAL -->
+    <div id="gift-modal">
+        <div class="modal-inner">
+            <div class="modal-box-icon" id="modal-icon">🎁</div>
 
-        <div class="center-gift-wrap">
-            <div class="gift-hero-box" id="gift-hero-box">🎁</div>
-
-            <div class="activity-panel" id="activity-panel">
-                <h3 style="color:#fde047; margin:0 0 6px;" id="activity-title">Activity</h3>
-                <p style="margin:0 0 10px;" id="activity-hint">Solve this before unboxing!</p>
-                <div id="activity-controls"></div>
-                <div id="activity-feedback" style="margin-top:10px; font-weight:700;"></div>
+            <div class="modal-panel" id="modal-activity-panel">
+                <h3 style="color:#fde047; margin:0 0 8px;" id="modal-act-title">Activity</h3>
+                <p style="margin:0 0 10px;" id="modal-act-q">Solve this to unwrap!</p>
+                <div id="modal-act-options"></div>
+                <div id="modal-act-feedback" style="margin-top:10px; font-weight:700;"></div>
             </div>
 
-            <button type="button" class="unbox-main-btn" id="unbox-btn" onclick="unboxCurrentGift()" disabled>
-                🔒 Complete Activity First to Unbox
+            <button type="button" class="pill-btn" id="modal-unbox-btn" style="padding:13px 26px; font-size:1rem; opacity:0.5;" disabled onclick="revealGiftWish()">
+                🔒 Complete Activity to Unbox
             </button>
 
-            <div class="wish-card-box" id="wish-card-box">
-                <div style="color:#fde047; font-weight:800; margin-bottom:6px;" id="wish-recipient">WISH FOR YOU</div>
-                <h2 style="margin:0 0 8px; color:#fff;" id="wish-title">Wish Title</h2>
-                <p style="line-height:1.6; margin:0 0 14px;" id="wish-message">Wish message</p>
-                <button type="button" class="mini-btn" onclick="openRandomInStage()">🎁 Open Another Gift</button>
-                <button type="button" class="mini-btn" style="background:#475569;" onclick="closeFullGiftStage()">Done</button>
+            <div class="wish-reveal" id="modal-wish-box">
+                <div style="color:#fde047; font-weight:800; letter-spacing:0.5px; margin-bottom:6px;" id="modal-wish-for">SPECIAL WISH</div>
+                <h2 style="margin:0 0 8px; color:#fff;" id="modal-wish-title">Wish Title</h2>
+                <p style="line-height:1.65; margin:0 0 16px; color:#fdf4ff;" id="modal-wish-msg">Wish message</p>
+                <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                    <button type="button" class="pill-btn" onclick="copyCurrentWish()">📋 Copy Wish</button>
+                    <button type="button" class="pill-btn" style="background:rgba(255,255,255,0.2);" onclick="closeGiftModal()">Done ✨</button>
+                </div>
+                <div id="copy-toast" style="margin-top:8px; font-size:0.84rem; color:#fde047; font-weight:700;"></div>
             </div>
         </div>
     </div>
 
     <script>
-        var user = { name: 'Saba Anfaal', gender: 'girl', level: 'BS / University' };
-        var activeCardIndex = 0;
-        var activitySolved = false;
-        var tapCount = 0;
-        var diamondPos = 15;
+        var recipientName = "Saba Anfaal";
+        var currentMood = "Dreamy ✨";
+        var tappedCount = 0;
+        var activeGift = null;
+        var giftSolved = false;
+        var lastWishFullText = "";
+        var audioCtx = null;
+        var isMusicOn = false;
+        var musicInterval = null;
 
-        var surpriseCards = [
+        var bestieGifts = [
             {
-                btn: "☕ 1. Coffee Treat",
-                icon: "☕", prizeIcon: "🥐",
-                bg: "linear-gradient(135deg, #d97706, #78350f)",
-                mode: "tap", goal: 3, btnText: "🥄 Stir Coffee",
-                activityQ: "Coffee Treat Activity: Cup mein coffee & milk mila kar 3 baar stir karein!",
-                wishTitle: "Cozy Coffee Break Wish ☕",
-                wishMsg: "May your day stay warm, refreshing, and stress-free just like a fresh cup of coffee!"
+                icon: "☕", prize: "🥐", bg: "linear-gradient(135deg, #d97706, #92400e)",
+                title: "Coffee & Chai Treat",
+                q: "Coffee Activity: Ek cozy chai ya coffee break ko yaadgar kya banata hai?",
+                opts: ["Dil ki baatein & pyari hasi", "Phone mein gum rehna", "Tension lena"],
+                ans: 0,
+                wishTitle: "Cozy Chai & Bestie Treat Wish ☕",
+                wishMsg: "Wishing you warm cups of comfort, bright moments, and endless smiles whenever you take a break!"
             },
             {
-                btn: "🍫 2. Sweet Surprise",
-                icon: "🍫", prizeIcon: "🍬",
-                bg: "linear-gradient(135deg, #f43f5e, #9333ea)",
-                mode: "choice",
-                activityQ: "Sweet Surprise Activity: Study break mein sweet smile ke liye kaun sa option best hai?",
-                options: ["Chocolate / Mithai Treat", "Raw Onion", "Cardboard", "Bitter Neem"],
-                correctIdx: 0,
-                wishTitle: "Sweet Treat Wish 🍫",
-                wishMsg: "Wishing you sweetness, happy surprises, and proud moments in everything you do!"
+                icon: "🍫", prize: "🍬", bg: "linear-gradient(135deg, #e11d48, #9333ea)",
+                title: "Sweet Surprise Box",
+                q: "Sweet Activity: Achanak aane wali kaun si cheez din ko meetha kar deti hai?",
+                opts: ["Favorite chocolate / mithai & good news", "Boring kaam", "Thakan"],
+                ans: 0,
+                wishTitle: "Sweetest Surprise Wish 🍫",
+                wishMsg: "May sweet surprises, joyful moments, and proud achievements keep coming your way!"
             },
             {
-                btn: "💎 3. Diamond Vibe",
-                icon: "💎", prizeIcon: "💍",
-                bg: "linear-gradient(135deg, #38bdf8, #6366f1)",
-                mode: "ring",
-                activityQ: "Diamond Vibe Activity: Wish dekhne se pehle Diamond ko sahi Ring (center ~50%) mein fix karein!",
-                wishTitle: "Brilliant Diamond Wish 💎",
-                wishMsg: "Just like a diamond shines bright in its setting, wishing you clarity, strength, and shining success!"
+                icon: "💎", prize: "💍", bg: "linear-gradient(135deg, #0284c7, #6366f1)",
+                title: "Diamond Vibe Pass",
+                q: "Diamond Activity: Diamond ki asli chamak kis cheez se nazar aati hai?",
+                opts: ["Clarity, cut aur roshni se", "Dhool mein chupane se", "Andhere mein rakhne se"],
+                ans: 0,
+                wishTitle: "Shining Diamond Wish 💎",
+                wishMsg: "Just like a diamond sparkles bright, wishing you confidence, grace, and shining success!"
             },
             {
-                btn: "🎂 4. Celebration Wish",
-                icon: "🎂", prizeIcon: "🎉",
-                bg: "linear-gradient(135deg, #f59e0b, #ec4899)",
-                mode: "tap", goal: 3, btnText: "🕯️ Light Spark",
-                activityQ: "Celebration Activity: 3 celebration sparks on karein taake wish box unlock ho!",
-                wishTitle: "Grand Celebration Wish! 🎈",
-                wishMsg: "Wishing you joyful celebrations, bright milestones, and endless reasons to smile!"
-            },
-            {
-                btn: "🎁 5. Mystery Gift",
-                icon: "🎁", prizeIcon: "👑",
-                bg: "linear-gradient(135deg, #ec4899, #8b5cf6)",
-                mode: "choice",
-                activityQ: "Mystery Gift Activity: Box unlock karne ke liye sahi step chunein:",
-                options: ["Solve clue & unbox gift!", "Band chhod do", "Lock laga do", "Light band kar do"],
-                correctIdx: 0,
-                wishTitle: "Golden Mystery Wish ✨",
-                wishMsg: "Wishing you exciting surprises, calm focus, and wonderful news ahead!"
-            },
-            {
-                btn: "🌟 6. Lucky Star",
-                icon: "🌟", prizeIcon: "🌠",
-                bg: "linear-gradient(135deg, #06b6d4, #3b82f6)",
-                mode: "tap", goal: 3, btnText: "🌠 Catch Star",
-                activityQ: "Lucky Star Activity: 3 shooting stars catch karein aur apni wish unlock karein!",
-                wishTitle: "Shooting Star Wish 🌟",
-                wishMsg: "May your wishes turn into reality and bring peace and happiness to your life!"
+                icon: "🎂", prize: "🎉", bg: "linear-gradient(135deg, #f59e0b, #ec4899)",
+                title: "Celebration Wish",
+                q: "Celebration Activity: Har choti ya badi khushi par kya karna chahiye?",
+                opts: ["Dil khol kar shukr aur celebrate!", "Khushi chupana", "Pareshan hona"],
+                ans: 0,
+                wishTitle: "Waooo Celebration Wish! 🎈",
+                wishMsg: "Here is to big milestones, happy memories, and a heart full of joy!"
             }
         ];
 
-        function setManualGender(g) {
-            user.gender = g;
-            var badge = document.getElementById('auto-detect-badge');
-            if (g === 'boy') {
-                document.documentElement.setAttribute('data-theme', 'boy');
-                badge.innerText = "🌊 Selected: Boy (Blue Theme)";
-                badge.style.color = "#38bdf8";
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-                badge.innerText = "🌸 Selected: Girl (Pink Theme)";
-                badge.style.color = "#f472b6";
+        var selfCareGifts = [
+            {
+                icon: "🌙", prize: "☁️", bg: "linear-gradient(135deg, #312e81, #4f46e5)",
+                title: "Moonlight Calm Box",
+                q: "Moonlight Activity: Dil ko sukoon dene ke liye kya behtar hai?",
+                opts: ["Gehri saans, shukr aur pur-sukoon aaram", "Be-wajah fikar", "Neend kharab karna"],
+                ans: 0,
+                wishTitle: "Peaceful Moonlight Wish 🌙",
+                wishMsg: "Wishing you calm nights, restful peace, and a fresh, glowing tomorrow!"
+            },
+            {
+                icon: "🦋", prize: "🌸", bg: "linear-gradient(135deg, #ec4899, #8b5cf6)",
+                title: "Glow & Bloom Card",
+                q: "Bloom Activity: Khud ko aage badhane ka sabse pyara tareeqa kya hai?",
+                opts: ["Self-love, consistency aur muskuraahat", "Khud ko kam samajhna", "Himmat haarna"],
+                ans: 0,
+                wishTitle: "Bloom & Glow Wish 🦋",
+                wishMsg: "Keep blooming beautifully—every step you take is bringing you closer to your best self!"
+            }
+        ];
+
+        var affirmations = [
+            "\"May Allah bless your heart with peace, ease in your journey, and endless reasons to smile.\"",
+            "\"Take a deep breath—you are doing wonderfully well, one calm step at a time. 🌸\"",
+            "\"Har achi koshish zaya nahi jaati; keep shining with grace and confidence. ✨\"",
+            "\"Drink some water, relax your shoulders, and celebrate your little wins today! 💕\""
+        ];
+        var affIndex = 0;
+
+        var selfCareItems = [
+            "💧 Drink plenty of water today",
+            "🧴 Skincare & fresh glow break",
+            "📵 15-min peaceful screen break",
+            "🤲 Shukr & heart-warming dua",
+            "😴 Restful & calm sleep"
+        ];
+
+        /* Confetti Engine */
+        var confCanvas = document.getElementById('confetti-canvas');
+        var confCtx = confCanvas.getContext('2d');
+        var confParticles = [];
+        var confAnimRunning = false;
+
+        function resizeConfCanvas() {
+            confCanvas.width = window.innerWidth;
+            confCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeConfCanvas);
+        resizeConfCanvas();
+
+        function burstConfetti(count) {
+            var colors = ['#f472b6', '#c084fc', '#38bdf8', '#fde047', '#4ade80', '#fb7185'];
+            for (var i = 0; i < count; i++) {
+                confParticles.push({
+                    x: confCanvas.width / 2 + (Math.random() - 0.5) * 180,
+                    y: confCanvas.height * 0.42,
+                    vx: (Math.random() - 0.5) * 12,
+                    vy: -Math.random() * 11 - 3,
+                    w: 7 + Math.random() * 6,
+                    h: 5 + Math.random() * 5,
+                    color: colors[i % colors.length],
+                    rot: Math.random() * 360,
+                    vRot: (Math.random() - 0.5) * 10,
+                    alpha: 1
+                });
+            }
+            if (!confAnimRunning) {
+                confAnimRunning = true;
+                runConfettiLoop();
             }
         }
 
-        function detectGender(name) {
-            var val = (name || '').toLowerCase();
+        function runConfettiLoop() {
+            confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+            for (var i = confParticles.length - 1; i >= 0; i--) {
+                var p = confParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.28;
+                p.rot += p.vRot;
+                p.alpha -= 0.011;
+                if (p.alpha <= 0 || p.y > confCanvas.height + 20) {
+                    confParticles.splice(i, 1);
+                    continue;
+                }
+                confCtx.save();
+                confCtx.globalAlpha = Math.max(0, p.alpha);
+                confCtx.translate(p.x, p.y);
+                confCtx.rotate(p.rot * Math.PI / 180);
+                confCtx.fillStyle = p.color;
+                confCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                confCtx.restore();
+            }
+            if (confParticles.length > 0) {
+                requestAnimationFrame(runConfettiLoop);
+            } else {
+                confAnimRunning = false;
+            }
+        }
+
+        function tapSecret(btn) {
+            if (btn.classList.contains('tapped')) return;
+            btn.classList.add('tapped');
+            tappedCount++;
+            document.getElementById('unlock-status').innerText = tappedCount + " / 3 magic icons unlocked";
+            burstConfetti(28);
+            if (tappedCount >= 3) {
+                setTimeout(enterSanctuary, 400);
+            }
+        }
+
+        function enterSanctuary() {
+            var val = document.getElementById('recipient-name').value.trim();
+            recipientName = val || "Saba Anfaal";
+            document.getElementById('display-name').innerText = recipientName;
+            document.getElementById('sub-heading').innerText = "Crafted specially for " + recipientName + " ✨";
+            document.getElementById('unlock-screen').style.display = 'none';
+            document.getElementById('main-portal').style.display = 'block';
+            renderGifts();
+            renderChecklist();
+            renderNotes();
+            burstConfetti(75);
+        }
+
+        function lockAgain() {
+            tappedCount = 0;
+            var btns = document.querySelectorAll('.secret-tap-btn');
+            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('tapped');
+            document.getElementById('unlock-status').innerText = "0 / 3 magic icons unlocked";
+            document.getElementById('main-portal').style.display = 'none';
+            document.getElementById('unlock-screen').style.display = 'flex';
+        }
+
+        function switchSide(side) {
+            document.getElementById('btn-side-bestie').classList.remove('active');
+            document.getElementById('btn-side-selfcare').classList.remove('active');
+            document.getElementById('side-bestie').classList.remove('active');
+            document.getElementById('side-selfcare').classList.remove('active');
+
+            if (side === 'selfcare') {
+                document.documentElement.setAttribute('data-side', 'selfcare');
+                document.getElementById('btn-side-selfcare').classList.add('active');
+                document.getElementById('side-selfcare').classList.add('active');
+            } else {
+                document.documentElement.removeAttribute('data-side');
+                document.getElementById('btn-side-bestie').classList.add('active');
+                document.getElementById('side-bestie').classList.add('active');
+            }
+        }
+
+        function setMood(el, moodLabel) {
+            var chips = document.querySelectorAll('.mood-chip');
+            for (var i = 0; i < chips.length; i++) chips[i].classList.remove('active');
+            el.classList.add('active');
+            currentMood = moodLabel;
+            document.getElementById('live-mood-badge').innerText = moodLabel;
+            nextAffirmation();
+        }
+
+        function triggerPhoto(idx) {
+            document.getElementById('file-' + idx).click();
+        }
+
+        function loadPhoto(event, idx) {
+            var file = event.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('frame-' + idx).innerHTML = '<img src="' + e.target.result + '" alt="Memory">';
+                burstConfetti(35);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderGifts() {
+            var bGrid = document.getElementById('bestie-gifts-grid');
+            var bHtml = "";
+            for (var i = 0; i < bestieGifts.length; i++) {
+                bHtml += '<div class="gift-tile" onclick="openGiftModal(\'bestie\', ' + i + ')">' +
+                    '<span class="gift-tile-icon">' + bestieGifts[i].icon + '</span>' +
+                    '<span class="gift-tile-title">' + bestieGifts[i].title + '</span></div>';
+            }
+            bGrid.innerHTML = bHtml;
+
+            var sGrid = document.getElementById('selfcare-gifts-grid');
+            var sHtml = "";
+            for (var j = 0; j < selfCareGifts.length; j++) {
+                sHtml += '<div class="gift-tile" onclick="openGiftModal(\'selfcare\', ' + j + ')">' +
+                    '<span class="gift-tile-icon">' + selfCareGifts[j].icon + '</span>' +
+                    '<span class="gift-tile-title">' + selfCareGifts[j].title + '</span></div>';
+            }
+            sGrid.innerHTML = sHtml;
+        }
+
+        function openGiftModal(type, index) {
+            activeGift = type === 'bestie' ? bestieGifts[index] : selfCareGifts[index];
+            giftSolved = false;
+            document.getElementById('copy-toast').innerText = "";
+
+            document.getElementById('gift-modal').style.display = 'block';
+            document.getElementById('modal-activity-panel').style.display = 'block';
+            document.getElementById('modal-wish-box').style.display = 'none';
+
+            var boxIcon = document.getElementById('modal-icon');
+            boxIcon.innerText = activeGift.icon;
+            boxIcon.style.background = activeGift.bg;
+
+            var unboxBtn = document.getElementById('modal-unbox-btn');
+            unboxBtn.style.display = 'inline-block';
+            unboxBtn.disabled = true;
+            unboxBtn.style.opacity = "0.5";
+            unboxBtn.innerText = "🔒 Complete Activity to Unbox";
+
+            document.getElementById('modal-act-title').innerText = activeGift.title + " — Activity";
+            document.getElementById('modal-act-q').innerText = activeGift.q;
+            document.getElementById('modal-act-feedback').innerText = "";
+
+            var optsHtml = "";
+            for (var i = 0; i < activeGift.opts.length; i++) {
+                optsHtml += '<button type="button" class="opt-choice" onclick="checkModalActivity(' + i + ')">' + activeGift.opts[i] + '</button>';
+            }
+            document.getElementById('modal-act-options').innerHTML = optsHtml;
+        }
+
+        function checkModalActivity(idx) {
+            var fb = document.getElementById('modal-act-feedback');
+            if (idx === activeGift.ans) {
+                giftSolved = true;
+                fb.style.color = "#4ade80";
+                fb.innerText = "✅ Waooo! Activity solved — ab Unbox Gift par tap karein!";
+                var unboxBtn = document.getElementById('modal-unbox-btn');
+                unboxBtn.disabled = false;
+                unboxBtn.style.opacity = "1";
+                unboxBtn.innerText = "🎁 Unbox Gift for " + recipientName;
+            } else {
+                fb.style.color = "#fb7185";
+                fb.innerText = "❌ Try again! Sahi option chunein.";
+            }
+        }
+
+        function revealGiftWish() {
+            if (!giftSolved || !activeGift) return;
+            document.getElementById('modal-icon').innerText = activeGift.prize;
+            document.getElementById('modal-activity-panel').style.display = 'none';
+            document.getElementById('modal-unbox-btn').style.display = 'none';
+
+            var wishBox = document.getElementById('modal-wish-box');
+            wishBox.style.display = 'block';
+            document.getElementById('modal-wish-for').innerText = "✨ SPECIAL WISH FOR " + recipientName.toUpperCase() + " ✨";
+            document.getElementById('modal-wish-title').innerText = activeGift.wishTitle;
+            var msg = "Dear " + recipientName + " (" + currentMood + "), " + activeGift.wishMsg;
+            document.getElementById('modal-wish-msg').innerText = msg;
+            lastWishFullText = activeGift.wishTitle + "\n" + msg;
+            burstConfetti(110);
+        }
+
+        function copyCurrentWish() {
+            if (!lastWishFullText) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(lastWishFullText).then(function() {
+                    document.getElementById('copy-toast').innerText = "✅ Wish copied!";
+                }).catch(function() {
+                    document.getElementById('copy-toast').innerText = "✨ Wish ready!";
+                });
+            } else {
+                document.getElementById('copy-toast').innerText = "✨ Wish ready!";
+            }
+        }
+
+        function closeGiftModal() {
+            document.getElementById('gift-modal').style.display = 'none';
+        }
+
+        function nextAffirmation() {
+            affIndex = (affIndex + 1) % affirmations.length;
+            document.getElementById('affirmation-text').innerText = affirmations[affIndex];
+        }
+
+        function renderChecklist() {
+            var box = document.getElementById('selfcare-checklist');
+            var html = "";
+            for (var i = 0; i < selfCareItems.length; i++) {
+                html += '<div class="check-pill" onclick="this.classList.toggle(\'done\')">' + selfCareItems[i] + '</div>';
+            }
+            box.innerHTML = html;
+        }
+
+        function saveBestieNote() {
+            var t = document.getElementById('bestie-note-title').value.trim();
+            var b = document.getElementById('bestie-note-body').value.trim();
+            if (!t || !b) return;
+            try {
+                var notes = JSON.parse(localStorage.getItem('bestieScrapNotesV2') || '[]');
+                notes.unshift({ t: t, b: b });
+                localStorage.setItem('bestieScrapNotesV2', JSON.stringify(notes));
+            } catch (e) {}
+            document.getElementById('bestie-note-title').value = '';
+            document.getElementById('bestie-note-body').value = '';
+            renderNotes();
+            burstConfetti(30);
+        }
+
+        function renderNotes() {
+            var list = document.getElementById('bestie-notes-list');
+            try {
+                var notes = JSON.parse(localStorage.getItem('bestieScrapNotesV2') || '[]');
+                var html = "";
+                for (var i = 0; i < notes.length; i++) {
+                    html += '<div class="note-item"><strong>' + notes[i].t + '</strong><p style="margin:4px 0 0;">' + notes[i].b + '</p></div>';
+                }
+                list.innerHTML = html;
+            } catch (e) {}
+        }
+
+        function toggleCalmAudio() {
+            var btn = document.getElementById('music-toggle-btn');
+            if (isMusicOn) {
+                clearInterval(musicInterval);
+                isMusicOn = false;
+                btn.innerText = "🎵 Soft Vibe: OFF";
+                return;
+            }
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                var notes = [261.6, 329.6, 392.0, 523.2];
+                var step = 0;
+                isMusicOn = true;
+                btn.innerText = "🎵 Soft Vibe: ON";
+                musicInterval = setInterval(function() {
+                    if (!isMusicOn) return;
+                    var osc = audioCtx.createOscillator();
+                    var gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = notes[step % notes.length];
+                    gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.1);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 1.15);
+                    step++;
+                }, 1200);
+            } catch (e) {}
+        }
+    </script>
+</body>
+</html>
